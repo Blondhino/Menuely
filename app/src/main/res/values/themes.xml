@@ -1,0 +1,14 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Menuely" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="android:statusBarColor" tools:targetApi="l">#21B457</item>
+    </style>
+    <style name="Theme.Menuely.NoActionBar">
+<!--        <item name="android:statusBarColor" tools:targetApi="l">#21B457</item>-->
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
+    </style>
+    <style name="Theme.Menuely.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Menuely.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
