@@ -11,4 +11,11 @@
     </style>
     <style name="Theme.Menuely.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Menuely.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SplashTheme" parent="Theme.Menuely.NoActionBar">
+        <item name="android:windowBackground"> @drawable/background_splash_activity</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
 </resources>

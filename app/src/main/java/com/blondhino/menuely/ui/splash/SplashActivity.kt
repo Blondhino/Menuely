@@ -1,25 +1,37 @@
 package com.blondhino.menuely.ui.splash
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.database.dao.UserDao
+import com.blondhino.menuely.data.database.tables.UserModel
 import com.blondhino.menuely.ui.base.BaseComposeActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class SplashActivity : BaseComposeActivity() {
+
+    @Inject
+    lateinit var userDao: UserDao;
+
     override fun setLayout(): @Composable () -> Unit = {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight()
+                .background(Color.White)
+
         ) {
 
             Column() {
@@ -61,9 +73,16 @@ class SplashActivity : BaseComposeActivity() {
         }
     }
 
-    override fun fetchData() {}
-    override fun observeData() {}
+    override fun fetchData() {
+
+    }
+
+    override fun observeData() {
+
+    }
+
     override fun setupUi() {}
+
 }
 
 

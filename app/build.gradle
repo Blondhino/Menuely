@@ -52,6 +52,8 @@ ext {
     hilt_version = "2.35"
     hilt_compiler = "1.0.0"
     hilt_viewModel = "1.0.0-alpha03"
+    socketIo = "2.4.0"
+    room_version = "2.3.0"
 }
 
 dependencies {
@@ -79,7 +81,13 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:$hilt_compiler"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewModel"
 
+    //SocketIo
+    implementation('io.socket:socket.io-client:1.0.0') {
+        exclude group: 'org.json', module: 'json'
+    }
 
-    //Coil
-    implementation "dev.chrisbanes.accompanist:accompanist-coil:0.5.0"
+    //Room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
 }
