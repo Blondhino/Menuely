@@ -54,6 +54,10 @@ ext {
     hilt_viewModel = "1.0.0-alpha03"
     socketIo = "2.4.0"
     room_version = "2.3.0"
+    retrofit = "2.9.0"
+    okhttp = '4.6.0'
+    gson = '2.8.1'
+
 }
 
 dependencies {
@@ -89,5 +93,11 @@ dependencies {
     //Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    //Networking
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$gson"
+    implementation "com.google.code.gson:gson:$gson"
 
 }

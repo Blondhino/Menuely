@@ -15,8 +15,12 @@ import androidx.compose.ui.unit.dp
 import com.blondhino.menuely.R
 import com.blondhino.menuely.data.database.dao.UserDao
 import com.blondhino.menuely.data.database.tables.UserModel
+import com.blondhino.menuely.data.repo.OnBoardingRepo
 import com.blondhino.menuely.ui.base.BaseComposeActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -24,6 +28,9 @@ class SplashActivity : BaseComposeActivity() {
 
     @Inject
     lateinit var userDao: UserDao;
+
+    @Inject
+    lateinit var onBoardingRepo: OnBoardingRepo
 
     override fun setLayout(): @Composable () -> Unit = {
         Column(
@@ -74,8 +81,13 @@ class SplashActivity : BaseComposeActivity() {
     }
 
     override fun fetchData() {
-
+        runBlocking {
+            withContext(Dispatchers.IO) {
+                onBoardingRepo.loginUser()
+            }
+        }
     }
+
 
     override fun observeData() {
 
