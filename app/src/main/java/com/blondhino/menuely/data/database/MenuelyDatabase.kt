@@ -2,19 +2,24 @@ package com.blondhino.menuely.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.blondhino.menuely.data.database.dao.RestaurantDao
 import com.blondhino.menuely.data.database.dao.UserDao
-import com.blondhino.menuely.data.database.tables.UserModel
+import com.blondhino.menuely.data.database.tables.RestaurantTableModel
+import com.blondhino.menuely.data.database.tables.UserTableModel
 
 @Database(
     entities = [
-        UserModel::class
+        UserTableModel::class,
+        RestaurantTableModel::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 
 abstract class MenuelyDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+
+    abstract fun restaurantDao(): RestaurantDao
 
 }

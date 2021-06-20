@@ -1,6 +1,7 @@
 package com.blondhino.menuely.di.module
 
 import com.blondhino.menuely.data.common.MenuelyApi
+import com.blondhino.menuely.data.common.ResponseHandler
 import com.blondhino.menuely.data.repo.OnBoardingRepo
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,7 @@ object RepoModule {
 
     @Provides
     @Singleton
-    fun provideOnBoardingRepo(menuelyApi: MenuelyApi): OnBoardingRepo = OnBoardingRepo(menuelyApi)
+    fun provideOnBoardingRepo(menuelyApi: MenuelyApi,responseHandler: ResponseHandler):
+            OnBoardingRepo = OnBoardingRepo(menuelyApi,responseHandler)
 
 }

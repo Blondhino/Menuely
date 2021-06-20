@@ -17,6 +17,12 @@ val Typography = Typography(
       color = blackLight
   ),
 
+    h3 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.montserrat_medium)),
+        fontSize = 14.sp,
+        color = blackLight
+    ),
+
     h5 = TextStyle(
         fontFamily = FontFamily(Font(R.font.montserrat_light)),
         fontSize = 14.sp,

@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.core.view.WindowCompat
 import com.blondhino.menuely.ui.ui.theme.MenuelyTheme
-
+import dagger.hilt.android.AndroidEntryPoint
 abstract class BaseComposeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
