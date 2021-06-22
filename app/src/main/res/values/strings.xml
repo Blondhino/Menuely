@@ -6,4 +6,5 @@
     <string name="donthaveAcc">Dont have any account ?</string>
     <string name="registerHere">Register Here</string>
     <string name="login">Login</string>
+    <string name="hide">Hide</string>
 </resources>

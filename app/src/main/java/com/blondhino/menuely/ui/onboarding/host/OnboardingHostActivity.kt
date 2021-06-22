@@ -2,25 +2,29 @@ package com.blondhino.menuely.ui.onboarding.host
 
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.blondhino.menuely.R
 import com.blondhino.menuely.data.common.LoginStatus
 import com.blondhino.menuely.data.common.LoginStatus.*
-import com.blondhino.menuely.data.common.NavigationRoutes.HOME_ROUTE
 import com.blondhino.menuely.data.common.NavigationRoutes.LOGIN_SCREEN
 import com.blondhino.menuely.data.common.NavigationRoutes.REGISTER_SCREEN
 import com.blondhino.menuely.data.repo.OnBoardingRepo
 import com.blondhino.menuely.ui.base.BaseComposeActivity
+import com.blondhino.menuely.ui.components.MenuelySnackBar
 import com.blondhino.menuely.ui.home.host.HomeHostActivity
-import com.blondhino.menuely.ui.home.HomeScreen
 import com.blondhino.menuely.ui.onboarding.OnBoardingViewModel
 import com.blondhino.menuely.ui.onboarding.SplashViewModel
-import com.blondhino.menuely.ui.onboarding.loginScreen
+import com.blondhino.menuely.ui.onboarding.LoginScreen
 import com.blondhino.menuely.ui.onboarding.registerScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -35,23 +39,48 @@ class OnboardingHostActivity : BaseComposeActivity() {
 
     override fun setLayout(): @Composable () -> Unit = {
         val loading = onBoardingViewModel.loading
-        val errorText = onBoardingViewModel.errorText
+        val messageText = onBoardingViewModel.messageText
         navController = rememberNavController()
-        NavHost(navController = navController, startDestination = LOGIN_SCREEN) {
-            composable(LOGIN_SCREEN) {
-                loginScreen(
-                    navController = navController,
-                    viewModel = onBoardingViewModel,
-                    loading = loading.value,
-                    errorText = errorText.value
-                )
+        val scaffoldState = rememberScaffoldState()
+
+        Scaffold(
+            scaffoldState = scaffoldState,
+            snackbarHost = { scaffoldState.snackbarHostState }
+
+        ) {
+            lifecycleScope.launch {
+                if (messageText.value.isNotEmpty()) {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        messageText.value, actionLabel = getString(
+                            R.string.hide
+                        )
+                    )
+                    messageText.value = ""
+                }
             }
 
-            composable(REGISTER_SCREEN) {
-                registerScreen(navController = navController, viewModel = onBoardingViewModel)
-            }
+            NavHost(navController = navController, startDestination = LOGIN_SCREEN) {
+                composable(LOGIN_SCREEN) {
+                    LoginScreen(
+                        navController = navController,
+                        viewModel = onBoardingViewModel,
+                        loading = loading.value,
 
+                        )
+                }
+
+                composable(REGISTER_SCREEN) {
+                    registerScreen(navController = navController, viewModel = onBoardingViewModel)
+                }
+
+
+            }
         }
+
+        MenuelySnackBar(
+            snackbarHostState = scaffoldState.snackbarHostState,
+            onDismiss = { scaffoldState.snackbarHostState.currentSnackbarData?.dismiss() },
+        )
     }
 
 
