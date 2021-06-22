@@ -42,10 +42,10 @@ fun MenuelyTextField(
         onValueChange = { onInputTextChanged(it) },
         modifier = modifier,
         label = { Text(text = label, fontFamily = FontFamily(Font(R.font.montserrat_medium))) },
-        colors = TextFieldDefaults.textFieldColors(
+        colors = TextFieldDefaults.outlinedTextFieldColors(
             unfocusedLabelColor = if (inputText.isEmpty()) greyLight else greenDark,
-            backgroundColor = Color.Transparent
-
+            backgroundColor = Color.Transparent,
+            unfocusedBorderColor = greyLight
         ),
         textStyle = MaterialTheme.typography.h3,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),

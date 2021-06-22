@@ -1,6 +1,7 @@
 package com.blondhino.menuely.data.common
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.navigation.compose.rememberNavController
 
 class LoginModel {
     val email = mutableStateOf("")
@@ -13,5 +14,7 @@ class LoginModel {
     fun onPasswordChanged(password: String) {
         this.password.value = password
     }
+
+
 
 }

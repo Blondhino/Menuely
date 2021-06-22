@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Menuely</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="donthaveAcc">Dont have any account ?</string>
+    <string name="registerHere">Register Here</string>
+    <string name="login">Login</string>
 </resources>

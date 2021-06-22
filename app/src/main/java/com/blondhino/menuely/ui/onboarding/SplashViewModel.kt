@@ -1,5 +1,6 @@
-package com.blondhino.menuely.ui.splash
+package com.blondhino.menuely.ui.onboarding
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,17 +18,21 @@ class SplashViewModel @Inject constructor(
 ) : ViewModel() {
     private var _loginStatus: MutableLiveData<LoginStatus> = MutableLiveData()
     val loginStatus: LiveData<LoginStatus> get() = _loginStatus
+    val loginStatusState = mutableStateOf(LOGGED_OUT)
 
-    fun checkLoginStatus() {
+    fun checkLoginStatus(){
         when {
             userDao.getUser() != null -> {
                 _loginStatus.value = LOGGED_AS_USER
+                loginStatusState.value=LOGGED_AS_USER
             }
             restaurantDao.getRestaurant() != null -> {
                 _loginStatus.value = LOGGED_AS_RESTAURANT
+                loginStatusState.value=LOGGED_AS_RESTAURANT
             }
             else -> {
                 _loginStatus.value = LOGGED_OUT
+                loginStatusState.value=LOGGED_OUT
             }
         }
     }

@@ -14,13 +14,14 @@
 
     <style name="SplashTheme" parent="Theme.Menuely.NoActionBar">
         <item name="android:windowBackground"> @drawable/background_splash_activity</item>
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <item name="android:statusBarColor">@android:color/black</item>
     </style>
 
     <style name="MenuelyAppTheme" parent="Theme.Menuely.NoActionBar">
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!--<item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>-->
+
     </style>
 
 </resources>
