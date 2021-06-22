@@ -15,6 +15,11 @@ class LoginModel {
         this.password.value = password
     }
 
+    fun areInputsValid(): Boolean {
+        if (email.value.isEmpty() || password.value.isEmpty())
+            return false
+        return true
+    }
 
 
 }

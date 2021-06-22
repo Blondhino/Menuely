@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -29,7 +30,7 @@ fun LoginScreen(
     navController: NavController,
     loading: Boolean = false
 ) {
-
+    val context = LocalContext.current
     Box(modifier = Modifier.fillMaxSize()) {
         ConstraintLayout(
             modifier = Modifier
@@ -105,7 +106,13 @@ fun LoginScreen(
 
 
             MenuelyButton(
-                onClick = { viewModel.loginUser() },
+                onClick = {
+                    if (viewModel.loginModel.areInputsValid()) {
+                        viewModel.loginUser()
+                    } else {
+                        viewModel.messageText.value = context.getString(R.string.please_fill_all)
+                    }
+                },
                 modifier = Modifier
                     .constrainAs(loginButton) {
                         bottom.linkTo(parent.bottom, 16.dp)
