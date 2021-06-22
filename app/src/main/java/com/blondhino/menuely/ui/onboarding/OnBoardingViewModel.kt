@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.viewModelScope
 import com.blondhino.menuely.data.common.LoginModel
 import com.blondhino.menuely.data.common.LoginStatus
+import com.blondhino.menuely.data.common.SelectRegistrationProcessModel
 import com.blondhino.menuely.data.common.Status
 import com.blondhino.menuely.data.database.dao.UserDao
 import kotlinx.coroutines.launch
@@ -23,6 +24,7 @@ class OnBoardingViewModel @Inject constructor(
 ) : ViewModel() {
 
     val loginModel: LoginModel = LoginModel()
+    val registrationProcessModel: SelectRegistrationProcessModel = SelectRegistrationProcessModel()
     private val _loginStatus: MutableLiveData<LoginStatus> = MutableLiveData()
     val loginStatus: LiveData<LoginStatus> get() = _loginStatus
     val loading = mutableStateOf(false)

@@ -7,4 +7,6 @@
     <string name="registerHere">Register Here</string>
     <string name="login">Login</string>
     <string name="hide">Hide</string>
+    <string name="next">Next</string>
+    <string name="please_select_reg">Please select registration type</string>
 </resources>
