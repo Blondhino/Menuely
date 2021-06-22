@@ -19,10 +19,7 @@ import com.blondhino.menuely.data.repo.OnBoardingRepo
 import com.blondhino.menuely.ui.base.BaseComposeActivity
 import com.blondhino.menuely.ui.components.MenuelySnackBar
 import com.blondhino.menuely.ui.home.host.HomeHostActivity
-import com.blondhino.menuely.ui.onboarding.OnBoardingViewModel
-import com.blondhino.menuely.ui.onboarding.SplashViewModel
-import com.blondhino.menuely.ui.onboarding.LoginScreen
-import com.blondhino.menuely.ui.onboarding.registerScreen
+import com.blondhino.menuely.ui.onboarding.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -60,19 +57,18 @@ class OnboardingHostActivity : BaseComposeActivity() {
             }
 
             NavHost(navController = navController, startDestination = LOGIN_SCREEN) {
-                composable(LOGIN_SCREEN) {
-                    LoginScreen(
-                        navController = navController,
-                        viewModel = onBoardingViewModel,
-                        loading = loading.value,
-
-                        )
-                }
 
                 composable(REGISTER_SCREEN) {
                     registerScreen(navController = navController, viewModel = onBoardingViewModel)
                 }
 
+                composable(LOGIN_SCREEN) {
+                    LoginScreen(
+                        viewModel = onBoardingViewModel,
+                        navController = navController,
+                        loading = loading.value
+                    )
+                }
 
             }
         }
