@@ -1,4 +1,4 @@
-package com.blondhino.menuely.ui.onboarding
+package com.blondhino.menuely.ui.onboarding.host
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData

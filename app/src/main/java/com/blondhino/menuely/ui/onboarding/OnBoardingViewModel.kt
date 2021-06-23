@@ -10,6 +10,7 @@ import com.blondhino.menuely.data.repo.OnBoardingRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.viewModelScope
 import com.blondhino.menuely.data.common.*
+import com.blondhino.menuely.data.common.request.RegisterUserRequest
 import com.blondhino.menuely.data.database.dao.RestaurantDao
 import com.blondhino.menuely.data.database.dao.UserDao
 import kotlinx.coroutines.launch
@@ -24,11 +25,14 @@ class OnBoardingViewModel @Inject constructor(
 
     val loginModel: LoginModel = LoginModel()
     val registrationProcessModel: SelectRegistrationProcessModel = SelectRegistrationProcessModel()
+    val registerAsUserModel: RegisterAsUserModel = RegisterAsUserModel()
     val loginProcessModel: SelectLoginProcessModel = SelectLoginProcessModel()
     private val _loginStatus: MutableLiveData<LoginStatus> = MutableLiveData()
     val loginStatus: LiveData<LoginStatus> get() = _loginStatus
     val loading = mutableStateOf(false)
     val messageText = mutableStateOf("")
+    private var _successfulRegistration: MutableLiveData<Boolean> = MutableLiveData()
+    val successfulRegistration: LiveData<Boolean> get() = _successfulRegistration
 
     private fun loginUser() = viewModelScope.launch {
         loading.value = true
@@ -56,10 +60,48 @@ class OnBoardingViewModel @Inject constructor(
             _loginStatus.value = LoginStatus.LOGGED_AS_RESTAURANT
             loading.value = false
         } else {
-            Log.d("LoginUser", "err")
-            Log.d("LoginUser", response.message)
             messageText.value = response.message
             loading.value = false
+        }
+    }
+
+    private fun registerRestaurant() = viewModelScope.launch {
+
+
+    }
+
+    private fun registerUser() = viewModelScope.launch {
+        loading.value = true
+        if (registerAsUserModel.areInputsValid()) {
+            val response = repo.registerUser(
+                RegisterUserRequest(
+                    registerAsUserModel.firstName.value,
+                    registerAsUserModel.lastName.value,
+                    registerAsUserModel.email.value,
+                    registerAsUserModel.password.value
+                )
+            )
+            if (response.status == Status.SUCCESS) {
+                loading.value = false
+                messageText.value = response.data?.message.toString()
+                _successfulRegistration.value = true
+
+            } else {
+                messageText.value = response.message
+                loading.value = false
+            }
+        } else {
+            loading.value=false
+            messageText.value=registerAsUserModel.errorMessage.value
+        }
+    }
+
+
+    fun register(registrationProcessType: RegistrationProcessType) {
+        if (registrationProcessType == RegistrationProcessType.REGISTER_AS_USER) {
+            registerUser()
+        } else {
+            registerRestaurant()
         }
     }
 
@@ -76,5 +118,6 @@ class OnBoardingViewModel @Inject constructor(
         restaurantDao.getRestaurant()?.let { restaurantDao.delete(it) }
         _loginStatus.value = LoginStatus.LOGGED_OUT
     }
+
 
 }

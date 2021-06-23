@@ -14,12 +14,16 @@ import com.blondhino.menuely.R
 import com.blondhino.menuely.data.common.LoginStatus
 import com.blondhino.menuely.data.common.LoginStatus.*
 import com.blondhino.menuely.data.common.NavigationRoutes.LOGIN_SCREEN
+import com.blondhino.menuely.data.common.NavigationRoutes.REGISTER_AS_RESTAURANT_SCREEN
+import com.blondhino.menuely.data.common.NavigationRoutes.REGISTER_AS_USER_SCREEN
 import com.blondhino.menuely.data.common.NavigationRoutes.REGISTER_SCREEN
 import com.blondhino.menuely.data.repo.OnBoardingRepo
 import com.blondhino.menuely.ui.base.BaseComposeActivity
 import com.blondhino.menuely.ui.components.MenuelySnackBar
 import com.blondhino.menuely.ui.home.host.HomeHostActivity
 import com.blondhino.menuely.ui.onboarding.*
+import com.blondhino.menuely.ui.onboarding.register.RegisterAsRestaurantScreen
+import com.blondhino.menuely.ui.onboarding.register.RegisterAsUserScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -62,6 +66,20 @@ class OnboardingHostActivity : BaseComposeActivity() {
                     registerScreen(navController = navController, viewModel = onBoardingViewModel)
                 }
 
+                composable(REGISTER_AS_USER_SCREEN) {
+                    RegisterAsUserScreen(
+                        navController = navController,
+                        viewModel = onBoardingViewModel
+                    )
+                }
+
+                composable(REGISTER_AS_RESTAURANT_SCREEN) {
+                    RegisterAsRestaurantScreen(
+                        navController = navController,
+                        viewModel = onBoardingViewModel
+                    )
+                }
+
                 composable(LOGIN_SCREEN) {
                     LoginScreen(
                         viewModel = onBoardingViewModel,
@@ -84,6 +102,13 @@ class OnboardingHostActivity : BaseComposeActivity() {
         viewModel.checkLoginStatus()
         viewModel.loginStatus.observe(this, this::handleLoginStatus)
         onBoardingViewModel.loginStatus.observe(this, this::handleLoginStatus)
+        onBoardingViewModel.successfulRegistration.observe(this, this::handleSuccessfulRegistration)
+    }
+
+    private fun handleSuccessfulRegistration(isSuccessful: Boolean) {
+        if (isSuccessful) {
+            navController.navigate(LOGIN_SCREEN) { popUpTo(LOGIN_SCREEN); launchSingleTop=true}
+        }
     }
 
 

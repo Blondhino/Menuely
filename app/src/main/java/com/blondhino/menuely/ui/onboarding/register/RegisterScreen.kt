@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.NavigationRoutes.REGISTER_AS_RESTAURANT_SCREEN
+import com.blondhino.menuely.data.common.NavigationRoutes.REGISTER_AS_USER_SCREEN
 import com.blondhino.menuely.data.common.RegistrationProcessType
 import com.blondhino.menuely.data.common.RegistrationProcessType.*
 import com.blondhino.menuely.ui.components.MenuelyButton
@@ -94,12 +96,18 @@ fun registerScreen(
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
             },
-            text="Next" ,
+            text = "Next",
             onClick = {
-                when(viewModel.registrationProcessModel.getSelection()){
-                    UNDEFINED ->{viewModel.messageText.value= context.getString(R.string.please_select_reg) }
-                    REGISTER_AS_USER->{}
-                    REGISTER_AS_RESTAURANT->{}
+                when (viewModel.registrationProcessModel.getSelection()) {
+                    UNDEFINED -> {
+                        viewModel.messageText.value = context.getString(R.string.please_select_reg)
+                    }
+                    REGISTER_AS_USER -> {
+                        navController.navigate(REGISTER_AS_USER_SCREEN)
+                    }
+                    REGISTER_AS_RESTAURANT -> {
+                        navController.navigate(REGISTER_AS_RESTAURANT_SCREEN)
+                    }
                 }
             })
 

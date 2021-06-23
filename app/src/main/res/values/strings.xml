@@ -12,4 +12,8 @@
     <string name="please_fill_all">Please fill in all required fields</string>
     <string name="priv_user">Private user</string>
     <string name="restaurant">Restaurant</string>
+    <string name="register">Register</string>
+    <string name="firstName">First name</string>
+    <string name="lastName">Last name</string>
+    <string name="rePassword">Retype password</string>
 </resources>
