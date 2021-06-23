@@ -95,7 +95,8 @@ class OnboardingHostActivity : BaseComposeActivity() {
             }
 
             LOGGED_AS_RESTAURANT -> {
-
+                val intent = Intent(this, HomeHostActivity::class.java)
+                startActivity(intent)
             }
 
             LOGGED_OUT -> {

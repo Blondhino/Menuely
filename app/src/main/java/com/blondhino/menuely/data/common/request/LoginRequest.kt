@@ -1,6 +1,6 @@
 package com.blondhino.menuely.data.common.request
 
-class LoginUserRequest(
+class LoginRequest(
     val email : String,
     val password : String
 )

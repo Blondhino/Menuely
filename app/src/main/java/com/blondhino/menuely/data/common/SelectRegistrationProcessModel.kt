@@ -5,7 +5,7 @@ import androidx.navigation.compose.rememberNavController
 import com.blondhino.menuely.data.common.RegistrationProcessType.*
 
 class SelectRegistrationProcessModel {
-    val registerAsUser = mutableStateOf(false)
+    val registerAsUser = mutableStateOf(true)
     val registerAsRestaurant = mutableStateOf(false)
 
     fun selectRegisterAsUser() {

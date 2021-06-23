@@ -23,6 +23,7 @@ import com.blondhino.menuely.data.common.NavigationRoutes
 import com.blondhino.menuely.ui.components.MenuelyButton
 import com.blondhino.menuely.ui.components.MenuelyCircularProgressBar
 import com.blondhino.menuely.ui.components.MenuelyTextField
+import com.blondhino.menuely.ui.components.MenuelyToggleButton
 
 @Composable
 fun LoginScreen(
@@ -65,6 +66,16 @@ fun LoginScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+                MenuelyToggleButton(
+                    stringResource(R.string.priv_user),
+                    stringResource(R.string.restaurant),
+                    viewModel.loginProcessModel.getSelection(),
+                    onOptionSelected = {
+                        viewModel.loginProcessModel.selectLoginOption(it)
+                    },
+                    modifier = Modifier.padding(bottom = 32.dp)
+                )
+
                 MenuelyTextField(
                     inputText = viewModel.loginModel.email.value,
                     onInputTextChanged = { viewModel.loginModel.onEmailChanged(it) },
@@ -108,7 +119,7 @@ fun LoginScreen(
             MenuelyButton(
                 onClick = {
                     if (viewModel.loginModel.areInputsValid()) {
-                        viewModel.loginUser()
+                        viewModel.login()
                     } else {
                         viewModel.messageText.value = context.getString(R.string.please_fill_all)
                     }
@@ -124,6 +135,7 @@ fun LoginScreen(
 
         }
         MenuelyCircularProgressBar(isLoading = loading)
+
     }
 
 

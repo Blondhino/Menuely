@@ -10,4 +10,6 @@
     <string name="next">Next</string>
     <string name="please_select_reg">Please select registration type</string>
     <string name="please_fill_all">Please fill in all required fields</string>
+    <string name="priv_user">Private user</string>
+    <string name="restaurant">Restaurant</string>
 </resources>

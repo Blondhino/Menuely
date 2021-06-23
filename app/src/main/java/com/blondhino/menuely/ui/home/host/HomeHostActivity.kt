@@ -19,7 +19,7 @@ class HomeHostActivity : BaseComposeActivity() {
     }
 
     private fun logout() {
-        onBoardingViewModel.logoutUser()
+        onBoardingViewModel.logout()
         val intent = Intent(this, OnboardingHostActivity::class.java)
         startActivity(intent)
         finish()

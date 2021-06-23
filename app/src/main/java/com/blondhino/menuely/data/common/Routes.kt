@@ -4,4 +4,5 @@ object Routes {
 
     private const val AUTH = "auth/"
     const val LOGIN_USER = AUTH + "login/user/"
+    const val LOGIN_RESTAURANT = AUTH + "login/restaurant/"
 }
