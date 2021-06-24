@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.blondhino.menuely.data.common.LoginProcessType
-import com.blondhino.menuely.data.common.LoginProcessType.LOGIN_AS_RESTAURANT
-import com.blondhino.menuely.data.common.LoginProcessType.LOGIN_AS_USER
+import com.blondhino.menuely.data.common.enums.LoginProcessType
+import com.blondhino.menuely.data.common.enums.LoginProcessType.LOGIN_AS_RESTAURANT
+import com.blondhino.menuely.data.common.enums.LoginProcessType.LOGIN_AS_USER
 import com.blondhino.menuely.ui.ui.theme.greenLight
 import com.blondhino.menuely.ui.ui.theme.greyLight
 

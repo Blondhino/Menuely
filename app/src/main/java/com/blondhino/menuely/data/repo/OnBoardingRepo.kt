@@ -4,6 +4,7 @@ import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.Response
 import com.blondhino.menuely.data.common.ResponseHandler
 import com.blondhino.menuely.data.common.request.LoginRequest
+import com.blondhino.menuely.data.common.request.RegisterRestaurantrRequest
 import com.blondhino.menuely.data.common.request.RegisterUserRequest
 import com.blondhino.menuely.data.common.response.EmptyResponse
 import com.blondhino.menuely.data.common.response.LoginRestaurantResponse
@@ -37,6 +38,15 @@ class OnBoardingRepo(
             val response = api.registerUser(registerUserRequest)
             responseHandler.handleSuccess(response)
         } catch (e: Exception) {
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+
+    suspend fun registerRestaurant(registerRestaurantRequest: RegisterRestaurantrRequest): Response<EmptyResponse> {
+        return try {
+            val response = api.registerRestaurant(registerRestaurantRequest)
+            responseHandler.handleSuccess(response)
+        }catch (e: Exception) {
             responseHandler.handleError(e.message.toString())
         }
     }

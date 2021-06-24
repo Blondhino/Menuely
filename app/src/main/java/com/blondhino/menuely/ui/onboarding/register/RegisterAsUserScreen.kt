@@ -1,15 +1,10 @@
 package com.blondhino.menuely.ui.onboarding.register
 
-import android.graphics.Color
-import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -19,15 +14,11 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
-import com.blondhino.menuely.data.common.NavigationRoutes
-import com.blondhino.menuely.data.common.RegistrationProcessType
-import com.blondhino.menuely.data.common.RegistrationProcessType.*
+import com.blondhino.menuely.data.common.enums.RegistrationProcessType.*
 import com.blondhino.menuely.ui.components.MenuelyButton
 import com.blondhino.menuely.ui.components.MenuelyCircularProgressBar
 import com.blondhino.menuely.ui.components.MenuelyTextField
-import com.blondhino.menuely.ui.components.OptionSelector
 import com.blondhino.menuely.ui.onboarding.OnBoardingViewModel
-import com.blondhino.menuely.ui.ui.theme.greenLight
 
 @Composable
 fun RegisterAsUserScreen(viewModel: OnBoardingViewModel, navController: NavHostController) {

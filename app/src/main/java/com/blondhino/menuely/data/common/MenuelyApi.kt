@@ -1,10 +1,12 @@
 package com.blondhino.menuely.data.common
 
 import com.blondhino.menuely.data.base.BaseResponse
-import com.blondhino.menuely.data.common.Routes.LOGIN_RESTAURANT
-import com.blondhino.menuely.data.common.Routes.LOGIN_USER
-import com.blondhino.menuely.data.common.Routes.REGISTER_USER
+import com.blondhino.menuely.data.common.constants.Routes.LOGIN_RESTAURANT
+import com.blondhino.menuely.data.common.constants.Routes.LOGIN_USER
+import com.blondhino.menuely.data.common.constants.Routes.REGISTER_RESTAURANT
+import com.blondhino.menuely.data.common.constants.Routes.REGISTER_USER
 import com.blondhino.menuely.data.common.request.LoginRequest
+import com.blondhino.menuely.data.common.request.RegisterRestaurantrRequest
 import com.blondhino.menuely.data.common.request.RegisterUserRequest
 import com.blondhino.menuely.data.common.response.EmptyResponse
 import com.blondhino.menuely.data.common.response.LoginRestaurantResponse
@@ -22,6 +24,9 @@ interface MenuelyApi {
 
     @POST(REGISTER_USER)
     suspend fun registerUser(@Body registerUserRequest: RegisterUserRequest): BaseResponse<EmptyResponse>
+
+    @POST(REGISTER_RESTAURANT)
+    suspend fun registerRestaurant(@Body registerRestaurantRequest: RegisterRestaurantrRequest): BaseResponse<EmptyResponse>
 
 
 }

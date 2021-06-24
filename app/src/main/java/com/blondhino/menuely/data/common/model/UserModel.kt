@@ -1,4 +1,4 @@
-package com.blondhino.menuely.data.common
+package com.blondhino.menuely.data.common.model
 
 class UserModel(
     val id: Int?,

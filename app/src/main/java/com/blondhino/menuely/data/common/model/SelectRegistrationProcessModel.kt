@@ -1,8 +1,8 @@
-package com.blondhino.menuely.data.common
+package com.blondhino.menuely.data.common.model
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.navigation.compose.rememberNavController
-import com.blondhino.menuely.data.common.RegistrationProcessType.*
+import com.blondhino.menuely.data.common.enums.RegistrationProcessType
+import com.blondhino.menuely.data.common.enums.RegistrationProcessType.*
 
 class SelectRegistrationProcessModel {
     val registerAsUser = mutableStateOf(true)
@@ -24,7 +24,7 @@ class SelectRegistrationProcessModel {
 
     }
 
-    fun getSelection():RegistrationProcessType{
+    fun getSelection(): RegistrationProcessType {
         if(registerAsUser.value){
             return REGISTER_AS_USER
         }else if (registerAsRestaurant.value){

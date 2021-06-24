@@ -1,7 +1,6 @@
-package com.blondhino.menuely.data.common
+package com.blondhino.menuely.data.common.model
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.navigation.compose.rememberNavController
 
 class LoginModel {
     val email = mutableStateOf("")

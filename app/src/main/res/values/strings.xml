@@ -16,4 +16,10 @@
     <string name="firstName">First name</string>
     <string name="lastName">Last name</string>
     <string name="rePassword">Retype password</string>
+    <string name="retaurantName">Restaurant Name</string>
+    <string name="address">Address</string>
+    <string name="postalCode">Postal code</string>
+    <string name="city">City</string>
+    <string name="country">Country</string>
+    <string name="description">Description</string>
 </resources>

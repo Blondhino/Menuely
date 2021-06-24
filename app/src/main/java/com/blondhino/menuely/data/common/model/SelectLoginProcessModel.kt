@@ -1,7 +1,8 @@
-package com.blondhino.menuely.data.common
+package com.blondhino.menuely.data.common.model
 
 import androidx.compose.runtime.mutableStateOf
-import com.blondhino.menuely.data.common.LoginProcessType.*
+import com.blondhino.menuely.data.common.enums.LoginProcessType
+import com.blondhino.menuely.data.common.enums.LoginProcessType.*
 
 class SelectLoginProcessModel {
     private val loginAsUser = mutableStateOf(true)

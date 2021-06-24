@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.blondhino.menuely.data.common.LoginStatus
-import com.blondhino.menuely.data.common.LoginStatus.*
+import com.blondhino.menuely.data.common.enums.LoginStatus
+import com.blondhino.menuely.data.common.enums.LoginStatus.*
 import com.blondhino.menuely.data.database.dao.RestaurantDao
 import com.blondhino.menuely.data.database.dao.UserDao
 import dagger.hilt.android.lifecycle.HiltViewModel

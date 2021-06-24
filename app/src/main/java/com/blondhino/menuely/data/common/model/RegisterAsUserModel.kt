@@ -1,9 +1,7 @@
-package com.blondhino.menuely.data.common
+package com.blondhino.menuely.data.common.model
 
-import android.provider.ContactsContract
 import android.util.Patterns
 import androidx.compose.runtime.mutableStateOf
-import androidx.navigation.compose.rememberNavController
 
 class RegisterAsUserModel {
     val errorMessage = mutableStateOf("")
@@ -46,11 +44,18 @@ class RegisterAsUserModel {
             errorMessage.value = "Email is not valid"
             return false
         } else if (password.value != retypePassword.value) {
-            errorMessage.value = "Passwords are not the same"
+            errorMessage.value = "Passwords are not the sameRegisterAsUserModel"
             return false
         }
         return true
     }
 
+    fun clearData() {
+        this.email.value = ""
+        this.firstName.value = ""
+        this.lastName.value = ""
+        this.password.value = ""
+        this.retypePassword.value = ""
+    }
 
 }

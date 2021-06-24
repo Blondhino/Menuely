@@ -6,17 +6,18 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.blondhino.menuely.R
-import com.blondhino.menuely.data.common.LoginStatus
-import com.blondhino.menuely.data.common.LoginStatus.*
-import com.blondhino.menuely.data.common.NavigationRoutes.LOGIN_SCREEN
-import com.blondhino.menuely.data.common.NavigationRoutes.REGISTER_AS_RESTAURANT_SCREEN
-import com.blondhino.menuely.data.common.NavigationRoutes.REGISTER_AS_USER_SCREEN
-import com.blondhino.menuely.data.common.NavigationRoutes.REGISTER_SCREEN
+import com.blondhino.menuely.data.common.enums.LoginStatus
+import com.blondhino.menuely.data.common.enums.LoginStatus.*
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.LOGIN_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.REGISTER_AS_RESTAURANT_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.REGISTER_AS_USER_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.REGISTER_SCREEN
 import com.blondhino.menuely.data.repo.OnBoardingRepo
 import com.blondhino.menuely.ui.base.BaseComposeActivity
 import com.blondhino.menuely.ui.components.MenuelySnackBar
@@ -25,6 +26,7 @@ import com.blondhino.menuely.ui.onboarding.*
 import com.blondhino.menuely.ui.onboarding.register.RegisterAsRestaurantScreen
 import com.blondhino.menuely.ui.onboarding.register.RegisterAsUserScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -107,7 +109,9 @@ class OnboardingHostActivity : BaseComposeActivity() {
 
     private fun handleSuccessfulRegistration(isSuccessful: Boolean) {
         if (isSuccessful) {
-            navController.navigate(LOGIN_SCREEN) { popUpTo(LOGIN_SCREEN); launchSingleTop=true}
+
+            navController.navigate(LOGIN_SCREEN) { popUpTo(LOGIN_SCREEN); launchSingleTop=true;
+            }
         }
     }
 

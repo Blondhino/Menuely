@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import com.blondhino.menuely.R
-import com.blondhino.menuely.data.common.NavigationRoutes
+import com.blondhino.menuely.data.common.constants.NavigationRoutes
 import com.blondhino.menuely.ui.components.MenuelyButton
 import com.blondhino.menuely.ui.components.MenuelyCircularProgressBar
 import com.blondhino.menuely.ui.components.MenuelyTextField

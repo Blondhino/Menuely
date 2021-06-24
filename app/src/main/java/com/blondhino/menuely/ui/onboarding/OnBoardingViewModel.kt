@@ -9,7 +9,12 @@ import com.blondhino.menuely.data.common.request.LoginRequest
 import com.blondhino.menuely.data.repo.OnBoardingRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.viewModelScope
-import com.blondhino.menuely.data.common.*
+import com.blondhino.menuely.data.common.enums.LoginProcessType
+import com.blondhino.menuely.data.common.enums.LoginStatus
+import com.blondhino.menuely.data.common.enums.RegistrationProcessType
+import com.blondhino.menuely.data.common.enums.Status
+import com.blondhino.menuely.data.common.model.*
+import com.blondhino.menuely.data.common.request.RegisterRestaurantrRequest
 import com.blondhino.menuely.data.common.request.RegisterUserRequest
 import com.blondhino.menuely.data.database.dao.RestaurantDao
 import com.blondhino.menuely.data.database.dao.UserDao
@@ -26,6 +31,7 @@ class OnBoardingViewModel @Inject constructor(
     val loginModel: LoginModel = LoginModel()
     val registrationProcessModel: SelectRegistrationProcessModel = SelectRegistrationProcessModel()
     val registerAsUserModel: RegisterAsUserModel = RegisterAsUserModel()
+    val registerAsRestaurantModel: RegisterAsRestaurantModel = RegisterAsRestaurantModel()
     val loginProcessModel: SelectLoginProcessModel = SelectLoginProcessModel()
     private val _loginStatus: MutableLiveData<LoginStatus> = MutableLiveData()
     val loginStatus: LiveData<LoginStatus> get() = _loginStatus
@@ -66,8 +72,34 @@ class OnBoardingViewModel @Inject constructor(
     }
 
     private fun registerRestaurant() = viewModelScope.launch {
+        loading.value = true
+        if (registerAsRestaurantModel.areInputsValid()) {
+            val response = repo.registerRestaurant(
+                RegisterRestaurantrRequest(
+                    registerAsRestaurantModel.email.value,
+                    registerAsRestaurantModel.password.value,
+                    registerAsRestaurantModel.restaurantName.value,
+                    registerAsRestaurantModel.description.value,
+                    registerAsRestaurantModel.country.value,
+                    registerAsRestaurantModel.city.value,
+                    registerAsRestaurantModel.address.value,
+                    registerAsRestaurantModel.postalCode.value
+                )
+            )
+            if (response.status == Status.SUCCESS) {
+                loading.value = false
+                messageText.value = response.data?.message.toString()
+                _successfulRegistration.value = true
+                registerAsRestaurantModel.clearData()
 
-
+            } else {
+                messageText.value = response.message
+                loading.value = false
+            }
+        } else {
+            loading.value = false
+            messageText.value = registerAsRestaurantModel.errorMessage.value
+        }
     }
 
     private fun registerUser() = viewModelScope.launch {
@@ -85,14 +117,15 @@ class OnBoardingViewModel @Inject constructor(
                 loading.value = false
                 messageText.value = response.data?.message.toString()
                 _successfulRegistration.value = true
+                registerAsUserModel.clearData()
 
             } else {
                 messageText.value = response.message
                 loading.value = false
             }
         } else {
-            loading.value=false
-            messageText.value=registerAsUserModel.errorMessage.value
+            loading.value = false
+            messageText.value = registerAsUserModel.errorMessage.value
         }
     }
 

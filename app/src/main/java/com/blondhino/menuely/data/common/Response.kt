@@ -1,8 +1,9 @@
 package com.blondhino.menuely.data.common
 
 import com.blondhino.menuely.data.base.BaseResponse
+import com.blondhino.menuely.data.common.enums.Status
 
-data class Response<out T>(var status: Status, val data: T?,val message: String) {
+data class Response<out T>(var status: Status, val data: T?, val message: String) {
 
     companion object {
 
