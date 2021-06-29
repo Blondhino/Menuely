@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.blondhino.menuely.data.database.MenuelyDatabase
+import com.blondhino.menuely.data.database.dao.AuthDao
 import com.blondhino.menuely.data.database.dao.RestaurantDao
 import com.blondhino.menuely.data.database.dao.UserDao
 import dagger.Module
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 
 
 @InstallIn(SingletonComponent::class)
-@Module object DatabaseModule {
+@Module
+object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): MenuelyDatabase {
@@ -29,5 +31,8 @@ import javax.inject.Singleton
     fun provideUserDao(database: MenuelyDatabase): UserDao = database.userDao()
 
     @Provides
-    fun provideRestaurantDao(database: MenuelyDatabase):RestaurantDao = database.restaurantDao()
+    fun provideRestaurantDao(database: MenuelyDatabase): RestaurantDao = database.restaurantDao()
+
+    @Provides
+    fun provideAuthDao(database: MenuelyDatabase): AuthDao = database.authDao()
 }

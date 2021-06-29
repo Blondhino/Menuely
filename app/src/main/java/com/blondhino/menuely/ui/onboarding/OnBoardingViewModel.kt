@@ -16,6 +16,7 @@ import com.blondhino.menuely.data.common.enums.Status
 import com.blondhino.menuely.data.common.model.*
 import com.blondhino.menuely.data.common.request.RegisterRestaurantrRequest
 import com.blondhino.menuely.data.common.request.RegisterUserRequest
+import com.blondhino.menuely.data.database.dao.AuthDao
 import com.blondhino.menuely.data.database.dao.RestaurantDao
 import com.blondhino.menuely.data.database.dao.UserDao
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
     private val repo: OnBoardingRepo,
     private val userDao: UserDao,
+    private val authDao: AuthDao,
     private val restaurantDao: RestaurantDao
 ) : ViewModel() {
 
@@ -45,7 +47,8 @@ class OnBoardingViewModel @Inject constructor(
         val response =
             repo.loginUser(LoginRequest(loginModel.email.value, loginModel.password.value))
         if (response.status == Status.SUCCESS) {
-            val let = response.data?.user?.let { userDao.insert(it) }
+            response.data?.user?.let { userDao.insert(it) }
+            response.data?.auth?.let { authDao.insert(it) }
             _loginStatus.value = LoginStatus.LOGGED_AS_USER
             loading.value = false
         } else {
@@ -62,7 +65,8 @@ class OnBoardingViewModel @Inject constructor(
         val response =
             repo.loginRestaurant(LoginRequest(loginModel.email.value, loginModel.password.value))
         if (response.status == Status.SUCCESS) {
-            val let = response.data?.restaurant?.let { restaurantDao.insert(it) }
+            response.data?.restaurant?.let { restaurantDao.insert(it) }
+            response.data?.auth?.let { authDao.insert(it) }
             _loginStatus.value = LoginStatus.LOGGED_AS_RESTAURANT
             loading.value = false
         } else {

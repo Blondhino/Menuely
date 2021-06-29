@@ -14,8 +14,13 @@
         <entry key="../../../../../layout/compose-model-1624442913273.xml" value="0.5" />
         <entry key="../../../../../layout/compose-model-1624446306977.xml" value="0.335" />
         <entry key="../../../../../layout/compose-model-1624447244531.xml" value="0.22685185185185186" />
+        <entry key="../../../../../layout/compose-model-1624975073272.xml" value="0.27280405405405406" />
+        <entry key="../../../../../layout/compose-model-1624975470972.xml" value="0.27280405405405406" />
+        <entry key="../../../../../layout/compose-model-1624976281788.xml" value="0.27280405405405406" />
+        <entry key="../../../../../layout/compose-model-1624983308478.xml" value="0.2719594594594595" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/background_splash_activity.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_empty_state.xml" value="0.17850128173828117" />
         <entry key="app/src/main/res/drawable/ic_menuely.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/logo_splash_with_text.xml" value="0.1" />
         <entry key="app/src/main/res/font/font.xml" value="0.175" />
@@ -28,5 +33,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="SuppressABINotification">
+    <option name="modulesWithSuppressedNotConfigured">
+      <set>
+        <option value="Menuely.app" />
+      </set>
+    </option>
   </component>
 </project>

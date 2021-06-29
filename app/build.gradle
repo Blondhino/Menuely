@@ -58,7 +58,8 @@ ext {
     okhttp = '4.6.0'
     gson = '2.8.1'
     ok_to_curl = "0.6.0"
-    navigation= "2.4.0-alpha03"
+    navigation = "2.4.0-alpha03"
+    glide = "1.2.4"
 }
 
 dependencies {
@@ -108,4 +109,7 @@ dependencies {
 
     //Navigation
     implementation "androidx.navigation:navigation-compose:$navigation"
+
+    //Glide
+    implementation "com.github.skydoves:landscapist-glide:$glide"
 }

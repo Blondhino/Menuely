@@ -3,6 +3,9 @@ package com.blondhino.menuely.di.module
 import android.util.Log
 import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.ResponseHandler
+import com.blondhino.menuely.data.database.dao.AuthDao
+import com.blondhino.menuely.data.repo.AuthRepo
+import com.blondhino.menuely.util.AuthInterceptor
 import com.moczul.ok2curl.CurlInterceptor
 import com.moczul.ok2curl.logger.Loggable
 import dagger.Module
@@ -20,16 +23,20 @@ import javax.inject.Singleton
 object NetworkModule {
     private const val CURL_LOG_TAG = "OkHttp CURL-->"
 
+
     @Provides
     @Singleton
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        curlInterceptor: CurlInterceptor
+        curlInterceptor: CurlInterceptor,
+        authInterceptor: AuthInterceptor
     ): OkHttpClient {
         val client = OkHttpClient()
             .newBuilder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(curlInterceptor)
+            .addInterceptor(authInterceptor)
+
         return client.build()
     }
 
@@ -63,6 +70,14 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideResponseHandler():ResponseHandler = ResponseHandler()
+    fun provideResponseHandler(): ResponseHandler = ResponseHandler()
+
+
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(authDao: AuthDao): AuthInterceptor =
+        AuthInterceptor(AuthRepo(authDao))
+
+
 
 }
