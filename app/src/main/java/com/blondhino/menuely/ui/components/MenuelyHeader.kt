@@ -22,7 +22,6 @@ import com.google.accompanist.glide.rememberGlidePainter
 
 @Composable
 fun MenuelyHeader(
-    modifier: Modifier,
     height: Dp = 200.dp,
     headerUrl: String = "",
     mainImageUrl: String = ""

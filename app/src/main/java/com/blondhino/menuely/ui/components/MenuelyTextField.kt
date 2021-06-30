@@ -8,6 +8,8 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
@@ -15,8 +17,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue // only if using var
 import com.blondhino.menuely.R
 import com.blondhino.menuely.ui.ui.theme.greenDark
 import com.blondhino.menuely.ui.ui.theme.greyLight
@@ -41,11 +41,17 @@ fun MenuelyTextField(
         value = inputText,
         onValueChange = { onInputTextChanged(it) },
         modifier = modifier,
-        label = { Text(text = label, fontFamily = FontFamily(Font(R.font.montserrat_medium))) },
+        label = {
+            Text(
+                text = label,
+                fontFamily = FontFamily(Font(R.font.montserrat_medium)),
+                color = if (inputText.isEmpty()) greyLight else greenDark
+            )
+        },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            unfocusedLabelColor = if (inputText.isEmpty()) greyLight else greenDark,
             backgroundColor = Color.Transparent,
-            unfocusedBorderColor = greyLight
+            unfocusedBorderColor = greyLight,
+            focusedLabelColor = greenDark
         ),
         textStyle = MaterialTheme.typography.h3,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),

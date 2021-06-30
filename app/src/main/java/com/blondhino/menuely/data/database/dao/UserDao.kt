@@ -10,4 +10,6 @@ interface UserDao : BaseDao<UserTableModel> {
 
     @Query("SELECT * from user_table")
     fun getUser(): UserTableModel?
+
+
 }

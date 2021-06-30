@@ -9,5 +9,7 @@ class UserTableModel (
     val id: Int,
     var firstname: String?,
     var lastname: String?,
-    val email: String?
+    val email: String?,
+    val createdAt: Long?,
+    val updatedAt: Long?
 )

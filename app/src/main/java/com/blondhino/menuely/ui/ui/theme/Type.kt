@@ -11,11 +11,11 @@ import com.blondhino.menuely.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
-  h1 = TextStyle(
-      fontFamily = FontFamily(Font(R.font.montserrat_semi_bold)),
-      fontSize = 48.sp,
-      color = blackLight
-  ),
+    h1 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.montserrat_semi_bold)),
+        fontSize = 48.sp,
+        color = blackLight
+    ),
     h2 = TextStyle(
         fontFamily = FontFamily(Font(R.font.montserrat_semi_bold)),
         fontSize = 16.sp,
@@ -39,10 +39,36 @@ val Typography = Typography(
         color = blackLight
     ),
 
+    h6 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.montserrat_light)),
+        fontSize = 12.sp,
+        color = blackLight
+    ),
+
     body1 = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
-    )
+    ),
+
+    body2 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.montserrat_medium)),
+        fontSize = 24.sp,
+        color = blackLight
+    ),
+
+    caption = TextStyle(
+        fontFamily = FontFamily(Font(R.font.montserrat_medium)),
+        fontSize = 12.sp,
+        color = blackLight
+    ),
+
+    subtitle2 = TextStyle(
+        fontFamily = FontFamily(Font(R.font.montserrat_light)),
+        fontSize = 9.sp,
+        color = blackLight
+    ),
+
+
 
 )

@@ -51,7 +51,7 @@ fun MenuelyBottomNavigation(
         loggedAsUserScreens.forEach { screen ->
             BottomNavigationItem(
                 icon = { Icon(painterResource(id = screen.icon), contentDescription = "lololol", modifier = Modifier.width(20.dp))},
-                label = { Text(stringResource(id = screen.title)) },
+                label = { Text(stringResource(id = screen.title),color = greenLight) },
                 selected = currentRoute == screen.route,
                 selectedContentColor = greenLight,
                 unselectedContentColor = Color.Black.copy(0.2F),

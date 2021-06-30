@@ -15,7 +15,7 @@ import com.blondhino.menuely.data.database.tables.UserTableModel
         RestaurantTableModel::class,
         AuthTableModel::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 
