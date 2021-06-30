@@ -19,15 +19,7 @@ class TokenRepo(
 ) {
 
 
-    suspend fun refreshToken(refreshToken: String):Response<AuthTableModel>{
-        Log.d("refreshToken","called with: $refreshToken")
-        return try {
-            val response = tokenApi.refreshToken(refreshToken)
-                responseHandler.handleSuccess(response)
-        }catch (e:Exception){
-            responseHandler.handleError(e.message.toString())
-        }
-    }
+    suspend fun refreshToken(refreshToken:String)=tokenApi.refreshToken(refreshToken)
 
 
 

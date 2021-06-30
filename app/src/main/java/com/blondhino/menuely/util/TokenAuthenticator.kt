@@ -15,17 +15,15 @@ class TokenAuthenticator(private val tokenRepo: TokenRepo, private val authRepo:
         Log.d("TokenIntercept", "authenticate")
         val resp = runBlocking { authRepo.refreshToken()?.let { tokenRepo.refreshToken(it) } }
         resp?.data?.let {
-            authRepo.insertNewAuth(it)
-        }
-        return try {
-            response.request.newBuilder()
-                .header("Authorization", "Bearer ${resp?.data?.accessToken}")
-                .build()
-        }catch (e:Exception){
+            authRepo.insertNewAuth(
+                it
 
-            return null
+            )
         }
-
+        return response.request.newBuilder()
+            .header("Authorization", "Bearer ${resp?.data?.accessToken}")
+            .build()
     }
+
 
 }
