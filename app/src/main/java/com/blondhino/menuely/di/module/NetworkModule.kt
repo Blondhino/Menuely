@@ -1,13 +1,14 @@
 package com.blondhino.menuely.di.module
 
-import android.util.Log
 import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.ResponseHandler
+import com.blondhino.menuely.data.common.TokenApi
+import com.blondhino.menuely.data.common.constants.Routes.BASE_URL
 import com.blondhino.menuely.data.database.dao.AuthDao
 import com.blondhino.menuely.data.repo.AuthRepo
+import com.blondhino.menuely.data.repo.TokenRepo
 import com.blondhino.menuely.util.AuthInterceptor
-import com.moczul.ok2curl.CurlInterceptor
-import com.moczul.ok2curl.logger.Loggable
+import com.blondhino.menuely.util.TokenAuthenticator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,14 +29,14 @@ object NetworkModule {
     @Singleton
     fun provideOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        curlInterceptor: CurlInterceptor,
-        authInterceptor: AuthInterceptor
+        authInterceptor: AuthInterceptor,
+        tokenAuthenticator: TokenAuthenticator
     ): OkHttpClient {
         val client = OkHttpClient()
             .newBuilder()
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(curlInterceptor)
             .addInterceptor(authInterceptor)
+            .authenticator(tokenAuthenticator)
 
         return client.build()
     }
@@ -44,7 +45,7 @@ object NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl("https://menuely.herokuapp.com/")
+            .baseUrl(BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -57,16 +58,10 @@ object NetworkModule {
     @Singleton
     fun provideHttpLogger(): HttpLoggingInterceptor {
         val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
+        logger.level = HttpLoggingInterceptor.Level.HEADERS
         return logger
 
     }
-
-    @Provides
-    @Singleton
-    fun provideCurlInterceptor(): CurlInterceptor = CurlInterceptor(Loggable() {
-        Log.d(CURL_LOG_TAG, it)
-    })
 
     @Provides
     @Singleton
@@ -78,6 +73,18 @@ object NetworkModule {
     fun provideAuthInterceptor(authDao: AuthDao): AuthInterceptor =
         AuthInterceptor(AuthRepo(authDao))
 
+    @Provides
+    @Singleton
+    fun provideTokenApi(): TokenApi = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(OkHttpClient().newBuilder().build())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build().create(TokenApi::class.java)
 
+
+    @Provides
+    @Singleton
+    fun provideTokenAuthenticator(tokenRepo: TokenRepo, authRepo: AuthRepo): TokenAuthenticator =
+        TokenAuthenticator(tokenRepo, authRepo)
 
 }

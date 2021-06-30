@@ -1,5 +1,6 @@
 package com.blondhino.menuely.util
 
+import android.util.Log
 import com.blondhino.menuely.data.common.constants.Routes.NO_AUTH_HEADER
 import com.blondhino.menuely.data.database.dao.AuthDao
 import com.blondhino.menuely.data.repo.AuthRepo
@@ -25,7 +26,18 @@ class AuthInterceptor(
                 .addHeader("Authorization", "Bearer $token")
                 .build()
         }
+        val method = request.method
+        val headers = request.headers.toString()
+        val url = request.url.toString()
+        Log.d("OkHttp","curl -v \\\n" +
+                "-X $method \\\n" +
+                "-H \"$headers\" \\\n" +
+                "\"$url\"")
+
         return chain.proceed(request)
     }
 
 }
+
+
+
