@@ -7,7 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.blondhino.menuely.ui.onboarding.OnBoardingViewModel
 import com.blondhino.menuely.ui.onboarding.host.OnboardingHostActivity
 import com.blondhino.menuely.ui.ui.theme.MenuelyTheme
@@ -39,5 +42,11 @@ abstract class BaseComposeActivity : ComponentActivity() {
     protected abstract fun setLayout(): @Composable() () -> Unit
 
     protected abstract fun fetchData()
+
+    @Composable
+     fun currentRoute(navController: NavHostController): String? {
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        return navBackStackEntry?.destination?.route
+    }
 
 }

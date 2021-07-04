@@ -16,15 +16,15 @@ import com.blondhino.menuely.data.common.constants.NavigationRoutes.PROFILE_REST
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PROFILE_USER_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.SCAN_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.SEARCH_RESTAURANTS_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
 
 sealed class Screen(val route: String, val title: Int, val icon: Int) {
     object Scan : Screen(SCAN_SCREEN, R.string.scan, R.drawable.ic_scan)
-    object SearchRestaurants :
-        Screen(SEARCH_RESTAURANTS_SCREEN, R.string.search, R.drawable.ic_search)
-
+    object SearchRestaurants : Screen(SEARCH_RESTAURANTS_SCREEN, R.string.search, R.drawable.ic_search)
     object ProfileUser : Screen(PROFILE_USER_SCREEN, R.string.profile, R.drawable.ic_profile)
-
     object Menus : Screen(MENUS_SCREEN, R.string.menus, R.drawable.ic_menues)
     object Employees : Screen(EMPLOYEES_SCREEN, R.string.employees, R.drawable.ic_emplyees)
     object ProfileRestaurant : Screen(PROFILE_RESTAURANT_SCREEN, R.string.profile, R.drawable.ic_profile)
+
+    object UpdateUserProfile : Screen(UPDATE_USER_PROFILE_SCREEN, R.string.updateUserProfileScr, 0)
 }

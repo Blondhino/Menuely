@@ -1,5 +1,6 @@
 package com.blondhino.menuely.data.common.model
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import com.blondhino.menuely.data.database.dao.UserDao
 import com.blondhino.menuely.data.database.tables.UserTableModel
@@ -15,7 +16,9 @@ class UserProfileModel(private val userDao: UserDao) {
 
 
     fun setProfile(userModel: UserModel) {
-        userModel.profileImage?.let { profileImageUrl.value = it }
+        Log.d("setUserProfile","image: "+userModel.profileImage?.url)
+        profileImageUrl.value= userModel.profileImage?.url.toString()
+        userModel.profileImage?.let { profileImageUrl.value }
         userModel.coverImage?.let { headerImageUrl.value = it }
         userModel.firstname?.let { firstname.value = it }
         userModel.lastname?.let { lastname.value = it }
@@ -23,16 +26,16 @@ class UserProfileModel(private val userDao: UserDao) {
         userModel.createdAt?.let { createdAt.value = it }
         userModel.updatedAt?.let { updatedAt.value = it }
 
-       val userTableModel = userDao.getUser()?.id?.let {
-           UserTableModel(
-               id= it,
-               firstname = firstname.value,
-               lastname = lastname.value,
-               email = email.value,
-               createdAt = createdAt.value,
-               updatedAt = updatedAt.value
-           )
-       }
+        val userTableModel = userDao.getUser()?.id?.let {
+            UserTableModel(
+                id = it,
+                firstname = firstname.value,
+                lastname = lastname.value,
+                email = email.value,
+                createdAt = createdAt.value,
+                updatedAt = updatedAt.value
+            )
+        }
         if (userTableModel != null) {
             userDao.update(userTableModel)
         }

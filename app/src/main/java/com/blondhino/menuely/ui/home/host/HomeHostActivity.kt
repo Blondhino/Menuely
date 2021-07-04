@@ -1,32 +1,21 @@
 package com.blondhino.menuely.ui.home.host
 
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.blondhino.menuely.data.common.constants.IntentConstants.LOGGED_STATUS_INTENT_VALUE
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
+import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.LoginStatus.LOGGED_AS_USER
+import com.blondhino.menuely.data.common.enums.LoginStatus.valueOf
 import com.blondhino.menuely.ui.base.BaseComposeActivity
 import com.blondhino.menuely.ui.components.MenuelyBottomNavigation
 import com.blondhino.menuely.ui.components.MenuelySideMenu
 import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
-import com.blondhino.menuely.R
-import com.blondhino.menuely.data.common.constants.IntentConstants
-import com.blondhino.menuely.data.common.constants.IntentConstants.LOGGED_STATUS_INTENT_VALUE
-import com.blondhino.menuely.data.common.enums.LoginStatus
-import com.blondhino.menuely.data.common.enums.LoginStatus.valueOf
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -50,18 +39,20 @@ class HomeHostActivity : BaseComposeActivity() {
             scaffoldState = scaffoldState,
             drawerGesturesEnabled = !scaffoldState.drawerState.isClosed,
             bottomBar = {
-                loginStatus?.let {
-                    MenuelyBottomNavigation(
-                        navController = navController,
-                        loginStatus = it
-                    )
+                if (currentRoute(navController = navController) != UPDATE_USER_PROFILE_SCREEN) {
+                    loginStatus?.let {
+                        MenuelyBottomNavigation(
+                            navController = navController,
+                            loginStatus = it
+                        )
+                    }
                 }
             },
             drawerShape = RoundedCornerShape(0.dp, 15.dp, 15.dp, 0.dp),
             drawerContent = {
                 MenuelySideMenu(loginStatus = LOGGED_AS_USER, onLogoutCalled = {
                     logout()
-                })
+                }, navController = navController, hostViewModel = hostViewModel)
 
             }
         ) {
@@ -85,7 +76,12 @@ class HomeHostActivity : BaseComposeActivity() {
             scope.launch {
                 scaffoldState.drawerState.open()
             }
+        } else {
+            scope.launch {
+                scaffoldState.drawerState.close()
+            }
         }
     }
 
 }
+
