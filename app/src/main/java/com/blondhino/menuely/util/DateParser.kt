@@ -13,14 +13,19 @@ fun parseDate(date: Long): String {
 }
 
 fun generateAccountInfo(createdAt: Long?, updatedAt: Long?): String {
-    val sdf = SimpleDateFormat("dd.MM.yyyy. HH:mm")
-    var formatedDate = sdf.format(createdAt?.times(1000)?.let { Date(it) })
-    var dayAndMonth = formatedDate.split(" ").get(0)
-    var time = formatedDate.split(" ").get(1)
-    val createdAtValue = "Account created:    $dayAndMonth at $time"
-    formatedDate = sdf.format(updatedAt?.times(1000)?.let { Date(it) })
-    dayAndMonth = formatedDate.split(" ").get(0)
-    time = formatedDate.split(" ").get(1)
-    val updatedAtValue = "Account updated:  $dayAndMonth at $time"
-    return "$createdAtValue\n$updatedAtValue"
+    return try {
+        val sdf = SimpleDateFormat("dd.MM.yyyy. HH:mm")
+        var formatedDate = sdf.format(createdAt?.times(1000)?.let { Date(it) })
+        var dayAndMonth = formatedDate.split(" ").get(0)
+        var time = formatedDate.split(" ").get(1)
+        val createdAtValue = "Account created:    $dayAndMonth at $time"
+        formatedDate = sdf.format(updatedAt?.times(1000)?.let { Date(it) })
+        dayAndMonth = formatedDate.split(" ").get(0)
+        time = formatedDate.split(" ").get(1)
+        val updatedAtValue = "Account updated:  $dayAndMonth at $time"
+        "$createdAtValue\n$updatedAtValue"
+    }catch (e:Exception){
+        ""
+    }
+
 }

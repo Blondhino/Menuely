@@ -1,9 +1,12 @@
-package com.blondhino.menuely.ui.profile_user
+package com.blondhino.menuely.ui.profile_restaurant
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,15 +22,10 @@ import com.blondhino.menuely.ui.components.MenuelyHeader
 import com.blondhino.menuely.ui.components.MenuelyInfoCard
 import com.blondhino.menuely.ui.home.host.HostViewModel
 import com.blondhino.menuely.util.generateAccountInfo
-import com.blondhino.menuely.util.parseDate
+
 
 @Composable
-fun ProfileUserScreen(
-    navController: NavHostController,
-    viewModel: ProfileUserViewModel,
-    hostViewModel: HostViewModel
-) {
-    viewModel.fetchUserData()
+fun ProfileRestaurantScreen(navController: NavHostController, hostViewModel: HostViewModel) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -47,32 +45,13 @@ fun ProfileUserScreen(
                 }, horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MenuelyHeader(
-                headerUrl = viewModel.userProfileModel.headerImageUrl.value,
-                mainImageUrl = viewModel.userProfileModel.profileImageUrl.value,
+                headerUrl = "",
+                mainImageUrl = "",
                 height = 220.dp
             )
-            Text(
-                text = viewModel.userProfileModel.firstname.value + " " + viewModel.userProfileModel.lastname.value,
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(top = 8.dp)
-            )
 
-            viewModel.userProfileModel.email.value?.let {
-                Text(
-                    text = it,
-                    style = MaterialTheme.typography.h6,
-                    modifier = Modifier.padding(top = 8.dp, bottom = 32.dp)
-                )
-            }
 
-            MenuelyInfoCard(
-                "Account info:",
-                generateAccountInfo(
-                    viewModel.userProfileModel.createdAt.value,
-                    viewModel.userProfileModel.updatedAt.value
-                ),
-                R.drawable.ic_profile_green,
-            )
+
         }
 
         Image(
@@ -89,8 +68,4 @@ fun ProfileUserScreen(
         )
 
     }
-
-
 }
-
-

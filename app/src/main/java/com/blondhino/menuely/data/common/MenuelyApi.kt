@@ -42,7 +42,4 @@ interface MenuelyApi {
     @GET(MY_USER_PROFILE)
     suspend fun fetchMyUserProfile(): BaseResponse<UserModel>
 
-    @POST(REFRESH_TOKEN)
-    suspend fun refreshToken(@Body refreshToken: String): BaseResponse<AuthTableModel>
-
 }

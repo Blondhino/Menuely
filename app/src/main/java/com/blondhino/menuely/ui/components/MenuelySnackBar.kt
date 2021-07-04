@@ -26,12 +26,12 @@ fun MenuelySnackBar(
                 action = {
                     data.actionLabel?.let { actionLabel ->
                         TextButton(onClick = { onDismiss() }) {
-                            Text(text = actionLabel)
+                            Text(text = actionLabel, style = MaterialTheme.typography.h4, color = greenDark)
                         }
                     }
                 }
             ) {
-                Text(text = data.message)
+                Text(text = data.message,style = MaterialTheme.typography.h5, color = Color.White)
             }
         }
     )

@@ -25,4 +25,6 @@
     <string name="scan">Scan</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <string name="menus">Menus</string>
+    <string name="employees">Employees</string>
 </resources>

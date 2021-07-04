@@ -23,15 +23,19 @@ class UserProfileModel(private val userDao: UserDao) {
         userModel.createdAt?.let { createdAt.value = it }
         userModel.updatedAt?.let { updatedAt.value = it }
 
-       val userTableModel =UserTableModel(
-           id=userDao.getUser()!!.id,
-           firstname = firstname.value,
-           lastname = lastname.value,
-           email = email.value,
-           createdAt = createdAt.value,
-           updatedAt = updatedAt.value
-       )
-        userDao.update(userTableModel)
+       val userTableModel = userDao.getUser()?.id?.let {
+           UserTableModel(
+               id= it,
+               firstname = firstname.value,
+               lastname = lastname.value,
+               email = email.value,
+               createdAt = createdAt.value,
+               updatedAt = updatedAt.value
+           )
+       }
+        if (userTableModel != null) {
+            userDao.update(userTableModel)
+        }
     }
 
 }

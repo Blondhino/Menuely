@@ -1,5 +1,6 @@
 package com.blondhino.menuely.data.repo
 
+import android.util.Log
 import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.Response
 import com.blondhino.menuely.data.common.ResponseHandler
@@ -24,6 +25,8 @@ class OnBoardingRepo(
         }
     }
 
+
+
     suspend fun loginRestaurant(loginRequest: LoginRequest): Response<LoginRestaurantResponse> {
         return try {
             val response = api.loginRestaurant(loginRequest)
@@ -46,7 +49,7 @@ class OnBoardingRepo(
         return try {
             val response = api.registerRestaurant(registerRestaurantRequest)
             responseHandler.handleSuccess(response)
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             responseHandler.handleError(e.message.toString())
         }
     }

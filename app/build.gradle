@@ -55,7 +55,7 @@ ext {
     socketIo = "2.4.0"
     room_version = "2.3.0"
     retrofit = "2.9.0"
-    okhttp = '4.6.0'
+    okhttp = '4.9.1'
     gson = '2.8.1'
     ok_to_curl = "0.6.0"
     navigation = "2.4.0-alpha03"

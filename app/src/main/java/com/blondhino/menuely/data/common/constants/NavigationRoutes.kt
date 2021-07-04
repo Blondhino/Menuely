@@ -10,4 +10,8 @@ object NavigationRoutes {
     const val SCAN_SCREEN = "scanScreen"
     const val SEARCH_RESTAURANTS_SCREEN = "searchRestaurants"
     const val PROFILE_USER_SCREEN = "profileUser"
+
+    const val MENUS_SCREEN = "menusScreen"
+    const val EMPLOYEES_SCREEN = "employeesScreen"
+    const val PROFILE_RESTAURANT_SCREEN = "profileRestaurantScreen"
 }

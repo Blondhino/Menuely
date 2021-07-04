@@ -12,8 +12,13 @@ import okhttp3.Route
 class TokenAuthenticator(private val tokenRepo: TokenRepo, private val authRepo: AuthRepo) :
     Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
-        Log.d("TokenIntercept", "authenticate")
-        val resp = runBlocking { authRepo.refreshToken()?.let { tokenRepo.refreshToken(it) } }
+        if (authRepo.refreshToken() == null) {
+            return null
+        }
+        val resp = runBlocking {
+            authRepo.refreshToken()?.let { tokenRepo.refreshToken(it) }
+
+        }
         resp?.data?.let {
             authRepo.insertNewAuth(
                 it

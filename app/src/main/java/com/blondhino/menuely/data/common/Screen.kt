@@ -10,6 +10,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.EMPLOYEES_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.MENUS_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.PROFILE_RESTAURANT_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PROFILE_USER_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.SCAN_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.SEARCH_RESTAURANTS_SCREEN
@@ -20,4 +23,8 @@ sealed class Screen(val route: String, val title: Int, val icon: Int) {
         Screen(SEARCH_RESTAURANTS_SCREEN, R.string.search, R.drawable.ic_search)
 
     object ProfileUser : Screen(PROFILE_USER_SCREEN, R.string.profile, R.drawable.ic_profile)
+
+    object Menus : Screen(MENUS_SCREEN, R.string.menus, R.drawable.ic_menues)
+    object Employees : Screen(EMPLOYEES_SCREEN, R.string.employees, R.drawable.ic_emplyees)
+    object ProfileRestaurant : Screen(PROFILE_RESTAURANT_SCREEN, R.string.profile, R.drawable.ic_profile)
 }

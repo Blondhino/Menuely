@@ -57,7 +57,6 @@ class OnBoardingViewModel @Inject constructor(
             messageText.value = response.message
             loading.value = false
         }
-
     }
 
     private fun loginRestaurant() = viewModelScope.launch {
@@ -153,6 +152,7 @@ class OnBoardingViewModel @Inject constructor(
     fun logout() = viewModelScope.launch {
         userDao.getUser()?.let { userDao.delete(it) }
         restaurantDao.getRestaurant()?.let { restaurantDao.delete(it) }
+        authDao.getAuth()?.let { authDao.delete(it) }
         _loginStatus.value = LoginStatus.LOGGED_OUT
     }
 

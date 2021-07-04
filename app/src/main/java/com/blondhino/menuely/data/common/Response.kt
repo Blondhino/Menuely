@@ -13,8 +13,7 @@ data class Response<out T>(var status: Status, val data: T?, val message: String
 
 
         fun <T> error(baseResponse: BaseResponse<T>?, message: String): Response<T> {
-            Log.d("EroorCall",message)
-            return Response(Status.ERROR, baseResponse?.data,message)
+            return Response(Status.ERROR, null,message.toString())
         }
     }
 

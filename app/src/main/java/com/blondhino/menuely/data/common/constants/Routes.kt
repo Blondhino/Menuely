@@ -3,11 +3,12 @@ package com.blondhino.menuely.data.common.constants
 object Routes {
     const val BASE_URL = "https://menuely.herokuapp.com/"
     const val NO_AUTH_HEADER = "NoAuth: true"
+    const val NO_AUTH: String = "NoAuth"
 
     private const val AUTH = "auth/"
     const val REFRESH_TOKEN =AUTH+"refresh-token"
     const val LOGIN_USER = AUTH + "login/user/"
-    const val LOGIN_RESTAURANT = AUTH + "login/restaurant/"
+    const val LOGIN_RESTAURANT = AUTH + "login/restaurant"
     const val REGISTER_USER = AUTH + "register/user"
     const val REGISTER_RESTAURANT = AUTH + "register/restaurant"
 

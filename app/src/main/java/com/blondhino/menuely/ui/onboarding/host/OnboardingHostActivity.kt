@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.constants.IntentConstants.LOGGED_STATUS_INTENT_VALUE
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.LoginStatus.*
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.LOGIN_SCREEN
@@ -110,7 +111,8 @@ class OnboardingHostActivity : BaseComposeActivity() {
     private fun handleSuccessfulRegistration(isSuccessful: Boolean) {
         if (isSuccessful) {
 
-            navController.navigate(LOGIN_SCREEN) { popUpTo(LOGIN_SCREEN); launchSingleTop=true;
+            navController.navigate(LOGIN_SCREEN) {
+                popUpTo(LOGIN_SCREEN); launchSingleTop = true;
             }
         }
     }
@@ -120,11 +122,13 @@ class OnboardingHostActivity : BaseComposeActivity() {
         when (loginStatus) {
             LOGGED_AS_USER -> {
                 val intent = Intent(this, HomeHostActivity::class.java)
+                intent.putExtra(LOGGED_STATUS_INTENT_VALUE, LOGGED_AS_USER.name)
                 startActivity(intent)
             }
 
             LOGGED_AS_RESTAURANT -> {
                 val intent = Intent(this, HomeHostActivity::class.java)
+                intent.putExtra(LOGGED_STATUS_INTENT_VALUE, LOGGED_AS_RESTAURANT.name)
                 startActivity(intent)
             }
 
