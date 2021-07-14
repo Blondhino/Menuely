@@ -83,5 +83,14 @@ class HomeHostActivity : BaseComposeActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if (scaffoldState.drawerState.isOpen) {
+            scope.launch {
+                scaffoldState.drawerState.close()
+            }
+        } else {
+            super.onBackPressed()
+        }
+    }
 }
 

@@ -1,5 +1,6 @@
 package com.blondhino.menuely.di.module
 
+import android.content.Context
 import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.ResponseHandler
 import com.blondhino.menuely.data.common.TokenApi
@@ -11,6 +12,7 @@ import com.blondhino.menuely.data.repo.TokenRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -28,8 +30,9 @@ object RepoModule {
     @Singleton
     fun provideUserProfileRepo(
         menuelyApi: MenuelyApi,
-        responseHandler: ResponseHandler
-    ): ProfileUserRepo = ProfileUserRepo(menuelyApi, responseHandler)
+        responseHandler: ResponseHandler,
+        @ApplicationContext context: Context
+    ): ProfileUserRepo = ProfileUserRepo(menuelyApi, responseHandler, context)
 
 
     @Provides
@@ -45,5 +48,7 @@ object RepoModule {
         tokenApi: TokenApi,
         authRepo: AuthRepo,
         responseHandler: ResponseHandler
-    ): TokenRepo = TokenRepo(tokenApi, authRepo,responseHandler)
+    ): TokenRepo = TokenRepo(tokenApi, authRepo, responseHandler)
+
+
 }

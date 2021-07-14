@@ -1,32 +1,22 @@
 package com.blondhino.menuely.ui.components
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
 import com.blondhino.menuely.data.common.Screen
-import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.ui.home.host.HostViewModel
-import kotlinx.coroutines.GlobalScope
 
 
 @Composable
@@ -43,29 +33,45 @@ fun MenuelySideMenu(
         Screen.UpdateUserProfile,
         Screen.UpdateUserProfile
     )
-    val context = LocalContext.current
 
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        val (image, content, logout) = createRefs()
+        val (image, content, bottomOptions) = createRefs()
 
-        Text("Logout", modifier = Modifier
-            .padding(16.dp)
-            .constrainAs(logout) {
-                bottom.linkTo(parent.bottom)
-                end.linkTo(parent.end)
-                start.linkTo(parent.start)
+        Image(
+            painterResource(id = R.drawable.ic_menuely),
+            "",
+            modifier = Modifier
+                .constrainAs(image) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                }
+                .height(130.dp)
+                .padding(16.dp)
+        )
 
+        Column(modifier = Modifier.constrainAs(bottomOptions) {
+            bottom.linkTo(parent.bottom, 16.dp)
+            end.linkTo(parent.end)
+            start.linkTo(parent.start)
+        }) {
+            MenuelySideMenuItem(stringResource(id = R.string.logout), onClick = {
+                onLogoutCalled()
             }
-            .clickable { onLogoutCalled() })
+            )
+            MenuelyAppVersion()
+        }
+
+
 
         Column(
             modifier = Modifier.constrainAs(content) {
-                top.linkTo(parent.top)
-                bottom.linkTo(logout.top)
+                top.linkTo(image.bottom, 24.dp)
+                bottom.linkTo(bottomOptions.top)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 width = Dimension.fillToConstraints
@@ -76,12 +82,14 @@ fun MenuelySideMenu(
             verticalArrangement = Arrangement.Top
         ) {
             loggedAsUserSideMenuItems.forEach { option ->
-                MenuelySideMenuItem(itemTitle = context.getString(option.title)) {
+                MenuelySideMenuItem(itemTitle = stringResource(option.title), onClick = {
                     navController.navigate(option.route)
                     hostViewModel.isDrawerOpen.value = false
-                }
+                })
             }
         }
+
+
     }
 }
 

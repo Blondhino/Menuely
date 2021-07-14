@@ -9,12 +9,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.blondhino.menuely.R
 
 @Composable
-fun MenuelySideMenuItem(itemTitle: String = "", onClick: () -> Unit) {
+fun MenuelySideMenuItem(
+    itemTitle: String = "", onClick: () -> Unit, modifier: Modifier=Modifier,
+    textStyle: TextStyle =MaterialTheme.typography.h3) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,7 +29,7 @@ fun MenuelySideMenuItem(itemTitle: String = "", onClick: () -> Unit) {
         Text(
             itemTitle,
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 16.dp),
-            style = MaterialTheme.typography.h3
+            style = textStyle
         )
         Image(
             painter = painterResource(id = R.drawable.ic_arrow_right),

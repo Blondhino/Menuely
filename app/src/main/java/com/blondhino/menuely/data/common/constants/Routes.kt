@@ -14,4 +14,6 @@ object Routes {
 
     private const val USERS = "users/"
     const val MY_USER_PROFILE = USERS + "me"
+
+    const val UPDATE_IMAGE_ON_PROFILE = "$MY_USER_PROFILE/image"
 }

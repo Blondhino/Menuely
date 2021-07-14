@@ -61,7 +61,7 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(UPDATE_USER_PROFILE_SCREEN){
-            UpdateUserProfileScreen()
+            UpdateUserProfileScreen(profileUserViewModel = profileUserViewModel)
         }
 
     }

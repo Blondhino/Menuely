@@ -1,5 +1,6 @@
 package com.blondhino.menuely.ui.profile_user
 
+import android.net.Uri
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import com.blondhino.menuely.data.database.dao.UserDao
 import com.blondhino.menuely.data.repo.ProfileUserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 
@@ -22,13 +24,15 @@ class ProfileUserViewModel @Inject constructor(
     var isFirstCall = mutableStateOf(true)
 
     fun fetchUserData() = viewModelScope.launch {
-       val response = repo.fetchMyUserProfile()
-        if(response.status==Status.SUCCESS){
+        val response = repo.fetchMyUserProfile()
+        if (response.status == Status.SUCCESS) {
             response.data?.let { userProfileModel.setProfile(it) }
         }
     }
 
-
+    fun updateProfileImage(imageMultipart : MultipartBody.Part) = viewModelScope.launch {
+        val response = repo.updateCoverImage(imageMultipart)
+    }
 
 
 }
