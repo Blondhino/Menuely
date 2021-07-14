@@ -17,9 +17,10 @@ class UserProfileModel(private val userDao: UserDao) {
 
     fun setProfile(userModel: UserModel) {
         Log.d("setUserProfile","image: "+userModel.profileImage?.url)
+        Log.d("setUserProfile","cover: "+userModel.coverImage?.url)
         profileImageUrl.value= userModel.profileImage?.url.toString()
         userModel.profileImage?.let { profileImageUrl.value }
-        userModel.coverImage?.let { headerImageUrl.value = it }
+        headerImageUrl.value= userModel.coverImage?.url.toString()
         userModel.firstname?.let { firstname.value = it }
         userModel.lastname?.let { lastname.value = it }
         userModel.email?.let { email.value = it }

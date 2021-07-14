@@ -6,7 +6,7 @@ class UserModel(
     val firstname: String?,
     val lastname: String?,
     val profileImage: ImageModel?,
-    val coverImage: String?,
+    val coverImage: ImageModel?,
     val createdAt :Long?,
     val updatedAt :Long?
 )

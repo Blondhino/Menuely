@@ -27,9 +27,19 @@ class ProfileUserRepo(
         }
     }
 
-    suspend fun updateCoverImage(multipart: MultipartBody.Part): Response<EmptyResponse>? {
+    suspend fun updateProfileImage(multipart: MultipartBody.Part): Response<EmptyResponse>? {
         return try {
             val response = api.updateImageOnProfile(multipart,createPartFromString("profile"))
+            responseHandler.handleSuccess(response)
+
+        } catch (e: Exception) {
+            Log.d("EXception",e.message.toString())
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+    suspend fun updateCoverImage(multipart: MultipartBody.Part): Response<EmptyResponse>? {
+        return try {
+            val response = api.updateImageOnProfile(multipart,createPartFromString("cover"))
             responseHandler.handleSuccess(response)
 
         } catch (e: Exception) {

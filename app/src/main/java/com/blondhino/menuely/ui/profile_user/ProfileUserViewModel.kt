@@ -31,6 +31,10 @@ class ProfileUserViewModel @Inject constructor(
     }
 
     fun updateProfileImage(imageMultipart : MultipartBody.Part) = viewModelScope.launch {
+        val response = repo.updateProfileImage(imageMultipart)
+    }
+
+    fun updateCoverImage(imageMultipart : MultipartBody.Part) = viewModelScope.launch {
         val response = repo.updateCoverImage(imageMultipart)
     }
 

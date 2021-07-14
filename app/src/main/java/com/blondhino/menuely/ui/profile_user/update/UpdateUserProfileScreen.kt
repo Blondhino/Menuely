@@ -34,7 +34,7 @@ fun UpdateUserProfileScreen(profileUserViewModel: ProfileUserViewModel) {
             text = stringResource(R.string.change_cover),
             textStyle = MaterialTheme.typography.h5,
             onImageSelected = { uri, bitmap, multipart ->
-                profileUserViewModel.updateProfileImage(multipart)
+                profileUserViewModel.updateCoverImage(multipart)
             }
         )
 
