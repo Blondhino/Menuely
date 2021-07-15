@@ -1,5 +1,6 @@
 package com.blondhino.menuely.ui.components
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,8 +8,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -17,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.blondhino.menuely.R
 import com.blondhino.menuely.util.ImageLoader
-import com.google.accompanist.glide.rememberGlidePainter
 
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
 fun MenuelyHeader(
     height: Dp = 200.dp,
@@ -28,14 +36,17 @@ fun MenuelyHeader(
 ) {
     Log.d("MenuelyHeader", "called");
     Log.d("MenuelyHeader", "header: $headerUrl mainImage: $mainImageUrl");
+    var imageOverlayActive = mutableStateOf(true)
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-        val (headerImage, headerOverlay, mainImage) = createRefs()
+        val (headerImage, headerOverlay, mainImage, mainImageOverlay) = createRefs()
         val loadedMainImage =
-            ImageLoader(imageUrl = mainImageUrl, placeHolder = R.drawable.ic_empty_state_png)
+            ImageLoader(imageUrl = mainImageUrl) { imageOverlayActive.value = !it }
         val loadedHeaderImage =
-            ImageLoader(imageUrl = headerUrl, placeHolder = R.drawable.ic_header_overlay)
+            ImageLoader(imageUrl = headerUrl) {}
 
-        loadedHeaderImage.value?.asImageBitmap()?.let {
+
+
+        loadedHeaderImage?.value?.asImageBitmap()?.let {
             Image(
                 bitmap = it,
                 modifier = Modifier
@@ -50,6 +61,7 @@ fun MenuelyHeader(
                 contentScale = ContentScale.Crop,
                 contentDescription = ""
             )
+
         }
 
         Image(
@@ -67,22 +79,36 @@ fun MenuelyHeader(
         )
 
 
-         loadedMainImage.value?.asImageBitmap()?.let {
-             Image(
-                 bitmap = it,
-                 modifier = Modifier
-                     .constrainAs(mainImage) {
-                         top.linkTo(headerOverlay.bottom)
-                         bottom.linkTo(headerImage.bottom)
-                         end.linkTo(parent.end)
-                         start.linkTo(parent.start)
-                     }
-                     .size(130.dp)
-                     .clip(RoundedCornerShape(15.dp)),
-                 contentScale = ContentScale.Crop,
-                 contentDescription = ""
-             )
-         }
+        loadedMainImage?.value?.asImageBitmap()?.let {
+            Image(
+                bitmap = it,
+                modifier = Modifier
+                    .constrainAs(mainImage) {
+                        top.linkTo(headerOverlay.top, height - 65.dp)
+                        end.linkTo(parent.end)
+                        start.linkTo(parent.start)
+                    }
+                    .size(130.dp)
+                    .clip(RoundedCornerShape(15.dp)),
+                contentScale = ContentScale.Crop,
+                contentDescription = ""
+            )
+        }
+
+        Image(
+            painterResource(id = R.drawable.ic_empty_state_png),
+            modifier = Modifier
+                .constrainAs(mainImageOverlay) {
+                    top.linkTo(headerOverlay.top, height - 65.dp)
+                    end.linkTo(parent.end)
+                    start.linkTo(parent.start)
+                }
+                .size(130.dp)
+                .clip(RoundedCornerShape(15.dp))
+                .alpha(if (imageOverlayActive.value) 1F else 0F),
+            contentScale = ContentScale.Crop,
+            contentDescription = ""
+        )
 
 
     }

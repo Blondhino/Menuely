@@ -63,7 +63,6 @@ fun GalleryImagePicker(
                         .Media.getBitmap(context.contentResolver, it)
                     bitmap.value?.let { bitmap ->
                         createMultipart(it, LocalContext.current)?.let { it1 ->
-                            Log.d("uriCollected",it.toString())
                             onImageSelected(
                                 it, bitmap.asImageBitmap(),
                                 it1
@@ -80,7 +79,6 @@ fun GalleryImagePicker(
                     bitmap.value = ImageDecoder.decodeBitmap(source)
                     bitmap.value?.let { bitmap ->
                         createMultipart(it, LocalContext.current)?.let { it1 ->
-                            Log.d("uriCollected",it.toString())
                             onImageSelected(
                                 it, bitmap.asImageBitmap(),
                                 it1

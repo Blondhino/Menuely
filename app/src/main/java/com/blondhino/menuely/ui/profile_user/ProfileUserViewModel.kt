@@ -22,20 +22,39 @@ class ProfileUserViewModel @Inject constructor(
 
     val userProfileModel: UserProfileModel = UserProfileModel(userDao)
     var isFirstCall = mutableStateOf(true)
+    val isLoading = mutableStateOf(false)
 
     fun fetchUserData() = viewModelScope.launch {
         val response = repo.fetchMyUserProfile()
+        isLoading.value=true
         if (response.status == Status.SUCCESS) {
             response.data?.let { userProfileModel.setProfile(it) }
+            isLoading.value=false;
+        }else{
+            isLoading.value=false
         }
     }
 
     fun updateProfileImage(imageMultipart : MultipartBody.Part) = viewModelScope.launch {
+        isLoading.value=true
         val response = repo.updateProfileImage(imageMultipart)
+        if(response?.status==Status.SUCCESS){
+            isLoading.value=false
+            fetchUserData()
+        }else{
+            isLoading.value=false
+        }
     }
 
     fun updateCoverImage(imageMultipart : MultipartBody.Part) = viewModelScope.launch {
+        isLoading.value=true
         val response = repo.updateCoverImage(imageMultipart)
+        if(response?.status == Status.SUCCESS){
+            isLoading.value=false
+            fetchUserData()
+        }else{
+            isLoading.value=false
+        }
     }
 
 

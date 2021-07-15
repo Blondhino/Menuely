@@ -33,7 +33,6 @@ class ProfileUserRepo(
             responseHandler.handleSuccess(response)
 
         } catch (e: Exception) {
-            Log.d("EXception",e.message.toString())
             responseHandler.handleError(e.message.toString())
         }
     }

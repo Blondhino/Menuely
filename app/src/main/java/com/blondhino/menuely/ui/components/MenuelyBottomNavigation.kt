@@ -30,7 +30,6 @@ fun MenuelyBottomNavigation(
     loginStatus: LoginStatus = LoginStatus.LOGGED_AS_USER,
     navController: NavHostController
 ) {
-    Log.d("loggedAs", loginStatus.name)
     val loggedAsUserScreens = listOf(
         Screen.Scan,
         Screen.SearchRestaurants,

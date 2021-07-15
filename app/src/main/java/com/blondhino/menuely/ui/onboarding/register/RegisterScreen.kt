@@ -63,10 +63,7 @@ fun registerScreen(
                 imageResource = R.drawable.user_ico,
                 isSelected = viewModel.registrationProcessModel.registerAsUser.value,
                 onOptionClick = {
-                    viewModel.registrationProcessModel.selectRegisterAsUser(); Log.d(
-                    "onOptionClick",
-                    "called priv"
-                )
+                    viewModel.registrationProcessModel.selectRegisterAsUser();
                 })
 
             OptionSelector(
@@ -74,10 +71,7 @@ fun registerScreen(
                 imageResource = R.drawable.restaurant_ico,
                 isSelected = viewModel.registrationProcessModel.registerAsRestaurant.value,
                 onOptionClick = {
-                    viewModel.registrationProcessModel.selectRegisterAsRestaurant(); Log.d(
-                    "onOptionClick",
-                    "called rest"
-                )
+                    viewModel.registrationProcessModel.selectRegisterAsRestaurant();
                 })
 
         }

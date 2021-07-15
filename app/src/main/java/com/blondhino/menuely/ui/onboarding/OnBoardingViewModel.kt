@@ -52,8 +52,7 @@ class OnBoardingViewModel @Inject constructor(
             _loginStatus.value = LoginStatus.LOGGED_AS_USER
             loading.value = false
         } else {
-            Log.d("LoginUser", "err")
-            Log.d("LoginUser", response.message)
+
             messageText.value = response.message
             loading.value = false
         }
