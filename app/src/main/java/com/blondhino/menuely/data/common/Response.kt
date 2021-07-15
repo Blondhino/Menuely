@@ -15,7 +15,10 @@ data class Response<out T>(var status: Status, val data: T?, val message: String
         fun <T> error(baseResponse: BaseResponse<T>?, message: String): Response<T> {
             return Response(Status.ERROR, null,message.toString())
         }
+
+
+
     }
 
-        fun <T> loading(data: T): Response<T> = Response(Status.LOADING, data,"")
+
 }

@@ -1,12 +1,12 @@
 package com.blondhino.menuely.data.common.model
 
 class UserModel(
-    val id: Int?,
-    val email: String?,
-    val firstname: String?,
-    val lastname: String?,
-    val profileImage: ImageModel?,
-    val coverImage: ImageModel?,
-    val createdAt :Long?,
-    val updatedAt :Long?
+    val id: Int? =null,
+    val email: String?=null,
+    val firstname: String?=null,
+    val lastname: String?=null,
+    val profileImage: ImageModel?=null,
+    val coverImage: ImageModel?=null,
+    val createdAt :Long?=null,
+    val updatedAt :Long?=null
 )

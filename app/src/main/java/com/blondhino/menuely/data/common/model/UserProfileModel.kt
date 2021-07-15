@@ -4,15 +4,21 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import com.blondhino.menuely.data.database.dao.UserDao
 import com.blondhino.menuely.data.database.tables.UserTableModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.sample
 
 class UserProfileModel(private val userDao: UserDao) {
     val profileImageUrl = mutableStateOf("")
     val headerImageUrl = mutableStateOf("")
     val firstname = mutableStateOf(userDao.getUser()?.firstname)
     val lastname = mutableStateOf(userDao.getUser()?.lastname)
+    val lastNameDebounced = MutableStateFlow(lastname.value).sample(1000)
     val email = mutableStateOf(userDao.getUser()?.email)
     val createdAt = mutableStateOf(userDao.getUser()?.createdAt)
     val updatedAt = mutableStateOf(userDao.getUser()?.updatedAt)
+
+
 
 
     fun setProfile(userModel: UserModel) {

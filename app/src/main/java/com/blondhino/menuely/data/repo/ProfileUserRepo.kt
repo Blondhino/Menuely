@@ -15,9 +15,8 @@ import okhttp3.RequestBody.Companion.toRequestBody
 class ProfileUserRepo(
     private val api: MenuelyApi,
     private val responseHandler: ResponseHandler,
-    private val context : Context
+    private val context: Context
 ) {
-
     suspend fun fetchMyUserProfile(): Response<UserModel> {
         return try {
             val response = api.fetchMyUserProfile()
@@ -29,20 +28,21 @@ class ProfileUserRepo(
 
     suspend fun updateProfileImage(multipart: MultipartBody.Part): Response<EmptyResponse>? {
         return try {
-            val response = api.updateImageOnProfile(multipart,createPartFromString("profile"))
+            val response = api.updateImageOnProfile(multipart, createPartFromString("profile"))
             responseHandler.handleSuccess(response)
 
         } catch (e: Exception) {
             responseHandler.handleError(e.message.toString())
         }
     }
+
     suspend fun updateCoverImage(multipart: MultipartBody.Part): Response<EmptyResponse>? {
         return try {
-            val response = api.updateImageOnProfile(multipart,createPartFromString("cover"))
+            val response = api.updateImageOnProfile(multipart, createPartFromString("cover"))
             responseHandler.handleSuccess(response)
 
         } catch (e: Exception) {
-            Log.d("EXception",e.message.toString())
+            Log.d("EXception", e.message.toString())
             responseHandler.handleError(e.message.toString())
         }
     }
@@ -50,6 +50,26 @@ class ProfileUserRepo(
     private fun createPartFromString(kind: String): RequestBody? {
         return kind
             .toRequestBody(MultipartBody.FORM)
+    }
+
+    suspend fun updateLastName(lastName: String): Response<EmptyResponse>? {
+            return try {
+                val response = api.updateUserProfile(UserModel(lastname = lastName))
+                responseHandler.handleSuccess(response)
+            } catch (e: Exception) {
+                Log.d("EXception", e.message.toString())
+                responseHandler.handleError(e.message.toString())
+            }
+    }
+
+    suspend fun updateFirstName(firstName: String): Response<EmptyResponse>? {
+        return try {
+            val response = api.updateUserProfile(UserModel(firstname = firstName))
+            responseHandler.handleSuccess(response)
+        } catch (e: Exception) {
+            Log.d("EXception", e.message.toString())
+            responseHandler.handleError(e.message.toString())
+        }
     }
 
 

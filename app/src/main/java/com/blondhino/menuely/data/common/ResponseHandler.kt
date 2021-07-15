@@ -11,4 +11,5 @@ class ResponseHandler {
     fun <T> handleError(message:String): Response<T>{
         return Response.error(null,message.toString())
     }
+
 }
