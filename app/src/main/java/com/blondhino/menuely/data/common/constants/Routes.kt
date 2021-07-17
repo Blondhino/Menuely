@@ -1,7 +1,9 @@
 package com.blondhino.menuely.data.common.constants
 
 object Routes {
-    const val BASE_URL = "https://menuely-eyj6bxkacq-ey.a.run.app/"
+   // const val BASE_URL = "https://menuely-eyj6bxkacq-ey.a.run.app/"
+    const val BASE_URL = "https://menuely.herokuapp.com/"
+
     const val NO_AUTH_HEADER = "NoAuth: true"
     const val NO_AUTH: String = "NoAuth"
 
@@ -17,4 +19,7 @@ object Routes {
 
     const val UPDATE_IMAGE_ON_PROFILE = "$MY_USER_PROFILE/image"
     const val UPDATE_USER_PROFILE ="$MY_USER_PROFILE/profile"
+
+    const val RESTAURANTS = "restaurants"
+
 }

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.blondhino.menuely.data.common.enums.Status
 import com.blondhino.menuely.data.common.model.UserProfileModel
 import com.blondhino.menuely.data.database.dao.UserDao
-import com.blondhino.menuely.data.repo.ProfileUserRepo
+import com.blondhino.menuely.data.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileUserViewModel @Inject constructor(
-    private val repo: ProfileUserRepo,
+    private val repo: UserRepo,
     private val userDao: UserDao
 ) : ViewModel() {
 
@@ -25,8 +25,6 @@ class ProfileUserViewModel @Inject constructor(
     var isFirstCall = mutableStateOf(true)
     val isLoading = mutableStateOf(false)
     private var updateLastnameProcess: Job? = null
-    private var updateFirstnameProcess: Job? = null
-
     fun fetchUserData() = viewModelScope.launch {
         val response = repo.fetchMyUserProfile()
         isLoading.value=true
@@ -37,6 +35,8 @@ class ProfileUserViewModel @Inject constructor(
             isLoading.value=false
         }
     }
+
+    private var updateFirstnameProcess: Job? = null
 
     fun updateProfileImage(imageMultipart : MultipartBody.Part) = viewModelScope.launch {
         isLoading.value=true

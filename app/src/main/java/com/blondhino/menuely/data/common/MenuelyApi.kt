@@ -7,8 +7,10 @@ import com.blondhino.menuely.data.common.constants.Routes.MY_USER_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.NO_AUTH_HEADER
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_USER
+import com.blondhino.menuely.data.common.constants.Routes.RESTAURANTS
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_IMAGE_ON_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_USER_PROFILE
+import com.blondhino.menuely.data.common.model.RestaurantModel
 import com.blondhino.menuely.data.common.model.UserModel
 import com.blondhino.menuely.data.common.request.LoginRequest
 import com.blondhino.menuely.data.common.request.RegisterRestaurantrRequest
@@ -52,6 +54,9 @@ interface MenuelyApi {
 
     @PATCH(UPDATE_USER_PROFILE)
     suspend fun updateUserProfile(@Body userModel: UserModel): BaseResponse<EmptyResponse>
+
+    @GET(RESTAURANTS)
+    suspend fun searchRestaurants(@Query("search") search: String): BaseResponse<ArrayList<RestaurantModel>>
 
 
 }

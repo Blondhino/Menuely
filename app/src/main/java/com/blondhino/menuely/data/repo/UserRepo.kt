@@ -12,7 +12,7 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 
 
-class ProfileUserRepo(
+class UserRepo(
     private val api: MenuelyApi,
     private val responseHandler: ResponseHandler,
     private val context: Context
