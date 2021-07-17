@@ -58,5 +58,9 @@ interface MenuelyApi {
     @GET(RESTAURANTS)
     suspend fun searchRestaurants(@Query("search") search: String): BaseResponse<ArrayList<RestaurantModel>>
 
+    @GET("$RESTAURANTS/{id}")
+    suspend fun getSingleRestaurant(@Path("id") id:Int) : BaseResponse<RestaurantModel>
+
+
 
 }

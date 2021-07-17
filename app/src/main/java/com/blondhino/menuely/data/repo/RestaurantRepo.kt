@@ -27,5 +27,14 @@ class RestaurantRepo(
         }
     }
 
+    suspend fun getSingleRestaurant(id: Int) : Response<RestaurantModel>{
+        return try {
+                val response = api.getSingleRestaurant(id)
+            responseHandler.handleSuccess(response)
+        }catch (e:Exception){
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+
 
 }

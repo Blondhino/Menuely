@@ -8,6 +8,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.blondhino.menuely.data.common.constants.IntentConstants.LOGGED_STATUS_INTENT_VALUE
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.RESTAURANT_SCREEN_SINGLE
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.LoginStatus.LOGGED_AS_USER
@@ -15,6 +16,7 @@ import com.blondhino.menuely.data.common.enums.LoginStatus.valueOf
 import com.blondhino.menuely.ui.base.BaseComposeActivity
 import com.blondhino.menuely.ui.components.MenuelyBottomNavigation
 import com.blondhino.menuely.ui.components.MenuelySideMenu
+import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
 import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
 import com.blondhino.menuely.ui.search_restaurant.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +28,7 @@ class HomeHostActivity : BaseComposeActivity() {
     private val profileUserViewModel: ProfileUserViewModel by viewModels()
     private val hostViewModel: HostViewModel by viewModels()
     private val searchViewModel: SearchViewModel by viewModels()
+    private val restaurantViewModel: RestaurantViewModel by viewModels()
     private lateinit var scaffoldState: ScaffoldState
     private lateinit var scope: CoroutineScope
     override fun setLayout(): @Composable () -> Unit = {
@@ -37,11 +40,15 @@ class HomeHostActivity : BaseComposeActivity() {
         }
         scope = rememberCoroutineScope()
         scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+        val selectedScreen = currentRoute(navController = navController)
         Scaffold(
             scaffoldState = scaffoldState,
             drawerGesturesEnabled = !scaffoldState.drawerState.isClosed,
             bottomBar = {
-                if (currentRoute(navController = navController) != UPDATE_USER_PROFILE_SCREEN) {
+                if (
+                    selectedScreen != UPDATE_USER_PROFILE_SCREEN &&
+                    selectedScreen != RESTAURANT_SCREEN_SINGLE
+                ) {
                     loginStatus?.let {
                         MenuelyBottomNavigation(
                             navController = navController,
@@ -64,7 +71,8 @@ class HomeHostActivity : BaseComposeActivity() {
                     profileUserViewModel = profileUserViewModel,
                     hostViewModel = hostViewModel,
                     searchViewModel = searchViewModel,
-                    loginStatus = it1
+                    loginStatus = it1,
+                    restaurantViewModel = restaurantViewModel
                 )
             }
         }

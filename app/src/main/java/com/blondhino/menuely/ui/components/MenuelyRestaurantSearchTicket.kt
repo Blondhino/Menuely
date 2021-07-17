@@ -2,6 +2,7 @@ package com.blondhino.menuely.ui.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,9 +32,11 @@ import com.blondhino.menuely.util.ImageLoader
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun MenuelySearchResultTicket(
+    id : Int =0,
     titleText : String ="",
     descText : String ="",
-    imageUrl : String=""
+    imageUrl : String="",
+    onItemClick : (id: Int) -> Unit
 ) {
     val loadedMainImage = ImageLoader(imageUrl = imageUrl) { }
 
@@ -42,6 +45,7 @@ fun MenuelySearchResultTicket(
             .fillMaxWidth()
             .padding(vertical = 5.dp, horizontal = 8.dp)
             .height(80.dp)
+            .clickable { onItemClick(id) }
         ,
         shape = RoundedCornerShape(20.dp),
         backgroundColor = greyMedium
@@ -99,9 +103,3 @@ fun MenuelySearchResultTicket(
 
 }
 
-
-@Composable
-@Preview
-fun previewTicket() {
-    MenuelySearchResultTicket()
-}

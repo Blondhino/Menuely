@@ -11,6 +11,7 @@ object NavigationRoutes {
     const val SEARCH_RESTAURANTS_SCREEN = "searchRestaurants"
     const val PROFILE_USER_SCREEN = "profileUser"
     const val UPDATE_USER_PROFILE_SCREEN = "updateUserProfileUser"
+    const val RESTAURANT_SCREEN_SINGLE = "restaurantScreenSingle"
     const val MENUS_SCREEN = "menusScreen"
     const val EMPLOYEES_SCREEN = "employeesScreen"
     const val PROFILE_RESTAURANT_SCREEN = "profileRestaurantScreen"

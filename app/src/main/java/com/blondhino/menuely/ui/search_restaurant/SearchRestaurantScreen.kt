@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.RESTAURANT_SCREEN_SINGLE
+import com.blondhino.menuely.ui.components.MenuelyJumpingProgressBar
 import com.blondhino.menuely.ui.components.MenuelySearchBox
 import com.blondhino.menuely.ui.components.MenuelySearchResultTicket
 
@@ -24,16 +26,23 @@ fun SearchRestaurantsScreen(navController: NavHostController, searchViewModel: S
                 searchViewModel.search()
             })
 
+        MenuelyJumpingProgressBar(isLoading = searchViewModel.isLoading.value)
+
         LazyColumn() {
             itemsIndexed(items = restaurants) { index, item ->
                 item.name?.let { name ->
-                    item.address?.let {
-                        address ->
-                        MenuelySearchResultTicket(
-                            titleText = name,
-                            descText = address+" "+item.city+" "+item.postalCode+" "+item.country,
-                            imageUrl = item.profileImage?.url.toString()
-                        )
+                    item.address?.let { address ->
+                        item.id?.let { id ->
+                            MenuelySearchResultTicket(
+                                id = id,
+                                titleText = name,
+                                descText = address + " " + item.city + " " + item.postalCode + " " + item.country,
+                                imageUrl = item.profileImage?.url.toString()
+                            ) { clickedId ->
+                                searchViewModel.clickedRestaurantId.value = clickedId
+                                navController.navigate(RESTAURANT_SCREEN_SINGLE)
+                            }
+                        }
                     }
                 }
             }

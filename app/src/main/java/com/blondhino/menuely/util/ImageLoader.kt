@@ -18,29 +18,27 @@ fun ImageLoader(
 ): MutableState<Bitmap?>? {
     onImageLoaded(false)
     var bitmapState: MutableState<Bitmap?> = mutableStateOf(null)
-    var lastLoadedUrl by remember { mutableStateOf("") }
 
 
 
 
-        Glide.with(LocalContext.current)
-            .asBitmap()
-            .load(imageUrl)
-            .into(object : CustomTarget<Bitmap>() {
-                override fun onLoadCleared(placeholder: Drawable?) {}
-                override fun onResourceReady(
-                    resource: Bitmap,
-                    transition: Transition<in Bitmap>?
-                ) {
+    Glide.with(LocalContext.current)
+        .asBitmap()
+        .load(imageUrl)
+        .into(object : CustomTarget<Bitmap>() {
+            override fun onLoadCleared(placeholder: Drawable?) {}
+            override fun onResourceReady(
+                resource: Bitmap,
+                transition: Transition<in Bitmap>?
+            ) {
 
-                    bitmapState.value = resource;
-                    onImageLoaded(true)
-                    lastLoadedUrl = imageUrl
+                bitmapState.value = resource;
+                onImageLoaded(true)
 
 
-                }
-            })
+            }
+        })
 
-        return bitmapState
-    }
+    return bitmapState
+}
 
