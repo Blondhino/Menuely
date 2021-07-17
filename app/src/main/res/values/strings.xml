@@ -36,4 +36,6 @@
     <string name="select_picture">Select picture</string>
     <string name="about_us">About us:</string>
     <string name="check_menu">Check our menu</string>
+    <string name="oops">Ooops!</string>
+    <string name="no_matches">\"No matches were found for your search \"</string>
 </resources>

@@ -23,6 +23,7 @@ class SearchViewModel @Inject constructor(private val repo: RestaurantRepo) : Vi
     private val initialSearchDone = mutableStateOf(false)
     private var searchRestaurantJob: Job? = null
     val isLoading = mutableStateOf(false)
+    val emptyStateVisible = mutableStateOf(false)
     val clickedRestaurantId = mutableStateOf(0)
 
     fun search() {
@@ -34,6 +35,7 @@ class SearchViewModel @Inject constructor(private val repo: RestaurantRepo) : Vi
             response.data?.let {
                 restaurants.value = it
                 isLoading.value=false
+                emptyStateVisible.value = response.data.size==0
             }
 
             Log.d("searchResp", "${restaurants.value.size}")
