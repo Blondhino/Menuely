@@ -20,6 +20,7 @@ import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
 import com.blondhino.menuely.ui.profile_user.update.UpdateUserProfileScreen
 import com.blondhino.menuely.ui.scan.ScanScreen
 import com.blondhino.menuely.ui.search_restaurant.SearchRestaurantsScreen
+import com.blondhino.menuely.ui.search_restaurant.SearchViewModel
 
 
 @Composable
@@ -28,6 +29,7 @@ fun HomeHostScreenNavigationConf(
     navController: NavHostController,
     profileUserViewModel: ProfileUserViewModel,
     hostViewModel: HostViewModel,
+    searchViewModel: SearchViewModel,
     loginStatus: LoginStatus
 ) {
 
@@ -41,7 +43,7 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(SEARCH_RESTAURANTS_SCREEN) {
-            SearchRestaurantsScreen(navController)
+            SearchRestaurantsScreen(navController,searchViewModel)
         }
 
         composable(PROFILE_USER_SCREEN) {

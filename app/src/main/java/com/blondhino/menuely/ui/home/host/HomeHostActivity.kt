@@ -16,6 +16,7 @@ import com.blondhino.menuely.ui.base.BaseComposeActivity
 import com.blondhino.menuely.ui.components.MenuelyBottomNavigation
 import com.blondhino.menuely.ui.components.MenuelySideMenu
 import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
+import com.blondhino.menuely.ui.search_restaurant.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 class HomeHostActivity : BaseComposeActivity() {
     private val profileUserViewModel: ProfileUserViewModel by viewModels()
     private val hostViewModel: HostViewModel by viewModels()
+    private val searchViewModel: SearchViewModel by viewModels()
     private lateinit var scaffoldState: ScaffoldState
     private lateinit var scope: CoroutineScope
     override fun setLayout(): @Composable () -> Unit = {
@@ -61,6 +63,7 @@ class HomeHostActivity : BaseComposeActivity() {
                     navController = navController,
                     profileUserViewModel = profileUserViewModel,
                     hostViewModel = hostViewModel,
+                    searchViewModel = searchViewModel,
                     loginStatus = it1
                 )
             }
