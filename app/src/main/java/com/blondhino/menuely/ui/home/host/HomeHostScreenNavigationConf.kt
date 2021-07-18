@@ -12,6 +12,7 @@ import com.blondhino.menuely.data.common.constants.NavigationRoutes.PROFILE_USER
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.RESTAURANT_SCREEN_SINGLE
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.SCAN_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.SEARCH_RESTAURANTS_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_RESTAURANT_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.ui.MenusScreen
@@ -20,6 +21,7 @@ import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantScreen
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantSingleScreen
 import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
+import com.blondhino.menuely.ui.profile_restaurant.update.UpdateRestaurantProfileScreen
 import com.blondhino.menuely.ui.profile_user.ProfileUserScreen
 import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
 import com.blondhino.menuely.ui.profile_user.update.UpdateUserProfileScreen
@@ -68,7 +70,7 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(PROFILE_RESTAURANT_SCREEN) {
-            ProfileRestaurantScreen(navController = navController,hostViewModel = hostViewModel)
+            ProfileRestaurantScreen(navController = navController, hostViewModel = hostViewModel,restaurantViewModel = restaurantViewModel)
         }
 
         composable(UPDATE_USER_PROFILE_SCREEN){
@@ -83,6 +85,10 @@ fun HomeHostScreenNavigationConf(
                    restaurantViewModel = restaurantViewModel
                )
            }
+        }
+
+        composable(UPDATE_RESTAURANT_PROFILE_SCREEN){
+            UpdateRestaurantProfileScreen(restaurantViewModel = restaurantViewModel)
         }
 
     }

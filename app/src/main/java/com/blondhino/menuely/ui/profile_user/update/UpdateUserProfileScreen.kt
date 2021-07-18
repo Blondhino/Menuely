@@ -30,31 +30,27 @@ fun UpdateUserProfileScreen(profileUserViewModel: ProfileUserViewModel) {
             MenuelyHeader(
                 headerUrl = profileUserViewModel.userProfileModel.headerImageUrl.value,
                 mainImageUrl = profileUserViewModel.userProfileModel.profileImageUrl.value,
-                height = 220.dp
-            )
-
-            GalleryImagePicker(
-                text = stringResource(R.string.change_cover),
-                textStyle = MaterialTheme.typography.h5,
-                onImageSelected = { uri, bitmap, multipart ->
-                    profileUserViewModel.updateCoverImage(multipart)
-                }
-            )
-
-            GalleryImagePicker(
-                text = stringResource(R.string.change_profile),
-                textStyle = MaterialTheme.typography.h5,
-                onImageSelected = { uri, bitmap, multipart ->
-                    profileUserViewModel.updateProfileImage(multipart)
-                }
+                height = 220.dp,
+                onMainImageSelected = { uri, bitmap, multipart ->
+                    profileUserViewModel.updateProfileImage(
+                        multipart
+                    )
+                },
+                onCoverImageSelected = { uri, bitmap, multipart ->
+                    profileUserViewModel.updateCoverImage(
+                        multipart
+                    )
+                },
+                isInEditMode = true
             )
 
             profileUserViewModel.userProfileModel.firstname.value?.let {
                 MenuelyTextField(
                     inputText = it,
-                    onInputTextChanged = {firstName ->
+                    onInputTextChanged = { firstName ->
                         profileUserViewModel.userProfileModel.firstname.value = firstName
-                        profileUserViewModel.updateFirstName(firstName)},
+                        profileUserViewModel.updateFirstName(firstName)
+                    },
                     label = stringResource(id = R.string.firstName),
                     modifier = Modifier
                         .fillMaxWidth(0.95F)

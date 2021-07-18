@@ -49,15 +49,18 @@ fun ProfileRestaurantSingleScreen(
             MenuelyHeader(
                 mainImageUrl = restaurantViewModel.restaurant.profileImage.value,
                 headerUrl = restaurantViewModel.restaurant.coverImage.value,
-                height = 220.dp
+                height = 220.dp,
+                onMainImageSelected = { uri, bitmap, multipart -> },
+                onCoverImageSelected = {uri, bitmap, multipart ->}
             )
 
             Text(
                 text = restaurantViewModel.restaurant.name.value,
                 style = MaterialTheme.typography.body2,
                 modifier = Modifier
-                    .padding(top = 8.dp)
                     .align(Alignment.CenterHorizontally)
+                    .padding(top = 8.dp, end = 8.dp, start = 8.dp),
+                textAlign = TextAlign.Center
             )
 
             Text(
@@ -76,7 +79,7 @@ fun ProfileRestaurantSingleScreen(
             Text(
                 stringResource(R.string.about_us),
                 style = MaterialTheme.typography.caption,
-                modifier = Modifier.padding(start = 16.dp, top =32.dp, bottom = 16.dp),
+                modifier = Modifier.padding(start = 16.dp, top = 32.dp, bottom = 16.dp),
                 fontSize = 16.sp
             )
 
@@ -100,7 +103,7 @@ fun ProfileRestaurantSingleScreen(
             .verticalScroll(scrollState)
             .constrainAs(aboutUs) {
                 top.linkTo(content.bottom)
-                bottom.linkTo(showMenuButton.top,32.dp)
+                bottom.linkTo(showMenuButton.top, 32.dp)
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 width = Dimension.fillToConstraints

@@ -8,14 +8,20 @@ import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import com.blondhino.menuely.R
 import com.blondhino.menuely.ui.components.MenuelySideMenuItem
 import okhttp3.MultipartBody
@@ -26,8 +32,8 @@ import java.io.File
 
 @Composable
 fun GalleryImagePicker(
-    text: String = stringResource(R.string.select_picture),
-    textStyle: TextStyle = MaterialTheme.typography.h4,
+    modifier: Modifier = Modifier,
+    enabled: Boolean =false,
     onImageSelected: (uri: Uri, bitmap: ImageBitmap, multipart: MultipartBody.Part) -> Unit
 ) {
     var imageUri by remember {
@@ -48,13 +54,20 @@ fun GalleryImagePicker(
     ) { uri: Uri? ->
         imageUri = uri
     }
-    Column() {
+    Column(modifier = modifier) {
 
-        MenuelySideMenuItem(itemTitle = text, onClick = {
-            alreadySelected = false
-            imageUri = null
-            launcher.launch("image/*")
-        }, textStyle = textStyle)
+        Image(
+            painterResource(id = R.drawable.ic_edit),
+            "",
+            modifier = Modifier.size(30.dp)
+                .clickable {
+                    if (enabled) {
+                        alreadySelected = false
+                        imageUri = null
+                        launcher.launch("image/*")
+                    }
+                }
+        )
 
         imageUri?.let {
             if (Build.VERSION.SDK_INT < 28) {

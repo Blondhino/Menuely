@@ -29,7 +29,9 @@
         <activity
             android:name=".ui.home.host.HomeHostActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/MenuelyAppTheme" />
+            android:theme="@style/MenuelyAppTheme"
+            android:windowSoftInputMode="adjustUnspecified"
+            />
 
 
     </application>

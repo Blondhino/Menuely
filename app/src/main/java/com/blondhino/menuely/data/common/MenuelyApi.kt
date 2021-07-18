@@ -11,6 +11,8 @@ import com.blondhino.menuely.data.common.constants.Routes.REGISTER_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_USER
 import com.blondhino.menuely.data.common.constants.Routes.RESTAURANTS
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_IMAGE_ON_PROFILE
+import com.blondhino.menuely.data.common.constants.Routes.UPDATE_IMAGE_ON_RESTAURANT_PROFILE
+import com.blondhino.menuely.data.common.constants.Routes.UPDATE_RESTAURANT_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_USER_PROFILE
 import com.blondhino.menuely.data.common.model.MenuModel
 import com.blondhino.menuely.data.common.model.RestaurantModel
@@ -55,6 +57,13 @@ interface MenuelyApi {
         @Part("kind") kind: RequestBody?
     ): BaseResponse<EmptyResponse>
 
+    @Multipart
+    @PATCH(UPDATE_IMAGE_ON_RESTAURANT_PROFILE)
+    suspend fun updateImageOnRestaurantProfile(
+        @Part image: MultipartBody.Part,
+        @Part("kind") kind: RequestBody?
+    ): BaseResponse<EmptyResponse>
+
     @PATCH(UPDATE_USER_PROFILE)
     suspend fun updateUserProfile(@Body userModel: UserModel): BaseResponse<EmptyResponse>
 
@@ -67,10 +76,14 @@ interface MenuelyApi {
     @GET(MENUS)
     suspend fun getRestaurantMenus(@Query("restaurantId") restaurantId: Int): BaseResponse<ArrayList<MenuModel>>
 
-
+    @GET("$RESTAURANTS/me")
+    suspend fun getMyRestaurantProfile():BaseResponse<RestaurantModel>
 
     @POST(CREATE_MENU)
     suspend fun createRestaurantMenu(@Body menuModel: MenuModel) : BaseResponse<EmptyResponse>
+
+    @PATCH(UPDATE_RESTAURANT_PROFILE)
+    suspend fun updateRestaurantProfile(@Body restaurantModel: RestaurantModel): BaseResponse<EmptyResponse>
 
 
 }

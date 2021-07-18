@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.blondhino.menuely.data.common.constants.IntentConstants.LOGGED_STATUS_INTENT_VALUE
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.RESTAURANT_SCREEN_SINGLE
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_RESTAURANT_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.LoginStatus.LOGGED_AS_USER
@@ -51,7 +52,8 @@ class HomeHostActivity : BaseComposeActivity() {
             bottomBar = {
                 if (
                     selectedScreen != UPDATE_USER_PROFILE_SCREEN &&
-                    selectedScreen != RESTAURANT_SCREEN_SINGLE
+                    selectedScreen != RESTAURANT_SCREEN_SINGLE &&
+                    selectedScreen != UPDATE_RESTAURANT_PROFILE_SCREEN
                 ) {
                     loginStatus?.let {
                         MenuelyBottomNavigation(
@@ -63,9 +65,11 @@ class HomeHostActivity : BaseComposeActivity() {
             },
             drawerShape = RoundedCornerShape(0.dp, 15.dp, 15.dp, 0.dp),
             drawerContent = {
-                MenuelySideMenu(loginStatus = LOGGED_AS_USER, onLogoutCalled = {
-                    logout()
-                }, navController = navController, hostViewModel = hostViewModel)
+                loginStatus?.let {
+                    MenuelySideMenu(loginStatus = it, onLogoutCalled = {
+                        logout()
+                    }, navController = navController, hostViewModel = hostViewModel)
+                }
 
             }
         ) {

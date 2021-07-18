@@ -21,6 +21,9 @@ object Routes {
     const val UPDATE_USER_PROFILE = "$MY_USER_PROFILE/profile"
 
     const val RESTAURANTS = "restaurants"
+    private const val MY_RESTAURANTS_PROFILE ="$RESTAURANTS/me"
+    const val UPDATE_RESTAURANT_PROFILE ="$MY_RESTAURANTS_PROFILE/profile"
+    const val UPDATE_IMAGE_ON_RESTAURANT_PROFILE = "$MY_RESTAURANTS_PROFILE/image"
 
     private const val OFFERS ="offers/"
 

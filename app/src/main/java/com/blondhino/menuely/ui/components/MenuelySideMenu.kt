@@ -34,6 +34,10 @@ fun MenuelySideMenu(
         Screen.UpdateUserProfile
     )
 
+    val loggedAsRestaurantSideMenuItems = listOf(
+        Screen.UpdateRestaurantProfile
+    )
+
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -81,11 +85,20 @@ fun MenuelySideMenu(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            loggedAsUserSideMenuItems.forEach { option ->
-                MenuelySideMenuItem(itemTitle = stringResource(option.title), onClick = {
-                    navController.navigate(option.route)
-                    hostViewModel.isDrawerOpen.value = false
-                })
+            if (loginStatus==LoginStatus.LOGGED_AS_USER) {
+                loggedAsUserSideMenuItems.forEach { option ->
+                    MenuelySideMenuItem(itemTitle = stringResource(option.title), onClick = {
+                        navController.navigate(option.route)
+                        hostViewModel.isDrawerOpen.value = false
+                    })
+                }
+            } else {
+                loggedAsRestaurantSideMenuItems.forEach { option ->
+                    MenuelySideMenuItem(itemTitle = stringResource(option.title), onClick = {
+                        navController.navigate(option.route)
+                        hostViewModel.isDrawerOpen.value = false
+                    })
+                }
             }
         }
 

@@ -50,7 +50,9 @@ fun ProfileUserScreen(
             MenuelyHeader(
                 headerUrl = viewModel.userProfileModel.headerImageUrl.value,
                 mainImageUrl = viewModel.userProfileModel.profileImageUrl.value,
-                height = 220.dp
+                height = 220.dp,
+                onMainImageSelected = { uri, bitmap, multipart -> },
+                onCoverImageSelected = {uri, bitmap, multipart ->}
             )
             Text(
                 text = viewModel.userProfileModel.firstname.value + " " + viewModel.userProfileModel.lastname.value,
