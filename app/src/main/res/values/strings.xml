@@ -37,5 +37,13 @@
     <string name="about_us">About us:</string>
     <string name="check_menu">Check our menu</string>
     <string name="oops">Ooops!</string>
-    <string name="no_matches">\"No matches were found for your search \"</string>
+    <string name="no_matches">No matches were found for your search</string>
+    <string name="your_menus_manager">Your menus\nManager</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="menu">Menu</string>
+    <string name="menu_name">Menu name</string>
+    <string name="currency">Currency</string>
+    <string name="num_of_tables">Number of tables</string>
+    <string name="pleaseSelectValidNum">Please enter valid number</string>
 </resources>

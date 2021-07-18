@@ -1,5 +1,6 @@
 package com.blondhino.menuely.ui.home.host
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,6 +16,7 @@ import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.ui.MenusScreen
 import com.blondhino.menuely.ui.employees.EmployeesScreen
+import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantScreen
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantSingleScreen
 import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
@@ -24,8 +26,10 @@ import com.blondhino.menuely.ui.profile_user.update.UpdateUserProfileScreen
 import com.blondhino.menuely.ui.scan.ScanScreen
 import com.blondhino.menuely.ui.search_restaurant.SearchRestaurantsScreen
 import com.blondhino.menuely.ui.search_restaurant.SearchViewModel
+import com.blondhino.menuely.util.EnterAnimation
 
 
+@ExperimentalAnimationApi
 @Composable
 
 fun HomeHostScreenNavigationConf(
@@ -34,7 +38,8 @@ fun HomeHostScreenNavigationConf(
     hostViewModel: HostViewModel,
     searchViewModel: SearchViewModel,
     loginStatus: LoginStatus,
-    restaurantViewModel: RestaurantViewModel
+    restaurantViewModel: RestaurantViewModel,
+    menusViewModel: MenusViewModel
 ) {
 
     val startDestination =
@@ -55,7 +60,7 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(MENUS_SCREEN) {
-            MenusScreen(navController = navController)
+            MenusScreen(navController = navController,menusViewModel = menusViewModel)
         }
 
         composable(EMPLOYEES_SCREEN) {
@@ -71,11 +76,13 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(RESTAURANT_SCREEN_SINGLE){
-            ProfileRestaurantSingleScreen(
-                navController =navController,
-                searchViewModel = searchViewModel,
-                restaurantViewModel = restaurantViewModel
-            )
+           EnterAnimation {
+               ProfileRestaurantSingleScreen(
+                   navController =navController,
+                   searchViewModel = searchViewModel,
+                   restaurantViewModel = restaurantViewModel
+               )
+           }
         }
 
     }

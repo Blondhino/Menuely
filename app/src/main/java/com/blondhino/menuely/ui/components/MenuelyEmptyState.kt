@@ -48,7 +48,7 @@ fun MenuelyEmptyState(visible: Boolean = false, title: String = "", subtitle: St
             style = MaterialTheme.typography.h5,
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
 
 

@@ -3,6 +3,7 @@ package com.blondhino.menuely.data.common
 import com.blondhino.menuely.data.base.BaseResponse
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_USER
+import com.blondhino.menuely.data.common.constants.Routes.MENUS
 import com.blondhino.menuely.data.common.constants.Routes.MY_USER_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.NO_AUTH_HEADER
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_RESTAURANT
@@ -10,6 +11,7 @@ import com.blondhino.menuely.data.common.constants.Routes.REGISTER_USER
 import com.blondhino.menuely.data.common.constants.Routes.RESTAURANTS
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_IMAGE_ON_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_USER_PROFILE
+import com.blondhino.menuely.data.common.model.MenuModel
 import com.blondhino.menuely.data.common.model.RestaurantModel
 import com.blondhino.menuely.data.common.model.UserModel
 import com.blondhino.menuely.data.common.request.LoginRequest
@@ -59,8 +61,10 @@ interface MenuelyApi {
     suspend fun searchRestaurants(@Query("search") search: String): BaseResponse<ArrayList<RestaurantModel>>
 
     @GET("$RESTAURANTS/{id}")
-    suspend fun getSingleRestaurant(@Path("id") id:Int) : BaseResponse<RestaurantModel>
+    suspend fun getSingleRestaurant(@Path("id") id: Int): BaseResponse<RestaurantModel>
 
+    @GET(MENUS)
+    suspend fun getRestaurantMenus(@Query("restaurantId") restaurantId: Int): BaseResponse<ArrayList<MenuModel>>
 
 
 }

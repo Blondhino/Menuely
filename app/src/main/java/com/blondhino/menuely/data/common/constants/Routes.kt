@@ -22,4 +22,8 @@ object Routes {
 
     const val RESTAURANTS = "restaurants"
 
+    private const val OFFERS ="offers/"
+
+    const val MENUS = OFFERS+"menus"
+
 }

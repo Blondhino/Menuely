@@ -1,6 +1,7 @@
 package com.blondhino.menuely.ui.home.host
 
 import androidx.activity.viewModels
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import com.blondhino.menuely.data.common.enums.LoginStatus.valueOf
 import com.blondhino.menuely.ui.base.BaseComposeActivity
 import com.blondhino.menuely.ui.components.MenuelyBottomNavigation
 import com.blondhino.menuely.ui.components.MenuelySideMenu
+import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
 import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
 import com.blondhino.menuely.ui.search_restaurant.SearchViewModel
@@ -29,8 +31,10 @@ class HomeHostActivity : BaseComposeActivity() {
     private val hostViewModel: HostViewModel by viewModels()
     private val searchViewModel: SearchViewModel by viewModels()
     private val restaurantViewModel: RestaurantViewModel by viewModels()
+    private val menusViewModel: MenusViewModel by viewModels()
     private lateinit var scaffoldState: ScaffoldState
     private lateinit var scope: CoroutineScope
+    @ExperimentalAnimationApi
     override fun setLayout(): @Composable () -> Unit = {
         val navController = rememberNavController()
         val loginStatus: LoginStatus? = intent.getStringExtra(LOGGED_STATUS_INTENT_VALUE)?.let {
@@ -72,7 +76,8 @@ class HomeHostActivity : BaseComposeActivity() {
                     hostViewModel = hostViewModel,
                     searchViewModel = searchViewModel,
                     loginStatus = it1,
-                    restaurantViewModel = restaurantViewModel
+                    restaurantViewModel = restaurantViewModel,
+                    menusViewModel = menusViewModel
                 )
             }
         }

@@ -56,7 +56,7 @@ fun MenuelyTextField(
         textStyle = MaterialTheme.typography.h3,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         trailingIcon = {
-            if (keyboardType == KeyboardType.Password || keyboardType == KeyboardType.NumberPassword) {
+            if (keyboardType == KeyboardType.Password ) {
                 IconButton(onClick = {
                     passwordVisibility = !passwordVisibility
                     if (passwordVisibility) {
