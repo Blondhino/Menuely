@@ -16,6 +16,7 @@ class MenuModel(
     val description:String?=null,
     val currency : String?= null,
     val restaurantId : Int? = null,
+    val numberOfTables:Int? = null,
     val createdAt : Long?= null,
     val updatedAt : Long?= null
 ) {}

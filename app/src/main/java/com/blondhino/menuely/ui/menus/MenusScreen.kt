@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
 import com.blondhino.menuely.ui.components.MenuelyCreateMenuDialog
+import com.blondhino.menuely.ui.components.MenuelyJumpingProgressBar
 import com.blondhino.menuely.ui.components.MenuelyMenuTicket
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.ui.theme.greenDark
@@ -50,6 +51,7 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
                 modifier = Modifier.padding(16.dp)
 
             )
+            MenuelyJumpingProgressBar(isLoading = menusViewModel.isLoading.value)
 
             LazyColumn() {
                 itemsIndexed(items = menusViewModel.menus.value) { index, item ->
@@ -94,6 +96,7 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
             onSave = {
                 if (menusViewModel.createMenuModel.validate()) {
                     createMenuDialogVisible.value = false
+                    menusViewModel.createMenu()
                 } else {
                     Toast.makeText(
                         context,

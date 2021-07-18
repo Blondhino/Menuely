@@ -46,6 +46,14 @@ class CreateMenuModel() {
         errorMessage.value=0
     }
 
+    fun provideMenuModel():MenuModel{
+        return MenuModel(
+            name=this.name.value,
+            description =this.description.value,
+            currency = this.currency.value,
+            numberOfTables = this.numberOfTables.value.toInt()
+        )
+    }
 
 
 }

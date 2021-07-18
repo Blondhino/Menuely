@@ -1,6 +1,7 @@
 package com.blondhino.menuely.data.common
 
 import com.blondhino.menuely.data.base.BaseResponse
+import com.blondhino.menuely.data.common.constants.Routes.CREATE_MENU
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_USER
 import com.blondhino.menuely.data.common.constants.Routes.MENUS
@@ -65,6 +66,11 @@ interface MenuelyApi {
 
     @GET(MENUS)
     suspend fun getRestaurantMenus(@Query("restaurantId") restaurantId: Int): BaseResponse<ArrayList<MenuModel>>
+
+
+
+    @POST(CREATE_MENU)
+    suspend fun createRestaurantMenu(@Body menuModel: MenuModel) : BaseResponse<EmptyResponse>
 
 
 }

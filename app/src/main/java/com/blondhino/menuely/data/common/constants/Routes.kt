@@ -1,8 +1,8 @@
 package com.blondhino.menuely.data.common.constants
 
 object Routes {
-    // const val BASE_URL = "https://menuely-eyj6bxkacq-ey.a.run.app/"
-    const val BASE_URL = "https://menuely.herokuapp.com/"
+     const val BASE_URL = "https://menuely-eyj6bxkacq-ey.a.run.app/"
+   // const val BASE_URL = "https://menuely.herokuapp.com/"
 
     const val NO_AUTH_HEADER = "NoAuth: true"
     const val NO_AUTH: String = "NoAuth"
@@ -25,5 +25,6 @@ object Routes {
     private const val OFFERS ="offers/"
 
     const val MENUS = OFFERS+"menus"
+    const val CREATE_MENU = OFFERS+"menus/"
 
 }

@@ -28,4 +28,18 @@ class MenusRepo(
           responseHandler.handleError(e.message.toString())
       }
     }
+
+
+    suspend fun createRestaurantMenu (menuModel: MenuModel): Response<EmptyResponse>{
+        return  try {
+            val response = api.createRestaurantMenu(menuModel)
+            responseHandler.handleSuccess(response)
+        }catch (e:Exception){
+            responseHandler.handleError(e.message.toString())
+        }
+
+    }
+
+
+
 }
