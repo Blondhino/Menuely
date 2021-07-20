@@ -47,4 +47,7 @@
     <string name="currency">Currency</string>
     <string name="num_of_tables">Number of tables</string>
     <string name="pleaseSelectValidNum">Please enter valid number</string>
+    <string name="category">Category</string>
+    <string name="category_name">"Category name "</string>
+    <string name="category_image">Category image</string>
 </resources>

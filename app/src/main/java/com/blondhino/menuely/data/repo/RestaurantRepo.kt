@@ -1,12 +1,10 @@
 package com.blondhino.menuely.data.repo
 
-import android.content.Context
 import android.util.Log
 import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.Response
 import com.blondhino.menuely.data.common.ResponseHandler
 import com.blondhino.menuely.data.common.model.RestaurantModel
-import com.blondhino.menuely.data.common.model.UserModel
 import com.blondhino.menuely.data.common.response.EmptyResponse
 import com.blondhino.menuely.data.database.tables.RestaurantTableModel
 import okhttp3.MultipartBody

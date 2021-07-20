@@ -10,7 +10,7 @@ fun EnterAnimation(content: @Composable () -> Unit) {
     AnimatedVisibility(
         visible = true,
         enter = slideInHorizontally(
-            initialOffsetX = { -100 }
+            initialOffsetX = { 100 }
         ) /*+ expandVertically(
             expandFrom = Alignment.Top
         )*/ //+ fadeIn(initialAlpha = 0.3f),

@@ -1,7 +1,9 @@
 package com.blondhino.menuely.data.common
 
 import com.blondhino.menuely.data.base.BaseResponse
+import com.blondhino.menuely.data.common.constants.Routes.CREATE_CATEGORY
 import com.blondhino.menuely.data.common.constants.Routes.CREATE_MENU
+import com.blondhino.menuely.data.common.constants.Routes.GET_CATEGORIES
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_USER
 import com.blondhino.menuely.data.common.constants.Routes.MENUS
@@ -23,6 +25,7 @@ import com.blondhino.menuely.data.common.request.RegisterUserRequest
 import com.blondhino.menuely.data.common.response.EmptyResponse
 import com.blondhino.menuely.data.common.response.LoginRestaurantResponse
 import com.blondhino.menuely.data.common.response.LoginUserResponse
+import com.blondhino.menuely.data.common.response.MenuCategoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -64,6 +67,14 @@ interface MenuelyApi {
         @Part("kind") kind: RequestBody?
     ): BaseResponse<EmptyResponse>
 
+    @Multipart
+    @POST(CREATE_CATEGORY)
+    suspend fun createCategory(
+        @Part image : MultipartBody.Part,
+        @Part ("menuId") menuId :RequestBody,
+        @Part ("name") name :RequestBody,
+    ):BaseResponse<EmptyResponse>
+
     @PATCH(UPDATE_USER_PROFILE)
     suspend fun updateUserProfile(@Body userModel: UserModel): BaseResponse<EmptyResponse>
 
@@ -84,6 +95,9 @@ interface MenuelyApi {
 
     @PATCH(UPDATE_RESTAURANT_PROFILE)
     suspend fun updateRestaurantProfile(@Body restaurantModel: RestaurantModel): BaseResponse<EmptyResponse>
+
+    @GET(GET_CATEGORIES)
+    suspend fun getCategoriesForMenu(@Query("menuId") menuId: Int) : BaseResponse<ArrayList<MenuCategoryResponse>>
 
 
 }

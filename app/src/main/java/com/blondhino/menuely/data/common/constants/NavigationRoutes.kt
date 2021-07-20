@@ -16,5 +16,6 @@ object NavigationRoutes {
     const val MENUS_SCREEN = "menusScreen"
     const val EMPLOYEES_SCREEN = "employeesScreen"
     const val PROFILE_RESTAURANT_SCREEN = "profileRestaurantScreen"
+    const val CATEGORY_SCREEN = "categoryScreen"
 
 }

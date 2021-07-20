@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.CATEGORY_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.EMPLOYEES_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.MENUS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PROFILE_RESTAURANT_SCREEN
@@ -18,6 +19,7 @@ import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.ui.MenusScreen
 import com.blondhino.menuely.ui.employees.EmployeesScreen
 import com.blondhino.menuely.ui.menus.MenusViewModel
+import com.blondhino.menuely.ui.menus.category.CategoryScreen
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantScreen
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantSingleScreen
 import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
@@ -89,6 +91,12 @@ fun HomeHostScreenNavigationConf(
 
         composable(UPDATE_RESTAURANT_PROFILE_SCREEN){
             UpdateRestaurantProfileScreen(restaurantViewModel = restaurantViewModel)
+        }
+
+        composable(CATEGORY_SCREEN){
+            EnterAnimation {
+                CategoryScreen(navController = navController, menusViewModel = menusViewModel)
+            }
         }
 
     }
