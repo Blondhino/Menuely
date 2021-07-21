@@ -25,8 +25,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.blondhino.menuely.data.common.constants.NavigationRoutes
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.PRODUCTS_SCREEN
 import com.blondhino.menuely.ui.components.MenuelyCategoryTicket
 import com.blondhino.menuely.ui.components.MenuelyCreateCategoryDialog
 import com.blondhino.menuely.ui.components.MenuelyJumpingProgressBar
@@ -66,8 +68,8 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
                                     titleText = title,
                                     imageUrl = image,
                                     onItemClick = {
-                                        id->
-
+                                        menusViewModel.selectedCategory.value=item
+                                        navController.navigate(PRODUCTS_SCREEN)
                                     }
                                 )
                             }

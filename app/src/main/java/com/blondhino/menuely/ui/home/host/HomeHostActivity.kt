@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.blondhino.menuely.data.common.constants.IntentConstants.LOGGED_STATUS_INTENT_VALUE
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.CATEGORY_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.PRODUCTS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.RESTAURANT_SCREEN_SINGLE
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_RESTAURANT_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
@@ -55,7 +56,8 @@ class HomeHostActivity : BaseComposeActivity() {
                     selectedScreen != UPDATE_USER_PROFILE_SCREEN &&
                     selectedScreen != RESTAURANT_SCREEN_SINGLE &&
                     selectedScreen != UPDATE_RESTAURANT_PROFILE_SCREEN&&
-                    selectedScreen != CATEGORY_SCREEN
+                    selectedScreen != CATEGORY_SCREEN&&
+                    selectedScreen != PRODUCTS_SCREEN
                 ) {
                     loginStatus?.let {
                         MenuelyBottomNavigation(

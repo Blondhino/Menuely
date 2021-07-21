@@ -3,7 +3,9 @@ package com.blondhino.menuely.data.common
 import com.blondhino.menuely.data.base.BaseResponse
 import com.blondhino.menuely.data.common.constants.Routes.CREATE_CATEGORY
 import com.blondhino.menuely.data.common.constants.Routes.CREATE_MENU
+import com.blondhino.menuely.data.common.constants.Routes.CREATE_PRODUCT
 import com.blondhino.menuely.data.common.constants.Routes.GET_CATEGORIES
+import com.blondhino.menuely.data.common.constants.Routes.GET_PRODUCTS
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_USER
 import com.blondhino.menuely.data.common.constants.Routes.MENUS
@@ -22,10 +24,7 @@ import com.blondhino.menuely.data.common.model.UserModel
 import com.blondhino.menuely.data.common.request.LoginRequest
 import com.blondhino.menuely.data.common.request.RegisterRestaurantrRequest
 import com.blondhino.menuely.data.common.request.RegisterUserRequest
-import com.blondhino.menuely.data.common.response.EmptyResponse
-import com.blondhino.menuely.data.common.response.LoginRestaurantResponse
-import com.blondhino.menuely.data.common.response.LoginUserResponse
-import com.blondhino.menuely.data.common.response.MenuCategoryResponse
+import com.blondhino.menuely.data.common.response.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -70,10 +69,21 @@ interface MenuelyApi {
     @Multipart
     @POST(CREATE_CATEGORY)
     suspend fun createCategory(
-        @Part image : MultipartBody.Part,
-        @Part ("menuId") menuId :RequestBody,
-        @Part ("name") name :RequestBody,
-    ):BaseResponse<EmptyResponse>
+        @Part image: MultipartBody.Part,
+        @Part("menuId") menuId: RequestBody,
+        @Part("name") name: RequestBody,
+    ): BaseResponse<EmptyResponse>
+
+    @Multipart
+    @POST(CREATE_PRODUCT)
+    suspend fun createProduct(
+        @Part image: MultipartBody.Part,
+        @Part("categoryId") categoryId: RequestBody,
+        @Part("currency") currency: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("name") name: RequestBody,
+    ): BaseResponse<EmptyResponse>
 
     @PATCH(UPDATE_USER_PROFILE)
     suspend fun updateUserProfile(@Body userModel: UserModel): BaseResponse<EmptyResponse>
@@ -88,16 +98,19 @@ interface MenuelyApi {
     suspend fun getRestaurantMenus(@Query("restaurantId") restaurantId: Int): BaseResponse<ArrayList<MenuModel>>
 
     @GET("$RESTAURANTS/me")
-    suspend fun getMyRestaurantProfile():BaseResponse<RestaurantModel>
+    suspend fun getMyRestaurantProfile(): BaseResponse<RestaurantModel>
 
     @POST(CREATE_MENU)
-    suspend fun createRestaurantMenu(@Body menuModel: MenuModel) : BaseResponse<EmptyResponse>
+    suspend fun createRestaurantMenu(@Body menuModel: MenuModel): BaseResponse<EmptyResponse>
 
     @PATCH(UPDATE_RESTAURANT_PROFILE)
     suspend fun updateRestaurantProfile(@Body restaurantModel: RestaurantModel): BaseResponse<EmptyResponse>
 
     @GET(GET_CATEGORIES)
-    suspend fun getCategoriesForMenu(@Query("menuId") menuId: Int) : BaseResponse<ArrayList<MenuCategoryResponse>>
+    suspend fun getCategoriesForMenu(@Query("menuId") menuId: Int): BaseResponse<ArrayList<MenuCategoryResponse>>
+
+    @GET(GET_PRODUCTS)
+    suspend fun getProductsForMenu(@Query("categoryId") categoryId: Int): BaseResponse<ArrayList<MenuProductsResponse>>
 
 
 }

@@ -9,6 +9,7 @@ import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.enums.Status
 import com.blondhino.menuely.data.common.model.*
 import com.blondhino.menuely.data.common.response.MenuCategoryResponse
+import com.blondhino.menuely.data.common.response.MenuProductsResponse
 import com.blondhino.menuely.data.database.dao.RestaurantDao
 import com.blondhino.menuely.data.repo.MenusRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,11 +26,15 @@ class MenusViewModel @Inject constructor(
     private val initialFetchDone = mutableStateOf(false)
     private val initialCategoryFetchDone = mutableStateOf(false)
     private var lastSelectedMenuId = 0
+    private var lastSelectedCategoryId = 0
     val createMenuModel: CreateMenuModel = CreateMenuModel()
     val createCategoryModel: CreateCategoryModel = CreateCategoryModel()
+    val createProductModel: CreateProductModel = CreateProductModel()
     val menus: MutableState<List<MenuModel>> = mutableStateOf(ArrayList())
     val categories: MutableState<List<MenuCategoryResponse>> = mutableStateOf(ArrayList())
+    val products: MutableState<List<MenuProductsResponse>> = mutableStateOf(ArrayList())
     val selectedMenu: MutableState<MenuModel> = mutableStateOf(MenuModel())
+    val selectedCategory: MutableState<MenuCategoryResponse?> = mutableStateOf(null)
     val isLoading = mutableStateOf(false)
 
 
@@ -85,15 +90,54 @@ class MenusViewModel @Inject constructor(
 
     }
 
-    fun fetchCategory() {
-        Log.d("fetchCategory", "called")
-        Log.d(
-            "fetchCategory",
-            "initialFetchDonde : ${initialCategoryFetchDone.value} lastSelectedMenuId: $lastSelectedMenuId selected menu id: ${selectedMenu.value.id}"
-        )
-        //if (!initialCategoryFetchDone.value && lastSelectedMenuId != selectedMenu.value.id) {
-        if ( lastSelectedMenuId != selectedMenu.value.id) {
+
+    fun createProduct() = viewModelScope.launch {
+        selectedCategory.value?.id?.let {
+            createProductModel.categoryId.value = it
+        }
+        isLoading.value = true
+        val response = repo.createProduct(createProductModel.provideProductModel())
+        if (response.status == Status.SUCCESS) {
+            refreshProducts()
+        } else {
+            isLoading.value = false
+        }
+    }
+
+    fun fetchProducts() {
+        if (lastSelectedCategoryId != selectedCategory.value?.id) {
             viewModelScope.launch {
+                products.value = products.value.drop(products.value.size)
+                isLoading.value = true
+                val response = selectedCategory.value?.id?.let { repo.getProductsForMenu(it) }
+                if (response?.status == Status.SUCCESS) {
+                    response.data?.let {
+                        products.value = it
+                    }
+                }
+                isLoading.value = false
+                selectedCategory.value?.id?.let { lastSelectedCategoryId = it }
+            }
+        }
+    }
+
+    private fun refreshProducts() {
+        viewModelScope.launch {
+            isLoading.value = true
+            val response = selectedCategory.value?.id?.let { repo.getProductsForMenu(it) }
+            if (response?.status == Status.SUCCESS) {
+                response.data?.let {
+                    products.value = it
+                }
+            }
+            isLoading.value = false
+        }
+    }
+
+    fun fetchCategory() {
+        if (lastSelectedMenuId != selectedMenu.value.id) {
+            viewModelScope.launch {
+                categories.value = categories.value.drop(categories.value.size)
                 isLoading.value = true
                 val response = selectedMenu.value.id?.let { repo.getCategoriesForMenu(it) }
                 response?.data?.let {
@@ -118,5 +162,6 @@ class MenusViewModel @Inject constructor(
             isLoading.value = false;
         }
     }
+
 
 }

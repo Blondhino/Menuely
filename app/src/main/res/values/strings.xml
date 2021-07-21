@@ -50,4 +50,9 @@
     <string name="category">Category</string>
     <string name="category_name">"Category name "</string>
     <string name="category_image">Category image</string>
+    <string name="product_name">Product name</string>
+    <string name="product">Product</string>
+    <string name="price">Price</string>
+    <string name="product_image">Product image</string>
+    <string name="negative_value">Price should not be negative</string>
 </resources>

@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
 import com.blondhino.menuely.R
 import com.blondhino.menuely.ui.ui.theme.greenDark
 import com.blondhino.menuely.ui.ui.theme.greyLight
@@ -45,7 +46,8 @@ fun MenuelyTextField(
             Text(
                 text = label,
                 fontFamily = FontFamily(Font(R.font.montserrat_medium)),
-                color = if (inputText.isEmpty()) greyLight else greenDark
+                color = if (inputText.isEmpty()) greyLight else greenDark,
+                fontSize = 14.sp,
             )
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(

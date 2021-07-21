@@ -79,8 +79,9 @@ fun MenuelyCategoryTicket(
 
             Text(text = titleText,
                 modifier = Modifier.constrainAs(title) {
-                    top.linkTo(parent.top,8.dp)
+                    top.linkTo(parent.top)
                     start.linkTo(imagePlaceHolder.end,16.dp)
+                    bottom.linkTo(parent.bottom)
                 },
                 style = MaterialTheme.typography.h2
             )

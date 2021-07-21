@@ -69,6 +69,7 @@ val Typography = Typography(
         color = blackLight
     ),
 
+    subtitle1 = TextStyle(fontFamily = FontFamily(Font(R.font.montserrat_extra_bold)))
 
 
 )
