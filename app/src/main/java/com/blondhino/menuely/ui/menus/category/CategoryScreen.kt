@@ -10,15 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,7 +33,9 @@ import com.blondhino.menuely.ui.components.MenuelyJumpingProgressBar
 import com.blondhino.menuely.ui.components.MenuelyMenuTicket
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.ui.theme.greenDark
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewModel) {
     val createCategoryDialogVisible = remember { mutableStateOf(false) }
@@ -62,14 +62,17 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
                 itemsIndexed(items = menusViewModel.categories.value) { index, item ->
                     item.id?.let { id ->
                         item.name?.let { title ->
-                            item.image?.url?.let {image->
+                            item.image?.url?.let { image ->
                                 MenuelyCategoryTicket(
                                     id = id,
                                     titleText = title,
                                     imageUrl = image,
                                     onItemClick = {
-                                        menusViewModel.selectedCategory.value=item
+                                        menusViewModel.selectedCategory.value = item
                                         navController.navigate(PRODUCTS_SCREEN)
+                                    },
+                                    onItemLongClick = {
+
                                     }
                                 )
                             }
@@ -95,6 +98,8 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
             Icon(imageVector = Icons.Default.Add, "")
         }
     }
+
+
 
     if (createCategoryDialogVisible.value) {
         menusViewModel.selectedMenu.value.id?.let {

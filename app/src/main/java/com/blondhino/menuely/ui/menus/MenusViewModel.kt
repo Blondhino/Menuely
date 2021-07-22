@@ -63,6 +63,9 @@ class MenusViewModel @Inject constructor(
         if (response?.status == Status.SUCCESS) {
             response.data?.let {
                 menus.value = it
+                selectedMenu.value.name=createMenuModel.name.value
+                selectedMenu.value.currency=createMenuModel.currency.value
+                selectedMenu.value.description=createMenuModel.description.value
             }
             isLoading.value = false
         }
@@ -160,6 +163,36 @@ class MenusViewModel @Inject constructor(
                 categories.value = it
             }
             isLoading.value = false;
+        }
+    }
+
+
+     fun deleteMenu() = viewModelScope.launch {
+        isLoading.value = true
+        val response = selectedMenu.value.id?.let { repo.deleteRestaurantMenu(it) }
+        if (response?.status == Status.SUCCESS) {
+            isLoading.value = false
+            refreshMenus()
+        } else {
+            isLoading.value = false
+        }
+    }
+
+    fun prepareForUpdate() = viewModelScope.launch {
+        createMenuModel.description.value=selectedMenu.value.description.toString()
+        createMenuModel.currency.value=selectedMenu.value.currency.toString()
+        createMenuModel.name.value=selectedMenu.value.name.toString()
+    }
+
+    fun updateMenu()= viewModelScope.launch {
+        isLoading.value = true
+        val response = selectedMenu.value.id?.let {id ->
+            repo.updateRestaurantMenu(createMenuModel.provideMenuModel(),id)
+        }
+        if (response?.status == Status.SUCCESS) {
+            refreshMenus()
+        } else {
+            isLoading.value = false
         }
     }
 

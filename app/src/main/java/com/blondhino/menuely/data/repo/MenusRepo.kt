@@ -37,6 +37,25 @@ class MenusRepo(
 
     }
 
+    suspend fun updateRestaurantMenu(menuModel: MenuModel, menuId: Int): Response<EmptyResponse> {
+        return try {
+            val response = api.updateRestaurantMenu(menuModel,menuId)
+            responseHandler.handleSuccess(response)
+        } catch (e: Exception) {
+            responseHandler.handleError(e.message.toString())
+        }
+
+    }
+
+    suspend fun deleteRestaurantMenu(id: Int): Response<EmptyResponse> {
+        return try{
+            val response = api.deleteMenu(id)
+            responseHandler.handleSuccess(response)
+        }catch (e:Exception){
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+
     suspend fun getCategoriesForMenu(menuId: Int): Response<ArrayList<MenuCategoryResponse>> {
         return try {
             val response = api.getCategoriesForMenu(menuId)

@@ -26,15 +26,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.CATEGORY_SCREEN
-import com.blondhino.menuely.ui.components.MenuelyCreateMenuDialog
-import com.blondhino.menuely.ui.components.MenuelyJumpingProgressBar
-import com.blondhino.menuely.ui.components.MenuelyMenuTicket
+import com.blondhino.menuely.data.common.enums.Mode
+import com.blondhino.menuely.ui.components.*
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.ui.theme.greenDark
 
 @Composable
 fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel) {
     val createMenuDialogVisible = remember { mutableStateOf(false) }
+    val updateDeleteDialogVisible = remember { mutableStateOf(false) }
+    val deleteAlertDialogVisible = remember { mutableStateOf(false) }
+    val createUpdateDialogMode = remember { mutableStateOf(Mode.CREATE) }
     val context: Context = LocalContext.current
     menusViewModel.fetchMenus()
 
@@ -66,7 +68,11 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
                                     },
                                     id = id,
                                     titleText = title,
-                                    descText = description
+                                    descText = description,
+                                    onItemLongClick = {
+                                        updateDeleteDialogVisible.value = true
+                                        menusViewModel.selectedMenu.value = item
+                                    }
                                 )
                             }
                         }
@@ -79,6 +85,8 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
 
         FloatingActionButton(
             onClick = {
+                createUpdateDialogMode.value=Mode.CREATE
+                menusViewModel.createMenuModel.clear()
                 createMenuDialogVisible.value = true
             },
             shape = CircleShape,
@@ -108,7 +116,13 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
                     ).show()
                 }
             },
-            menuNameValue = menusViewModel.createMenuModel.name.value,
+
+            onUpdate = {
+                createMenuDialogVisible.value=false
+                menusViewModel.updateMenu()
+            },
+            mode = createUpdateDialogMode.value
+            ,menuNameValue = menusViewModel.createMenuModel.name.value,
             onMenuNameValueChange = { name -> menusViewModel.createMenuModel.name.value = name },
             currencyValue = menusViewModel.createMenuModel.currency.value,
             onCurrencyValueChange = { currency ->
@@ -122,6 +136,36 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
             onDescriptionValueChange = { description ->
                 menusViewModel.createMenuModel.description.value = description
             })
+    }
+
+
+    if (updateDeleteDialogVisible.value) {
+        MenuelyUpdateDeleteDialog(
+            unitName = stringResource(R.string.menu),
+            onUpdateCLick = {
+                createUpdateDialogMode.value=Mode.EDIT
+                createMenuDialogVisible.value=true
+                updateDeleteDialogVisible.value=false
+               menusViewModel.prepareForUpdate()
+            },
+            onDeleteClick = {
+                updateDeleteDialogVisible.value = false
+                deleteAlertDialogVisible.value = true
+            },
+            onDismiss = { updateDeleteDialogVisible.value = false }
+        )
+    }
+
+    if (deleteAlertDialogVisible.value) {
+        MenuelyDeleteAlertDialog(
+            unitName = stringResource(id = R.string.menu),
+            unitTitle = menusViewModel.selectedMenu.value.name.toString(),
+            onDeleteClick = {
+                deleteAlertDialogVisible.value = false
+                menusViewModel.deleteMenu()
+            },
+            onDismiss = { deleteAlertDialogVisible.value = false }
+        )
     }
 
 

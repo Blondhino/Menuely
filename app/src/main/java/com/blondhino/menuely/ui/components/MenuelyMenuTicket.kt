@@ -3,6 +3,7 @@ package com.blondhino.menuely.ui.components
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -37,14 +39,22 @@ fun MenuelyMenuTicket(
     id: Int = 0,
     titleText: String = "",
     descText: String = "",
-    onItemClick: (id: Int) -> Unit
+    onItemClick: (id: Int) -> Unit,
+    onItemLongClick: (id: Int) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 5.dp, horizontal = 8.dp)
             .height(80.dp)
-            .clickable { onItemClick(id) },
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = {
+                        onItemLongClick(id)
+                    },
+                    onTap = { onItemClick(id) }
+                )
+            },
         shape = RoundedCornerShape(20.dp),
         backgroundColor = greyMedium
     ) {

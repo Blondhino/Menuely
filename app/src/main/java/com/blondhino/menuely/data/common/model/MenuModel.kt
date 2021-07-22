@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.sample
 
 class MenuModel(
     val id: Int? =null,
-    val name : String? =null,
-    val description:String?=null,
-    val currency : String?= null,
+    var name : String? =null,
+    var description:String?=null,
+    var currency : String?= null,
     val restaurantId : Int? = null,
     val numberOfTables:Int? = null,
     val createdAt : Long?= null,

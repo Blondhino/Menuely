@@ -8,14 +8,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.enums.Mode
+import com.blondhino.menuely.data.common.enums.Mode.*
 import com.blondhino.menuely.ui.ui.theme.blackLight
 import com.blondhino.menuely.ui.ui.theme.greenDark
 
@@ -23,12 +28,14 @@ import com.blondhino.menuely.ui.ui.theme.greenDark
 fun MenuelyCreateMenuDialog(
     onDismiss: () -> Unit,
     onSave: () -> Unit,
+    onUpdate: () -> Unit,
+    mode: Mode = CREATE,
     menuNameValue: String = "",
     onMenuNameValueChange: (value: String) -> Unit,
     currencyValue: String = "",
     onCurrencyValueChange: (value: String) -> Unit,
-    numberOfTablesValue :String ="",
-    onNumberOfTablesChange : (value: String) -> Unit,
+    numberOfTablesValue: String = "",
+    onNumberOfTablesChange: (value: String) -> Unit,
     descriptionValue: String = "",
     onDescriptionValueChange: (value: String) -> Unit
 ) {
@@ -68,7 +75,10 @@ fun MenuelyCreateMenuDialog(
                         inputText = numberOfTablesValue,
                         onInputTextChanged = { onNumberOfTablesChange(it) },
                         label = stringResource(R.string.num_of_tables),
-                        modifier = Modifier.padding(vertical = 8.dp),
+                        modifier = Modifier
+                            .padding(vertical = 8.dp)
+                            .height(if(mode==CREATE) 55.dp else 0.dp)
+                            .alpha(if (mode == CREATE) 1F else 0F),
                         keyboardType = KeyboardType.NumberPassword
                     )
                 }
@@ -88,7 +98,7 @@ fun MenuelyCreateMenuDialog(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .clickable {
-                               onDismiss()
+                                onDismiss()
                             },
                         style = MaterialTheme.typography.h4,
                         fontSize = 14.sp,
@@ -99,7 +109,11 @@ fun MenuelyCreateMenuDialog(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .clickable {
-                               onSave()
+                                if (mode == CREATE) {
+                                    onSave()
+                                } else {
+                                    onUpdate()
+                                }
                             },
                         style = MaterialTheme.typography.h4,
                         fontSize = 14.sp,
