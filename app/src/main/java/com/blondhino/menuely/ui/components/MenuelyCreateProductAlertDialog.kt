@@ -21,15 +21,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.enums.Mode
 import com.blondhino.menuely.ui.ui.theme.blackLight
 import com.blondhino.menuely.ui.ui.theme.greenDark
 import com.blondhino.menuely.util.GalleryImagePickerMenus
 import okhttp3.MultipartBody
 
 @Composable
-fun MenuelyCreateProductDialog(
+fun MenuelyCreateUpdateProductDialog(
     onDismiss: () -> Unit,
     onSave: () -> Unit,
+    onUpdate: () -> Unit,
     productNameValue: String = "",
     onProductNameValueChange: (value: String) -> Unit,
     priceValue: String = "0",
@@ -37,7 +39,9 @@ fun MenuelyCreateProductDialog(
     descriptionValue: String = "",
     onDescriptionValueChange: (value: String) -> Unit,
     currency: String = "",
-    onProductImageValueChanged: (bitmap: ImageBitmap, uri: Uri, multipart: MultipartBody.Part) -> Unit
+    onProductImageValueChanged: (bitmap: ImageBitmap, uri: Uri, multipart: MultipartBody.Part) -> Unit,
+    mode: Mode = Mode.CREATE,
+    preloadImage :String = ""
 ) {
     val isDialogOpen = remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -115,7 +119,11 @@ fun MenuelyCreateProductDialog(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .clickable {
-                                onSave()
+                                if(mode==Mode.CREATE) {
+                                    onSave()
+                                }else{
+                                    onUpdate()
+                                }
                             },
                         style = MaterialTheme.typography.h4,
                         fontSize = 14.sp,
@@ -141,7 +149,7 @@ fun MenuelyCreateProductDialog(
                             fontSize = 16.sp,
                             color = greenDark
                         )
-                        GalleryImagePickerMenus(modifier = Modifier.padding(8.dp)) { uri, bitmap, multipart ->
+                        GalleryImagePickerMenus(modifier = Modifier.padding(8.dp), preloadedImageUrl = preloadImage) { uri, bitmap, multipart ->
                             onProductImageValueChanged(bitmap, uri, multipart)
                         }
                     }

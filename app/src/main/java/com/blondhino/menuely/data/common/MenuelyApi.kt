@@ -12,6 +12,7 @@ import com.blondhino.menuely.data.common.constants.Routes.LOGIN_USER
 import com.blondhino.menuely.data.common.constants.Routes.MENUS
 import com.blondhino.menuely.data.common.constants.Routes.MY_USER_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.NO_AUTH_HEADER
+import com.blondhino.menuely.data.common.constants.Routes.PRODUCTS
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_USER
 import com.blondhino.menuely.data.common.constants.Routes.RESTAURANTS
@@ -79,10 +80,11 @@ interface MenuelyApi {
     @PATCH("$CATEGORIES/{id}")
     suspend fun updateCategory(
         @Path("id") id: Int,
-        @Part image: MultipartBody.Part,
+        @Part image: MultipartBody.Part?,
         @Part("menuId") menuId: RequestBody,
         @Part("name") name: RequestBody,
     ): BaseResponse<EmptyResponse>
+
 
     @Multipart
     @POST(CREATE_PRODUCT)
@@ -90,6 +92,16 @@ interface MenuelyApi {
         @Part image: MultipartBody.Part,
         @Part("categoryId") categoryId: RequestBody,
         @Part("currency") currency: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("name") name: RequestBody,
+    ): BaseResponse<EmptyResponse>
+
+    @Multipart
+    @PATCH("$PRODUCTS/{id}")
+    suspend fun updateProduct(
+        @Path("id") id: Int,
+        @Part image: MultipartBody.Part?,
         @Part("price") price: RequestBody,
         @Part("description") description: RequestBody,
         @Part("name") name: RequestBody,
@@ -130,6 +142,9 @@ interface MenuelyApi {
 
     @GET(GET_PRODUCTS)
     suspend fun getProductsForMenu(@Query("categoryId") categoryId: Int): BaseResponse<ArrayList<MenuProductsResponse>>
+
+    @DELETE("$PRODUCTS/{id}")
+    suspend fun deleteMenuProduct(@Path("id") id: Int) : BaseResponse<EmptyResponse>
 
 
 }

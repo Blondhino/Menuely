@@ -7,7 +7,7 @@ import com.blondhino.menuely.data.database.tables.UserTableModel
 
 class MenuCategoryResponse(
     var id: Int?,
-    val name : String?,
+    var name : String?,
     val currency: String?,
     val restaurantId : Int?,
     val createdAt: Long?,

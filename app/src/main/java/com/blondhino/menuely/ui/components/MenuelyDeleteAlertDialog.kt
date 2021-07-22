@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.enums.Mode
 import com.blondhino.menuely.ui.ui.theme.blackLight
 import com.blondhino.menuely.ui.ui.theme.greenDark
 import com.blondhino.menuely.util.GalleryImagePickerMenus

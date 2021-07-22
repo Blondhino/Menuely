@@ -33,6 +33,7 @@ class MenusViewModel @Inject constructor(
     val menus: MutableState<List<MenuModel>> = mutableStateOf(ArrayList())
     val categories: MutableState<List<MenuCategoryResponse>> = mutableStateOf(ArrayList())
     val products: MutableState<List<MenuProductsResponse>> = mutableStateOf(ArrayList())
+    val selectedProduct: MutableState<MenuProductsResponse?> = mutableStateOf(null)
     val selectedMenu: MutableState<MenuModel> = mutableStateOf(MenuModel())
     val selectedCategory: MutableState<MenuCategoryResponse?> = mutableStateOf(null)
     val isLoading = mutableStateOf(false)
@@ -123,6 +124,20 @@ class MenusViewModel @Inject constructor(
         }
     }
 
+    fun updateProduct() = viewModelScope.launch {
+        isLoading.value=true
+        val response = selectedProduct.value?.id?.let {
+            repo.updateProduct(createProductModel.provideProductModel(),
+                it
+            )
+        }
+        if(response?.status==Status.SUCCESS){
+            refreshProducts()
+        }else{
+            isLoading.value=false
+        }
+    }
+
     fun fetchProducts() {
         if (lastSelectedCategoryId != selectedCategory.value?.id) {
             viewModelScope.launch {
@@ -146,6 +161,14 @@ class MenusViewModel @Inject constructor(
             val response = selectedCategory.value?.id?.let { repo.getProductsForMenu(it) }
             if (response?.status == Status.SUCCESS) {
                 response.data?.let {
+                    try {
+                        val updated = it.find { product -> product.id == selectedProduct.value?.id }
+                        selectedProduct.value?.image?.url = updated?.image?.url
+                        selectedProduct.value?.name = updated?.name
+                        selectedProduct.value?.price = updated?.price
+                        selectedProduct.value?.description = updated?.description
+                    } catch (e: Exception) {
+                    }
                     products.value = it
                 }
             }
@@ -179,6 +202,7 @@ class MenusViewModel @Inject constructor(
                 try {
                     val updated = it.find { category -> category.id == selectedCategory.value?.id }
                     selectedCategory.value?.image?.url = updated?.image?.url
+                    selectedCategory.value?.name = updated?.name
                 } catch (e: Exception) {
                 }
                 categories.value = it
@@ -231,6 +255,22 @@ class MenusViewModel @Inject constructor(
     fun prepareForCategoryUpdate() {
         selectedCategory.value?.id?.let { createCategoryModel.menuId.value = it }
         createCategoryModel.name.value = selectedCategory.value?.name.toString()
+    }
+
+    fun prepareForProductUpdate() {
+        createProductModel.name.value= selectedProduct.value?.name.toString()
+        createProductModel.price.value=selectedProduct.value?.price.toString()
+        createProductModel.description.value=selectedProduct.value?.description.toString()
+    }
+
+    fun deleteProduct() = viewModelScope.launch {
+        isLoading.value=true
+        val response = selectedProduct.value?.id?.let { repo.deleteMenuProduct(it) }
+        if(response?.status==Status.SUCCESS){
+            refreshProducts()
+        }else{
+            isLoading.value=false
+        }
     }
 
 

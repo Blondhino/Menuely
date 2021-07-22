@@ -36,7 +36,7 @@ class CreateCategoryModel() {
         return CategoryModel(
             name = this.name.value,
             menuId = this.menuId.value,
-            image = this.image.value!!
+            image = this.image.value
         )
     }
 

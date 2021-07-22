@@ -7,9 +7,9 @@ import com.blondhino.menuely.data.database.tables.UserTableModel
 
 class MenuProductsResponse(
     var id: Int?,
-    val name : String?,
-    val description : String?,
-    val price : String?,
+    var name : String?,
+    var description : String?,
+    var price : String?,
     val currency: String?,
     val restaurantId : Int?,
     val categoryId : Int?,

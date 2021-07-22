@@ -47,6 +47,15 @@ class MenusRepo(
 
     }
 
+    suspend fun deleteMenuProduct(id: Int): Response<EmptyResponse> {
+        return try{
+            val response = api.deleteMenuProduct(id)
+            responseHandler.handleSuccess(response)
+        }catch (e:Exception){
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+
     suspend fun deleteRestaurantMenu(id: Int): Response<EmptyResponse> {
         return try{
             val response = api.deleteMenu(id)
@@ -103,15 +112,14 @@ class MenusRepo(
 
     suspend fun updateMenuCategory(categoryModel: CategoryModel, id: Int): Response<EmptyResponse> {
         return try {
-            val response = categoryModel.image?.let { image ->
-                api.updateCategory(
+                val response = api.updateCategory(
                     id=id,
-                    image = image,
+                    image = categoryModel.image,
                     menuId = createPart(categoryModel.menuId.toString()),
                     name = createPart(categoryModel.name.toString())
                 )
-            }
-            responseHandler.handleSuccess(response!!)
+
+            responseHandler.handleSuccess(response)
         } catch (e: Exception) {
             responseHandler.handleError(e.message.toString())
         }
@@ -132,6 +140,23 @@ class MenusRepo(
                 )
             }
             responseHandler.handleSuccess(response!!)
+        } catch (e: Exception) {
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+
+    suspend fun updateProduct(productModel: ProductModel, id:Int): Response<EmptyResponse> {
+        return try {
+            val response =
+                api.updateProduct(
+                    id=id,
+                    image = productModel.image,
+                    price = createPart(productModel.price.toString()),
+                    description = createPart(productModel.description.toString()),
+                    name = createPart(productModel.name.toString())
+                )
+
+            responseHandler.handleSuccess(response)
         } catch (e: Exception) {
             responseHandler.handleError(e.message.toString())
         }

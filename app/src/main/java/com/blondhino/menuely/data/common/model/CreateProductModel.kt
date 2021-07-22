@@ -37,14 +37,19 @@ class CreateProductModel() {
         ProductModel(
             name = this.name.value,
             description = this.description.value,
-            price= this.price.value,
+            price = this.price.value,
             currency = this.currency.value,
             categoryId = this.categoryId.value,
             image = this.image.value
         )
 
     fun clear() {
-
+        this.name.value = ""
+        this.description.value=""
+        this.price.value=""
+        this.currency.value=""
+        this.categoryId.value=0
+        this.description.value=""
 
     }
 
