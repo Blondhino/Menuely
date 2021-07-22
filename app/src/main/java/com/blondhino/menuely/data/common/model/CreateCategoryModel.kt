@@ -27,8 +27,9 @@ class CreateCategoryModel() {
     }
 
     fun clear() {
-
-
+        this.name.value=""
+        this.menuId.value=0
+        this.image.value=null
     }
 
     fun provideCategoryModel(): CategoryModel {

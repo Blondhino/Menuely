@@ -63,9 +63,9 @@ class MenusViewModel @Inject constructor(
         if (response?.status == Status.SUCCESS) {
             response.data?.let {
                 menus.value = it
-                selectedMenu.value.name=createMenuModel.name.value
-                selectedMenu.value.currency=createMenuModel.currency.value
-                selectedMenu.value.description=createMenuModel.description.value
+                selectedMenu.value.name = createMenuModel.name.value
+                selectedMenu.value.currency = createMenuModel.currency.value
+                selectedMenu.value.description = createMenuModel.description.value
             }
             isLoading.value = false
         }
@@ -86,11 +86,27 @@ class MenusViewModel @Inject constructor(
         val response =
             createCategoryModel.provideCategoryModel()?.let { repo.createMenuCategory(it) }
         if (response.status == Status.SUCCESS) {
-            refreshCategory()
+            refreshCategories()
         } else {
             isLoading.value = false
         }
 
+    }
+
+    fun updateMenuCategory() = viewModelScope.launch {
+        isLoading.value = true
+        val response = selectedCategory.value?.id?.let {
+            repo.updateMenuCategory(
+                createCategoryModel.provideCategoryModel(),
+                it
+            )
+        }
+        if (response?.status == Status.SUCCESS) {
+            isLoading.value = false
+            refreshCategories()
+        } else {
+            isLoading.value = false
+        }
     }
 
 
@@ -155,11 +171,16 @@ class MenusViewModel @Inject constructor(
         }
     }
 
-    private fun refreshCategory() {
+    private fun refreshCategories() {
         viewModelScope.launch {
             isLoading.value = true
             val response = selectedMenu.value.id?.let { repo.getCategoriesForMenu(it) }
             response?.data?.let {
+                try {
+                    val updated = it.find { category -> category.id == selectedCategory.value?.id }
+                    selectedCategory.value?.image?.url = updated?.image?.url
+                } catch (e: Exception) {
+                }
                 categories.value = it
             }
             isLoading.value = false;
@@ -167,7 +188,7 @@ class MenusViewModel @Inject constructor(
     }
 
 
-     fun deleteMenu() = viewModelScope.launch {
+    fun deleteMenu() = viewModelScope.launch {
         isLoading.value = true
         val response = selectedMenu.value.id?.let { repo.deleteRestaurantMenu(it) }
         if (response?.status == Status.SUCCESS) {
@@ -178,22 +199,38 @@ class MenusViewModel @Inject constructor(
         }
     }
 
-    fun prepareForUpdate() = viewModelScope.launch {
-        createMenuModel.description.value=selectedMenu.value.description.toString()
-        createMenuModel.currency.value=selectedMenu.value.currency.toString()
-        createMenuModel.name.value=selectedMenu.value.name.toString()
+    fun deleteMenuCategory() = viewModelScope.launch {
+        isLoading.value = true
+        val response = selectedCategory.value?.id?.let { repo.deleteRestaurantCategory(it) }
+        if (response?.status == Status.SUCCESS) {
+            isLoading.value = false
+            refreshCategories()
+        } else {
+            isLoading.value = false
+        }
     }
 
-    fun updateMenu()= viewModelScope.launch {
+    fun prepareForUpdate() = viewModelScope.launch {
+        createMenuModel.description.value = selectedMenu.value.description.toString()
+        createMenuModel.currency.value = selectedMenu.value.currency.toString()
+        createMenuModel.name.value = selectedMenu.value.name.toString()
+    }
+
+    fun updateMenu() = viewModelScope.launch {
         isLoading.value = true
-        val response = selectedMenu.value.id?.let {id ->
-            repo.updateRestaurantMenu(createMenuModel.provideMenuModel(),id)
+        val response = selectedMenu.value.id?.let { id ->
+            repo.updateRestaurantMenu(createMenuModel.provideMenuModel(), id)
         }
         if (response?.status == Status.SUCCESS) {
             refreshMenus()
         } else {
             isLoading.value = false
         }
+    }
+
+    fun prepareForCategoryUpdate() {
+        selectedCategory.value?.id?.let { createCategoryModel.menuId.value = it }
+        createCategoryModel.name.value = selectedCategory.value?.name.toString()
     }
 
 

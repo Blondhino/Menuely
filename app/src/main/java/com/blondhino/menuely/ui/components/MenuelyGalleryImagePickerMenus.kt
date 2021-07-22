@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.enums.Mode
 import com.blondhino.menuely.ui.components.MenuelySideMenuItem
 import com.blondhino.menuely.ui.ui.theme.greenDark
 import com.blondhino.menuely.ui.ui.theme.greyLight
@@ -43,12 +44,15 @@ fun GalleryImagePickerMenus(
     modifier: Modifier = Modifier,
     height: Dp =100.dp,
     enabled: Boolean = true,
-    onImageSelected: (uri: Uri, bitmap: ImageBitmap, multipart: MultipartBody.Part) -> Unit
+    preloadedImageUrl : String = "",
+    onImageSelected: (uri: Uri, bitmap: ImageBitmap, multipart: MultipartBody.Part) -> Unit,
 ) {
+
+    var preloadedImageShown by remember { mutableStateOf(false)}
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
     }
-
+    val preloadedImage = ImageLoader(imageUrl = preloadedImageUrl) { }
 
     var imageBitmapLoaded by remember {
         mutableStateOf<ImageBitmap?>(null)
@@ -96,7 +100,27 @@ fun GalleryImagePickerMenus(
                     }
                 )
                 {
-                    imageBitmapLoaded?.let { Image(bitmap= it,"", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop) }
+                    if(!preloadedImageShown) {
+                        val imageBitmap = preloadedImage?.value?.asImageBitmap()
+                        imageBitmap?.let {
+                            Image(
+                                bitmap = it,
+                                "",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+
+                        }
+                    }else{
+                        imageBitmapLoaded?.let {
+                            Image(
+                                bitmap = it,
+                                "",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                    }
                 }
 
             }
@@ -114,6 +138,7 @@ fun GalleryImagePickerMenus(
                                 it1
                             )
                             imageBitmapLoaded = bitmap.asImageBitmap()
+                            preloadedImageShown=true
                         }
                     }
                     alreadySelected = true
@@ -131,6 +156,7 @@ fun GalleryImagePickerMenus(
                                 it1
                             )
                             imageBitmapLoaded = bitmap.asImageBitmap()
+                            preloadedImageShown=true
                         }
                     }
 

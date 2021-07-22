@@ -18,16 +18,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.enums.Mode
 import com.blondhino.menuely.ui.ui.theme.blackLight
 import com.blondhino.menuely.ui.ui.theme.greenDark
 import com.blondhino.menuely.util.GalleryImagePickerMenus
 import okhttp3.MultipartBody
 
 @Composable
-fun MenuelyCreateCategoryDialog(
+fun MenuelyCreateUpdateCategoryDialog(
     onDismiss: () -> Unit,
     onSave: () -> Unit,
-    categoryNameValue: String = "",
+    onUpdate: () -> Unit,
+    mode: Mode = Mode.CREATE,
+    preloadImageUrl: String = "", categoryNameValue: String = "",
     onCategoryNameValueChange: (value: String) -> Unit,
     onCategoryImageValueChanged: (bitmap: ImageBitmap, uri: Uri, multipart: MultipartBody.Part) -> Unit
 ) {
@@ -84,7 +87,11 @@ fun MenuelyCreateCategoryDialog(
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .clickable {
-                                onSave()
+                                if (mode == Mode.CREATE) {
+                                    onSave()
+                                }else{
+                                    onUpdate()
+                                }
                             },
                         style = MaterialTheme.typography.h4,
                         fontSize = 14.sp,
@@ -105,7 +112,10 @@ fun MenuelyCreateCategoryDialog(
                         fontSize = 16.sp,
                         color = greenDark
                     )
-                    GalleryImagePickerMenus(modifier = Modifier.padding(8.dp)) { uri, bitmap, multipart ->
+                    GalleryImagePickerMenus(
+                        modifier = Modifier.padding(8.dp),
+                        preloadedImageUrl = if(mode==Mode.EDIT)preloadImageUrl else ""
+                    ) { uri, bitmap, multipart ->
                         onCategoryImageValueChanged(bitmap, uri, multipart)
                     }
                 }

@@ -1,6 +1,7 @@
 package com.blondhino.menuely.data.common
 
 import com.blondhino.menuely.data.base.BaseResponse
+import com.blondhino.menuely.data.common.constants.Routes.CATEGORIES
 import com.blondhino.menuely.data.common.constants.Routes.CREATE_CATEGORY
 import com.blondhino.menuely.data.common.constants.Routes.CREATE_MENU
 import com.blondhino.menuely.data.common.constants.Routes.CREATE_PRODUCT
@@ -75,6 +76,15 @@ interface MenuelyApi {
     ): BaseResponse<EmptyResponse>
 
     @Multipart
+    @PATCH("$CATEGORIES/{id}")
+    suspend fun updateCategory(
+        @Path("id") id: Int,
+        @Part image: MultipartBody.Part,
+        @Part("menuId") menuId: RequestBody,
+        @Part("name") name: RequestBody,
+    ): BaseResponse<EmptyResponse>
+
+    @Multipart
     @POST(CREATE_PRODUCT)
     suspend fun createProduct(
         @Part image: MultipartBody.Part,
@@ -108,6 +118,9 @@ interface MenuelyApi {
 
     @DELETE("$MENUS/{id}")
     suspend fun deleteMenu(@Path("id") id: Int) : BaseResponse<EmptyResponse>
+
+    @DELETE("$CATEGORIES/{id}")
+    suspend fun deleteMenuCategory(@Path("id") id:Int) : BaseResponse<EmptyResponse>
 
     @PATCH(UPDATE_RESTAURANT_PROFILE)
     suspend fun updateRestaurantProfile(@Body restaurantModel: RestaurantModel): BaseResponse<EmptyResponse>

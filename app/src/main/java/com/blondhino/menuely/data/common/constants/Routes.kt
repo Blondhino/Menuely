@@ -28,6 +28,7 @@ object Routes {
     private const val OFFERS ="offers/"
 
     const val MENUS = OFFERS+"menus"
+    const val CATEGORIES = OFFERS+"categories"
     const val CREATE_MENU = OFFERS+"menus/"
     const val CREATE_CATEGORY = OFFERS+"categories/"
     const val CREATE_PRODUCT = OFFERS+"products/"

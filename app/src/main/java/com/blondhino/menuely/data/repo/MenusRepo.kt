@@ -56,6 +56,15 @@ class MenusRepo(
         }
     }
 
+    suspend fun deleteRestaurantCategory(id: Int): Response<EmptyResponse> {
+        return try{
+            val response = api.deleteMenuCategory(id)
+            responseHandler.handleSuccess(response)
+        }catch (e:Exception){
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+
     suspend fun getCategoriesForMenu(menuId: Int): Response<ArrayList<MenuCategoryResponse>> {
         return try {
             val response = api.getCategoriesForMenu(menuId)
@@ -80,6 +89,23 @@ class MenusRepo(
         return try {
             val response = categoryModel.image?.let { image ->
                 api.createCategory(
+                    image = image,
+                    menuId = createPart(categoryModel.menuId.toString()),
+                    name = createPart(categoryModel.name.toString())
+                )
+            }
+            responseHandler.handleSuccess(response!!)
+        } catch (e: Exception) {
+            responseHandler.handleError(e.message.toString())
+        }
+
+    }
+
+    suspend fun updateMenuCategory(categoryModel: CategoryModel, id: Int): Response<EmptyResponse> {
+        return try {
+            val response = categoryModel.image?.let { image ->
+                api.updateCategory(
+                    id=id,
                     image = image,
                     menuId = createPart(categoryModel.menuId.toString()),
                     name = createPart(categoryModel.name.toString())
