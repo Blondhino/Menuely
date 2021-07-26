@@ -35,13 +35,13 @@ import com.blondhino.menuely.util.ImageLoader
 @SuppressLint("UnrememberedMutableState")
 @Composable
 fun MenuelyCategoryTicket(
-    id: Int = 0,
-    titleText: String = "",
-    imageUrl: String = "",
+    id: Int ?= 0,
+    titleText: String ?= "",
+    imageUrl: String ?= "",
     onItemClick: (id: Int) -> Unit,
     onItemLongClick: (id: Int) -> Unit
 ) {
-    val loadedMainImage = ImageLoader(imageUrl = imageUrl) { }
+    val loadedMainImage = ImageLoader(imageUrl = imageUrl.toString()) { }
 
     Card(
         modifier = Modifier
@@ -51,9 +51,9 @@ fun MenuelyCategoryTicket(
             .pointerInput(Unit) {
                 detectTapGestures(
                     onLongPress = {
-                        onItemLongClick(id)
+                        id?.let { it1 -> onItemLongClick(it1) }
                     },
-                    onTap = { onItemClick(id) }
+                    onTap = { id?.let { it1 -> onItemClick(it1) } }
                 )
             },
         shape = RoundedCornerShape(20.dp),
@@ -88,7 +88,7 @@ fun MenuelyCategoryTicket(
             }
 
             Text(
-                text = titleText,
+                text = titleText.toString(),
                 modifier = Modifier.constrainAs(title) {
                     top.linkTo(parent.top)
                     start.linkTo(imagePlaceHolder.end, 16.dp)

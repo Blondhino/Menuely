@@ -94,7 +94,7 @@ class MenusRepo(
     }
 
 
-    suspend fun createMenuCategory(categoryModel: CategoryModel): Response<EmptyResponse> {
+    suspend fun createMenuCategory(categoryModel: CategoryModel): Response<MenuCategoryResponse> {
         return try {
             val response = categoryModel.image?.let { image ->
                 api.createCategory(

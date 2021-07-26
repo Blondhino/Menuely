@@ -74,7 +74,7 @@ interface MenuelyApi {
         @Part image: MultipartBody.Part,
         @Part("menuId") menuId: RequestBody,
         @Part("name") name: RequestBody,
-    ): BaseResponse<EmptyResponse>
+    ): BaseResponse<MenuCategoryResponse>
 
     @Multipart
     @PATCH("$CATEGORIES/{id}")

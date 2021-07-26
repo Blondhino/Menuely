@@ -15,6 +15,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,9 +29,12 @@ import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PRODUCTS_SCREEN
 import com.blondhino.menuely.data.common.enums.Mode
+import com.blondhino.menuely.data.common.model.CategoryModel
+import com.blondhino.menuely.data.common.response.MenuCategoryResponse
 import com.blondhino.menuely.ui.components.*
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.ui.theme.greenDark
+import com.blondhino.menuely.util.swapList
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -41,6 +45,7 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
     val preloadedImageForUpdateCategoryDialog = remember { mutableStateOf("") }
     val createUpdateCategoryDialogMode = remember { mutableStateOf(Mode.CREATE) }
     val context: Context = LocalContext.current
+    var categoriesSnapShot = remember{ mutableStateListOf<MenuCategoryResponse>()}
     menusViewModel.fetchCategory()
 
     Box() {
@@ -60,32 +65,50 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
             MenuelyJumpingProgressBar(isLoading = menusViewModel.isLoading.value)
 
             LazyColumn() {
-                itemsIndexed(items = menusViewModel.categories.value) { index, item ->
-                    item.id?.let { id ->
-                        item.name?.let { title ->
-                            item.image?.url?.let { image ->
-                                MenuelyCategoryTicket(
-                                    id = id,
-                                    titleText = title,
-                                    imageUrl = image,
-                                    onItemClick = {
-                                        menusViewModel.selectedCategory.value = item
-                                        Log.d("imageDetails","category: ${item.image.url} selected: ${menusViewModel.selectedCategory.value!!.image?.url.toString()}")
-                                        navController.navigate(PRODUCTS_SCREEN)
-                                    },
-                                    onItemLongClick = {
-                                        createUpdateCategoryDialogMode.value=Mode.EDIT
-                                        menusViewModel.selectedCategory.value = item
-                                        preloadedImageForUpdateCategoryDialog.value=item.image.url.toString()
-                                        updateDeleteDialogVisible.value = true
-                                    }
-                                )
-                            }
-                        }
-                    }
+                for (category in menusViewModel.categories.value) {
+                    Log.d(
+                        "categoryDetails",
+                        "in list--> name: ${category.name} id: ${category.id} "
+                    )
                 }
-            }
+                categoriesSnapShot.swapList(menusViewModel.categories.value)
 
+                itemsIndexed(items = categoriesSnapShot) { index, item ->
+                    MenuelyCategoryTicket(
+                        id = item.id,
+                        titleText = item.name,
+                        imageUrl = item.image?.url,
+                        onItemClick = {
+                            menusViewModel.selectedCategory.value = item
+                            Log.d(
+                                "categoryDetails",
+                                "item-----> name: ${item.name} id: ${item.id} "
+                            )
+                            Log.d("categoryDetails", "index: ")
+                            Log.d(
+                                "categoryDetails",
+                                "selectedItem-----> name: ${menusViewModel.selectedCategory.value?.name.toString()} id: ${menusViewModel.selectedCategory.value?.id.toString()} "
+                            )
+                            navController.navigate(PRODUCTS_SCREEN)
+                        },
+                        onItemLongClick = {
+                            createUpdateCategoryDialogMode.value = Mode.EDIT
+                            menusViewModel.selectedCategory.value = item
+                            Log.d(
+                                "categoryDetails",
+                                "item-----> name: ${item.name} id: ${item.id} "
+                            )
+                            Log.d(
+                                "categoryDetails",
+                                "selectedItem-----> name: ${menusViewModel.selectedCategory.value?.name.toString()} id: ${menusViewModel.selectedCategory.value?.id.toString()} "
+                            )
+                            preloadedImageForUpdateCategoryDialog.value = item.image?.url.toString()
+                            updateDeleteDialogVisible.value = true
+                        }
+                    )
+                }
+
+            }
         }
 
         FloatingActionButton(

@@ -8,8 +8,8 @@ import com.blondhino.menuely.data.database.tables.UserTableModel
 class MenuCategoryResponse(
     var id: Int?,
     var name : String?,
-    val currency: String?,
-    val restaurantId : Int?,
+    var currency: String?,
+    var restaurantId : Int?,
     val createdAt: Long?,
     val updatedAt: Long?,
     val image : ImageModel?

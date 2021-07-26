@@ -2,7 +2,9 @@ package com.blondhino.menuely.ui.menus
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blondhino.menuely.data.common.MenuelyApi
@@ -13,6 +15,7 @@ import com.blondhino.menuely.data.common.response.MenuProductsResponse
 import com.blondhino.menuely.data.database.dao.RestaurantDao
 import com.blondhino.menuely.data.repo.MenusRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +34,7 @@ class MenusViewModel @Inject constructor(
     val createCategoryModel: CreateCategoryModel = CreateCategoryModel()
     val createProductModel: CreateProductModel = CreateProductModel()
     val menus: MutableState<List<MenuModel>> = mutableStateOf(ArrayList())
-    val categories: MutableState<List<MenuCategoryResponse>> = mutableStateOf(ArrayList())
+    var categories: MutableState<List<MenuCategoryResponse>> = mutableStateOf(ArrayList())
     val products: MutableState<List<MenuProductsResponse>> = mutableStateOf(ArrayList())
     val selectedProduct: MutableState<MenuProductsResponse?> = mutableStateOf(null)
     val selectedMenu: MutableState<MenuModel> = mutableStateOf(MenuModel())
@@ -72,6 +75,32 @@ class MenusViewModel @Inject constructor(
         }
     }
 
+    private fun refreshCategories() {
+        viewModelScope.launch {
+            isLoading.value = true
+
+            val response = selectedMenu.value.id?.let { repo.getCategoriesForMenu(it) }
+            response?.data?.let {
+                if (response.status == Status.SUCCESS) {
+                    isLoading.value = false
+                    try {
+                        val updated =
+                            it.find { category -> category.id == selectedCategory.value?.id }
+                        selectedCategory.value?.image?.url = updated?.image?.url
+                        selectedCategory.value?.id = updated?.id
+                        selectedCategory.value?.name = updated?.name
+                    }
+                    catch (e: Exception) {
+                    }
+                    categories.value = categories.value.drop(categories.value.size)
+                    delay(10)
+                    categories.value = it.filter { it-> it.id!=0 }.toMutableList()
+                }
+
+            }
+        }
+    }
+
     fun createMenu() = viewModelScope.launch {
         isLoading.value = true
         val response = repo.createRestaurantMenu(createMenuModel.provideMenuModel())
@@ -88,6 +117,7 @@ class MenusViewModel @Inject constructor(
             createCategoryModel.provideCategoryModel()?.let { repo.createMenuCategory(it) }
         if (response.status == Status.SUCCESS) {
             refreshCategories()
+
         } else {
             isLoading.value = false
         }
@@ -125,16 +155,17 @@ class MenusViewModel @Inject constructor(
     }
 
     fun updateProduct() = viewModelScope.launch {
-        isLoading.value=true
+        isLoading.value = true
         val response = selectedProduct.value?.id?.let {
-            repo.updateProduct(createProductModel.provideProductModel(),
+            repo.updateProduct(
+                createProductModel.provideProductModel(),
                 it
             )
         }
-        if(response?.status==Status.SUCCESS){
+        if (response?.status == Status.SUCCESS) {
             refreshProducts()
-        }else{
-            isLoading.value=false
+        } else {
+            isLoading.value = false
         }
     }
 
@@ -169,6 +200,8 @@ class MenusViewModel @Inject constructor(
                         selectedProduct.value?.description = updated?.description
                     } catch (e: Exception) {
                     }
+                    products.value = products.value.drop(products.value.size)
+                    delay(100)
                     products.value = it
                 }
             }
@@ -184,30 +217,17 @@ class MenusViewModel @Inject constructor(
                 val response = selectedMenu.value.id?.let { repo.getCategoriesForMenu(it) }
                 response?.data?.let {
                     categories.value = it
+                    for(category in categories.value){
+                        Log.d("categoryDetails","name: ${category.name} id: ${category.id} ")
+                    }
                 }
+
                 isLoading.value = false;
                 initialCategoryFetchDone.value = true
                 selectedMenu.value.id?.let {
                     lastSelectedMenuId = it
                 }
             }
-        }
-    }
-
-    private fun refreshCategories() {
-        viewModelScope.launch {
-            isLoading.value = true
-            val response = selectedMenu.value.id?.let { repo.getCategoriesForMenu(it) }
-            response?.data?.let {
-                try {
-                    val updated = it.find { category -> category.id == selectedCategory.value?.id }
-                    selectedCategory.value?.image?.url = updated?.image?.url
-                    selectedCategory.value?.name = updated?.name
-                } catch (e: Exception) {
-                }
-                categories.value = it
-            }
-            isLoading.value = false;
         }
     }
 
@@ -258,18 +278,18 @@ class MenusViewModel @Inject constructor(
     }
 
     fun prepareForProductUpdate() {
-        createProductModel.name.value= selectedProduct.value?.name.toString()
-        createProductModel.price.value=selectedProduct.value?.price.toString()
-        createProductModel.description.value=selectedProduct.value?.description.toString()
+        createProductModel.name.value = selectedProduct.value?.name.toString()
+        createProductModel.price.value = selectedProduct.value?.price.toString()
+        createProductModel.description.value = selectedProduct.value?.description.toString()
     }
 
     fun deleteProduct() = viewModelScope.launch {
-        isLoading.value=true
+        isLoading.value = true
         val response = selectedProduct.value?.id?.let { repo.deleteMenuProduct(it) }
-        if(response?.status==Status.SUCCESS){
+        if (response?.status == Status.SUCCESS) {
             refreshProducts()
-        }else{
-            isLoading.value=false
+        } else {
+            isLoading.value = false
         }
     }
 
