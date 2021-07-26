@@ -201,7 +201,7 @@ class MenusViewModel @Inject constructor(
                     } catch (e: Exception) {
                     }
                     products.value = products.value.drop(products.value.size)
-                    delay(100)
+                    delay(200)
                     products.value = it
                 }
             }

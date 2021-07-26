@@ -56,4 +56,7 @@
     <string name="product_image">Product image</string>
     <string name="negative_value">Price should not be negative</string>
     <string name="delete">Delete</string>
+    <string name="cammera_permission">The camera is important for this app. Please grant the permission.</string>
+    <string name="allow">Allow</string>
+    <string name="deny">Deny</string>
 </resources>

@@ -19,6 +19,7 @@ class SplashViewModel @Inject constructor(
     private var _loginStatus: MutableLiveData<LoginStatus> = MutableLiveData()
     val loginStatus: LiveData<LoginStatus> get() = _loginStatus
     val loginStatusState = mutableStateOf(LOGGED_OUT)
+    var cameraAllowed = mutableStateOf(false)
 
     fun checkLoginStatus(){
         when {

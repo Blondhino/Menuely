@@ -36,6 +36,7 @@ class OnBoardingViewModel @Inject constructor(
     val registerAsRestaurantModel: RegisterAsRestaurantModel = RegisterAsRestaurantModel()
     val loginProcessModel: SelectLoginProcessModel = SelectLoginProcessModel()
     private val _loginStatus: MutableLiveData<LoginStatus> = MutableLiveData()
+    val loginStatusState = mutableStateOf(LoginStatus.LOGGED_OUT)
     val loginStatus: LiveData<LoginStatus> get() = _loginStatus
     val loading = mutableStateOf(false)
     val messageText = mutableStateOf("")
@@ -50,6 +51,7 @@ class OnBoardingViewModel @Inject constructor(
             response.data?.user?.let { userDao.insert(it) }
             response.data?.auth?.let { authDao.insert(it) }
             _loginStatus.value = LoginStatus.LOGGED_AS_USER
+            loginStatusState.value=LoginStatus.LOGGED_AS_USER
             loading.value = false
         } else {
 

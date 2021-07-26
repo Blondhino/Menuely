@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.blondhino.menuely"
-        minSdk 23
+        minSdk 24
         targetSdk 30
         versionCode 1
         versionName "1.0.0."
@@ -60,6 +60,9 @@ ext {
     ok_to_curl = "0.6.0"
     navigation = "2.4.0-alpha03"
     glide = "0.12.0"
+    permissions="0.14.0"
+    zxCore ="3.4.0"
+    zxEmbeded="4.1.0"
 }
 
 dependencies {
@@ -112,4 +115,11 @@ dependencies {
 
     //Glide
     implementation "com.google.accompanist:accompanist-glide:$glide"
+
+    //QR scanner
+    implementation("com.journeyapps:zxing-android-embedded:$zxEmbeded") { transitive = false }
+    implementation "com.google.zxing:core:$zxCore"
+
+    // Permissions handler
+    implementation "com.google.accompanist:accompanist-permissions:$permissions"
 }
