@@ -1,6 +1,7 @@
-package com.blondhino.menuely.ui
+package com.blondhino.menuely.ui.menus.menu
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -26,19 +28,22 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.CATEGORY_SCREEN
+import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.Mode
 import com.blondhino.menuely.ui.components.*
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.ui.theme.greenDark
 
 @Composable
-fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel) {
+fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel, loginStatus: LoginStatus) {
     val createMenuDialogVisible = remember { mutableStateOf(false) }
     val updateDeleteDialogVisible = remember { mutableStateOf(false) }
     val deleteAlertDialogVisible = remember { mutableStateOf(false) }
     val createUpdateDialogMode = remember { mutableStateOf(Mode.CREATE) }
     val context: Context = LocalContext.current
     menusViewModel.fetchMenus()
+
+    Log.d("loginSTATUUS",loginStatus.name)
 
     Box() {
         Column(
@@ -85,9 +90,11 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
 
         FloatingActionButton(
             onClick = {
-                createUpdateDialogMode.value=Mode.CREATE
-                menusViewModel.createMenuModel.clear()
-                createMenuDialogVisible.value = true
+                if(loginStatus == LoginStatus.LOGGED_AS_RESTAURANT) {
+                    createUpdateDialogMode.value = Mode.CREATE
+                    menusViewModel.createMenuModel.clear()
+                    createMenuDialogVisible.value = true
+                }
             },
             shape = CircleShape,
             backgroundColor = greenDark,
@@ -96,6 +103,7 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
                     Alignment.BottomEnd
                 )
                 .padding(horizontal = 16.dp, vertical = 80.dp)
+                .alpha(if(loginStatus==LoginStatus.LOGGED_AS_RESTAURANT)1F else 0F)
         ) {
             Icon(imageVector = Icons.Default.Add, "")
         }

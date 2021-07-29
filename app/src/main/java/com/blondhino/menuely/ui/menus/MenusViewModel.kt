@@ -1,6 +1,7 @@
 package com.blondhino.menuely.ui.menus
 
 import android.util.Log
+import android.view.Menu
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +41,7 @@ class MenusViewModel @Inject constructor(
     val selectedMenu: MutableState<MenuModel> = mutableStateOf(MenuModel())
     val selectedCategory: MutableState<MenuCategoryResponse?> = mutableStateOf(null)
     val isLoading = mutableStateOf(false)
+    val scannedMenu : MutableState<MenuModel?> = mutableStateOf(null)
 
 
     fun fetchMenus() {
@@ -183,6 +185,20 @@ class MenusViewModel @Inject constructor(
                 isLoading.value = false
                 selectedCategory.value?.id?.let { lastSelectedCategoryId = it }
             }
+        }
+    }
+
+    fun fetchSingleMenu(menuId: Int) =viewModelScope.launch {
+        isLoading.value=true
+        val response = repo.getSingleMenu(menuId)
+        if(response.status==Status.SUCCESS){
+            response.data?.let {
+                selectedMenu.value=it
+                scannedMenu.value = it
+                isLoading.value=false
+            }
+        }else{
+            isLoading.value=false
         }
     }
 

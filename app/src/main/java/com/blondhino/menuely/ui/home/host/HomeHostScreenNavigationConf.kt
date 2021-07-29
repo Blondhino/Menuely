@@ -17,10 +17,10 @@ import com.blondhino.menuely.data.common.constants.NavigationRoutes.SEARCH_RESTA
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_RESTAURANT_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.enums.LoginStatus
-import com.blondhino.menuely.ui.MenusScreen
 import com.blondhino.menuely.ui.employees.EmployeesScreen
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.menus.category.CategoryScreen
+import com.blondhino.menuely.ui.menus.menu.MenusScreen
 import com.blondhino.menuely.ui.menus.product.ProductsScreen
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantScreen
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantSingleScreen
@@ -54,11 +54,11 @@ fun HomeHostScreenNavigationConf(
     NavHost(navController = navController, startDestination = startDestination) {
 
         composable(SCAN_SCREEN) {
-            ScanScreen(navController)
+            ScanScreen(navController, menusViewModel = menusViewModel)
         }
 
         composable(SEARCH_RESTAURANTS_SCREEN) {
-            SearchRestaurantsScreen(navController,searchViewModel)
+            SearchRestaurantsScreen(navController, searchViewModel)
         }
 
         composable(PROFILE_USER_SCREEN) {
@@ -66,7 +66,11 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(MENUS_SCREEN) {
-            MenusScreen(navController = navController,menusViewModel = menusViewModel)
+            MenusScreen(
+                navController = navController,
+                menusViewModel = menusViewModel,
+                loginStatus = loginStatus
+            )
         }
 
         composable(EMPLOYEES_SCREEN) {
@@ -74,36 +78,48 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(PROFILE_RESTAURANT_SCREEN) {
-            ProfileRestaurantScreen(navController = navController, hostViewModel = hostViewModel,restaurantViewModel = restaurantViewModel)
+            ProfileRestaurantScreen(
+                navController = navController,
+                hostViewModel = hostViewModel,
+                restaurantViewModel = restaurantViewModel
+            )
         }
 
-        composable(UPDATE_USER_PROFILE_SCREEN){
+        composable(UPDATE_USER_PROFILE_SCREEN) {
             UpdateUserProfileScreen(profileUserViewModel = profileUserViewModel)
         }
 
-        composable(RESTAURANT_SCREEN_SINGLE){
-           EnterAnimation {
-               ProfileRestaurantSingleScreen(
-                   navController =navController,
-                   searchViewModel = searchViewModel,
-                   restaurantViewModel = restaurantViewModel
-               )
-           }
-        }
-
-        composable(UPDATE_RESTAURANT_PROFILE_SCREEN){
-            UpdateRestaurantProfileScreen(restaurantViewModel = restaurantViewModel)
-        }
-
-        composable(CATEGORY_SCREEN){
+        composable(RESTAURANT_SCREEN_SINGLE) {
             EnterAnimation {
-                CategoryScreen(navController = navController, menusViewModel = menusViewModel)
+                ProfileRestaurantSingleScreen(
+                    navController = navController,
+                    searchViewModel = searchViewModel,
+                    restaurantViewModel = restaurantViewModel
+                )
             }
         }
 
-        composable(PRODUCTS_SCREEN){
+        composable(UPDATE_RESTAURANT_PROFILE_SCREEN) {
+            UpdateRestaurantProfileScreen(restaurantViewModel = restaurantViewModel)
+        }
+
+        composable(CATEGORY_SCREEN) {
             EnterAnimation {
-                ProductsScreen(navController = navController , menusViewModel = menusViewModel)
+                CategoryScreen(
+                    navController = navController,
+                    menusViewModel = menusViewModel,
+                    loginStatus = loginStatus
+                )
+            }
+        }
+
+        composable(PRODUCTS_SCREEN) {
+            EnterAnimation {
+                ProductsScreen(
+                    navController = navController,
+                    menusViewModel = menusViewModel,
+                    loginStatus = loginStatus
+                )
             }
         }
 

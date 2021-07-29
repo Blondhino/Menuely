@@ -17,18 +17,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.Mode
 import com.blondhino.menuely.ui.components.*
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.ui.theme.greenDark
 
 @Composable
-fun ProductsScreen(navController: NavController, menusViewModel: MenusViewModel) {
+fun ProductsScreen(
+    navController: NavController,
+    menusViewModel: MenusViewModel,
+    loginStatus: LoginStatus
+) {
     val context = LocalContext.current
     val selectedCategory = menusViewModel.selectedCategory.value
     var createUpdateProductDialogVisible = remember { mutableStateOf(false) }
@@ -64,10 +70,12 @@ fun ProductsScreen(navController: NavController, menusViewModel: MenusViewModel)
                                 menusViewModel.selectedProduct.value = item
                             },
                             onItemLongClick = {
-                                preloadProductImageForUpdate.value=item.image?.url.toString()
-                                createUpdateProductDialogMode.value = Mode.EDIT
-                                menusViewModel.selectedProduct.value = item
-                                updateDeleteProductDialogVisible.value = true
+                                if (loginStatus==LoginStatus.LOGGED_AS_RESTAURANT) {
+                                    preloadProductImageForUpdate.value = item.image?.url.toString()
+                                    createUpdateProductDialogMode.value = Mode.EDIT
+                                    menusViewModel.selectedProduct.value = item
+                                    updateDeleteProductDialogVisible.value = true
+                                }
 
                             }
                         )
@@ -79,10 +87,12 @@ fun ProductsScreen(navController: NavController, menusViewModel: MenusViewModel)
 
         FloatingActionButton(
             onClick = {
-                preloadProductImageForUpdate.value=""
-                createUpdateProductDialogMode.value = Mode.CREATE
-                menusViewModel.createProductModel.clear()
-                createUpdateProductDialogVisible.value = true
+                if (loginStatus == LoginStatus.LOGGED_AS_RESTAURANT) {
+                    preloadProductImageForUpdate.value = ""
+                    createUpdateProductDialogMode.value = Mode.CREATE
+                    menusViewModel.createProductModel.clear()
+                    createUpdateProductDialogVisible.value = true
+                }
             },
             shape = CircleShape,
             backgroundColor = greenDark,
@@ -91,6 +101,7 @@ fun ProductsScreen(navController: NavController, menusViewModel: MenusViewModel)
                     Alignment.BottomEnd
                 )
                 .padding(horizontal = 16.dp, vertical = 80.dp)
+                .alpha(if (loginStatus == LoginStatus.LOGGED_AS_RESTAURANT) 1F else 0F)
         ) {
             Icon(imageVector = Icons.Default.Add, "")
         }

@@ -59,4 +59,5 @@
     <string name="cammera_permission">The camera is important for this app. Please grant the permission.</string>
     <string name="allow">Allow</string>
     <string name="deny">Deny</string>
+    <string name="qr_error">Unknown QR code</string>
 </resources>

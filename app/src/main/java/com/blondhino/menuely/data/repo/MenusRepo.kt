@@ -47,6 +47,16 @@ class MenusRepo(
 
     }
 
+    suspend fun getSingleMenu( menuId: Int): Response<MenuModel> {
+        return try {
+            val response = api.getSingleMenu(menuId)
+            responseHandler.handleSuccess(response)
+        } catch (e: Exception) {
+            responseHandler.handleError(e.message.toString())
+        }
+
+    }
+
     suspend fun deleteMenuProduct(id: Int): Response<EmptyResponse> {
         return try{
             val response = api.deleteMenuProduct(id)

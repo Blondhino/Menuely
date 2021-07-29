@@ -20,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PRODUCTS_SCREEN
+import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.Mode
 import com.blondhino.menuely.data.common.model.CategoryModel
 import com.blondhino.menuely.data.common.response.MenuCategoryResponse
@@ -38,7 +40,7 @@ import com.blondhino.menuely.util.swapList
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewModel) {
+fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewModel, loginStatus: LoginStatus) {
     val createCategoryDialogVisible = remember { mutableStateOf(false) }
     val updateDeleteDialogVisible = remember { mutableStateOf(false) }
     val deleteAlertDialogVisible = remember { mutableStateOf(false) }
@@ -80,30 +82,15 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
                         imageUrl = item.image?.url,
                         onItemClick = {
                             menusViewModel.selectedCategory.value = item
-                            Log.d(
-                                "categoryDetails",
-                                "item-----> name: ${item.name} id: ${item.id} "
-                            )
-                            Log.d("categoryDetails", "index: ")
-                            Log.d(
-                                "categoryDetails",
-                                "selectedItem-----> name: ${menusViewModel.selectedCategory.value?.name.toString()} id: ${menusViewModel.selectedCategory.value?.id.toString()} "
-                            )
                             navController.navigate(PRODUCTS_SCREEN)
                         },
                         onItemLongClick = {
-                            createUpdateCategoryDialogMode.value = Mode.EDIT
-                            menusViewModel.selectedCategory.value = item
-                            Log.d(
-                                "categoryDetails",
-                                "item-----> name: ${item.name} id: ${item.id} "
-                            )
-                            Log.d(
-                                "categoryDetails",
-                                "selectedItem-----> name: ${menusViewModel.selectedCategory.value?.name.toString()} id: ${menusViewModel.selectedCategory.value?.id.toString()} "
-                            )
-                            preloadedImageForUpdateCategoryDialog.value = item.image?.url.toString()
-                            updateDeleteDialogVisible.value = true
+                            if (loginStatus==LoginStatus.LOGGED_AS_RESTAURANT) {
+                                createUpdateCategoryDialogMode.value = Mode.EDIT
+                                menusViewModel.selectedCategory.value = item
+                                preloadedImageForUpdateCategoryDialog.value = item.image?.url.toString()
+                                updateDeleteDialogVisible.value = true
+                            }
                         }
                     )
                 }
@@ -113,9 +100,11 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
 
         FloatingActionButton(
             onClick = {
-                createUpdateCategoryDialogMode.value=Mode.CREATE
-                createCategoryDialogVisible.value = true
-                menusViewModel.createCategoryModel.clear()
+                if(loginStatus==LoginStatus.LOGGED_AS_RESTAURANT) {
+                    createUpdateCategoryDialogMode.value = Mode.CREATE
+                    createCategoryDialogVisible.value = true
+                    menusViewModel.createCategoryModel.clear()
+                }
             },
             shape = CircleShape,
             backgroundColor = greenDark,
@@ -124,6 +113,7 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
                     Alignment.BottomEnd
                 )
                 .padding(horizontal = 16.dp, vertical = 80.dp)
+                .alpha(if(loginStatus==LoginStatus.LOGGED_AS_USER)0F else 1F)
         ) {
             Icon(imageVector = Icons.Default.Add, "")
         }

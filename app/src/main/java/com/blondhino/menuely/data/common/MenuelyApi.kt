@@ -128,6 +128,9 @@ interface MenuelyApi {
     @PATCH("$MENUS/{id}")
     suspend fun updateRestaurantMenu(@Body menuModel: MenuModel, @Path("id") id: Int): BaseResponse<EmptyResponse>
 
+    @GET("$MENUS/{id}")
+    suspend fun getSingleMenu( @Path("id") id: Int): BaseResponse<MenuModel>
+
     @DELETE("$MENUS/{id}")
     suspend fun deleteMenu(@Path("id") id: Int) : BaseResponse<EmptyResponse>
 
