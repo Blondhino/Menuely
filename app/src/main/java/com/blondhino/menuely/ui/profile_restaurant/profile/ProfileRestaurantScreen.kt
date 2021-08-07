@@ -61,7 +61,9 @@ fun ProfileRestaurantScreen(
             Text(
                 text = restaurantViewModel.myRestaurantProfile.name.value,
                 style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(top = 8.dp, end = 8.dp, start = 8.dp),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 8.dp, end = 8.dp, start = 8.dp),
                 textAlign = TextAlign.Center
             )
 

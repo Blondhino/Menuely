@@ -14,10 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -27,12 +24,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.CATEGORY_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PRODUCTS_SCREEN
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.Mode
 import com.blondhino.menuely.data.common.model.CategoryModel
 import com.blondhino.menuely.data.common.response.MenuCategoryResponse
+import com.blondhino.menuely.ui.cart.CartViewModel
 import com.blondhino.menuely.ui.components.*
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.ui.theme.greenDark
@@ -40,7 +40,11 @@ import com.blondhino.menuely.util.swapList
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewModel, loginStatus: LoginStatus) {
+fun CategoryScreen(navController: NavHostController,
+                   menusViewModel: MenusViewModel,
+                   loginStatus: LoginStatus,
+                   cartViewModel: CartViewModel
+) {
     val createCategoryDialogVisible = remember { mutableStateOf(false) }
     val updateDeleteDialogVisible = remember { mutableStateOf(false) }
     val deleteAlertDialogVisible = remember { mutableStateOf(false) }
@@ -48,7 +52,14 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
     val createUpdateCategoryDialogMode = remember { mutableStateOf(Mode.CREATE) }
     val context: Context = LocalContext.current
     var categoriesSnapShot = remember{ mutableStateListOf<MenuCategoryResponse>()}
-    menusViewModel.fetchCategory()
+    Log.d("currentRoute","${currentRoute(navController = navController)}")
+    if (currentRoute(navController = navController)== CATEGORY_SCREEN) {
+        if(cartViewModel.activeMenuId.value!=0){
+            menusViewModel.fetchSingleMenu(cartViewModel.activeMenuId.value)
+        }else{
+            menusViewModel.fetchCategory()
+        }
+    }
 
     Box() {
         Column(
@@ -113,7 +124,7 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
                     Alignment.BottomEnd
                 )
                 .padding(horizontal = 16.dp, vertical = 80.dp)
-                .alpha(if(loginStatus==LoginStatus.LOGGED_AS_USER)0F else 1F)
+                .alpha(if (loginStatus == LoginStatus.LOGGED_AS_USER) 0F else 1F)
         ) {
             Icon(imageVector = Icons.Default.Add, "")
         }
@@ -183,4 +194,10 @@ fun CategoryScreen(navController: NavHostController, menusViewModel: MenusViewMo
             onDismiss = { deleteAlertDialogVisible.value = false }
         )
     }
+}
+
+@Composable
+private fun currentRoute(navController: NavHostController): String? {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    return navBackStackEntry?.destination?.route
 }

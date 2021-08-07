@@ -42,6 +42,7 @@ fun ProductsScreen(
     var deleteProductAlertDialogVisible = remember { mutableStateOf(false) }
     var createUpdateProductDialogMode = remember { mutableStateOf(Mode.CREATE) }
     var preloadProductImageForUpdate = remember { mutableStateOf("") }
+    var ammount = remember { mutableStateOf(0) }
     menusViewModel.fetchProducts()
 
     Box() {
@@ -54,6 +55,10 @@ fun ProductsScreen(
             )
 
             MenuelyJumpingProgressBar(isLoading = menusViewModel.isLoading.value)
+
+            MenuelyAmountPicker(
+                currentValue = ammount.value,
+                onValueChanged = { it -> ammount.value = it })
 
             LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
                 itemsIndexed(items = menusViewModel.products.value) { index, item ->
@@ -70,7 +75,7 @@ fun ProductsScreen(
                                 menusViewModel.selectedProduct.value = item
                             },
                             onItemLongClick = {
-                                if (loginStatus==LoginStatus.LOGGED_AS_RESTAURANT) {
+                                if (loginStatus == LoginStatus.LOGGED_AS_RESTAURANT) {
                                     preloadProductImageForUpdate.value = item.image?.url.toString()
                                     createUpdateProductDialogMode.value = Mode.EDIT
                                     menusViewModel.selectedProduct.value = item

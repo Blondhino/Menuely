@@ -1,14 +1,10 @@
 package com.blondhino.menuely.ui.menus
 
 import android.util.Log
-import android.view.Menu
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.enums.Status
 import com.blondhino.menuely.data.common.model.*
 import com.blondhino.menuely.data.common.response.MenuCategoryResponse
@@ -22,15 +18,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MenusViewModel @Inject constructor(
-    private val menuelyApi: MenuelyApi,
     private val repo: MenusRepo,
     private val restaurantDao: RestaurantDao
 ) :
     ViewModel() {
     private val initialFetchDone = mutableStateOf(false)
+    private val initialSingleFetchDone = mutableStateOf(false)
     private val initialCategoryFetchDone = mutableStateOf(false)
     private var lastSelectedMenuId = 0
     private var lastSelectedCategoryId = 0
+    private var lastFetchedSingleMenuId =0
     val createMenuModel: CreateMenuModel = CreateMenuModel()
     val createCategoryModel: CreateCategoryModel = CreateCategoryModel()
     val createProductModel: CreateProductModel = CreateProductModel()
@@ -41,7 +38,7 @@ class MenusViewModel @Inject constructor(
     val selectedMenu: MutableState<MenuModel> = mutableStateOf(MenuModel())
     val selectedCategory: MutableState<MenuCategoryResponse?> = mutableStateOf(null)
     val isLoading = mutableStateOf(false)
-    val scannedMenu : MutableState<MenuModel?> = mutableStateOf(null)
+    val scannedMenu: MutableState<MenuModel?> = mutableStateOf(null)
 
 
     fun fetchMenus() {
@@ -91,12 +88,11 @@ class MenusViewModel @Inject constructor(
                         selectedCategory.value?.image?.url = updated?.image?.url
                         selectedCategory.value?.id = updated?.id
                         selectedCategory.value?.name = updated?.name
-                    }
-                    catch (e: Exception) {
+                    } catch (e: Exception) {
                     }
                     categories.value = categories.value.drop(categories.value.size)
                     delay(10)
-                    categories.value = it.filter { it-> it.id!=0 }.toMutableList()
+                    categories.value = it.filter { it -> it.id != 0 }.toMutableList()
                 }
 
             }
@@ -188,17 +184,29 @@ class MenusViewModel @Inject constructor(
         }
     }
 
-    fun fetchSingleMenu(menuId: Int) =viewModelScope.launch {
-        isLoading.value=true
-        val response = repo.getSingleMenu(menuId)
-        if(response.status==Status.SUCCESS){
-            response.data?.let {
-                selectedMenu.value=it
-                scannedMenu.value = it
-                isLoading.value=false
+    fun fetchSingleMenu(menuId: Int){
+        if (menuId!=lastFetchedSingleMenuId) {
+            lastFetchedSingleMenuId=menuId
+            initialSingleFetchDone.value=false
+            if(!initialSingleFetchDone.value){
+                categories.value = categories.value.drop(categories.value.size)
+                selectedMenu.value.name=""
+                viewModelScope.launch {
+                    isLoading.value = true
+                    val response = repo.getSingleMenu(menuId)
+                    if (response.status == Status.SUCCESS) {
+                        response.data?.let {
+                            selectedMenu.value = it
+                            scannedMenu.value = it
+                            fetchCategory()
+                            isLoading.value = false
+                        }
+                    } else {
+                        isLoading.value = false
+                    }
+                }
+                initialSingleFetchDone.value=true
             }
-        }else{
-            isLoading.value=false
         }
     }
 
@@ -233,8 +241,8 @@ class MenusViewModel @Inject constructor(
                 val response = selectedMenu.value.id?.let { repo.getCategoriesForMenu(it) }
                 response?.data?.let {
                     categories.value = it
-                    for(category in categories.value){
-                        Log.d("categoryDetails","name: ${category.name} id: ${category.id} ")
+                    for (category in categories.value) {
+                        Log.d("categoryDetails", "name: ${category.name} id: ${category.id} ")
                     }
                 }
 
@@ -274,6 +282,15 @@ class MenusViewModel @Inject constructor(
         createMenuModel.description.value = selectedMenu.value.description.toString()
         createMenuModel.currency.value = selectedMenu.value.currency.toString()
         createMenuModel.name.value = selectedMenu.value.name.toString()
+        selectedMenu.value.isActive?.let { createMenuModel.isActive.value = it }
+    }
+
+    fun setMenuActive() = viewModelScope.launch {
+        createMenuModel.description.value = selectedMenu.value.description.toString()
+        createMenuModel.currency.value = selectedMenu.value.currency.toString()
+        createMenuModel.name.value = selectedMenu.value.name.toString()
+        createMenuModel.isActive.value=true
+        updateMenu()
     }
 
     fun updateMenu() = viewModelScope.launch {

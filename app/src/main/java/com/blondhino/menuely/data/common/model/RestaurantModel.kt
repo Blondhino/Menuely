@@ -9,6 +9,7 @@ class RestaurantModel(
     var city: String?=null,
     var address: String?=null,
     var postalCode: String?=null,
+    var activeMenuId : Int=0,
     var profileImage: ImageModel?=null,
     var coverImage: ImageModel?=null,
     var createdAt :Long?=null,

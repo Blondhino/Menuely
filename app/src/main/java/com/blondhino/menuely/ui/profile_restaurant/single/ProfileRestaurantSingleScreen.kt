@@ -1,5 +1,6 @@
 package com.blondhino.menuely.ui.profile_restaurant
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -19,8 +20,12 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
+import com.blondhino.menuely.data.common.constants.NavigationRoutes
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.CATEGORY_SCREEN
+import com.blondhino.menuely.ui.cart.CartViewModel
 import com.blondhino.menuely.ui.components.MenuelyButton
 import com.blondhino.menuely.ui.components.MenuelyHeader
+import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.search_restaurant.SearchViewModel
 import com.blondhino.menuely.ui.ui.theme.*
 
@@ -28,9 +33,14 @@ import com.blondhino.menuely.ui.ui.theme.*
 fun ProfileRestaurantSingleScreen(
     navController: NavHostController,
     searchViewModel: SearchViewModel,
-    restaurantViewModel: RestaurantViewModel
+    restaurantViewModel: RestaurantViewModel,
+    cartViewModel: CartViewModel,
 ) {
-    restaurantViewModel.getSingleRestaurant(searchViewModel.clickedRestaurantId.value)
+    if (searchViewModel.clickedRestaurantId.value != 0) {
+        restaurantViewModel.getSingleRestaurant(searchViewModel.clickedRestaurantId.value)
+    } else {
+        restaurantViewModel.getSingleRestaurant(cartViewModel.scannedRestaurantId.value)
+    }
     val scrollState = rememberScrollState()
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         val (content, showMenuButton, aboutUs) = createRefs()
@@ -51,7 +61,7 @@ fun ProfileRestaurantSingleScreen(
                 headerUrl = restaurantViewModel.restaurant.coverImage.value,
                 height = 220.dp,
                 onMainImageSelected = { uri, bitmap, multipart -> },
-                onCoverImageSelected = {uri, bitmap, multipart ->}
+                onCoverImageSelected = { uri, bitmap, multipart -> }
             )
 
             Text(
@@ -95,7 +105,8 @@ fun ProfileRestaurantSingleScreen(
             .height(55.dp)
             .padding(horizontal = 8.dp),
             text = stringResource(R.string.check_menu)) {
-
+            cartViewModel.activeMenuId.value = restaurantViewModel.restaurant.activeMenuId.value
+            navController.navigate(CATEGORY_SCREEN)
         }
 
         Column(modifier = Modifier

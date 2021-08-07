@@ -15,6 +15,7 @@ class CreateMenuModel() {
     val currency = mutableStateOf("")
     val description = mutableStateOf("")
     val numberOfTables = mutableStateOf("0")
+    val isActive = mutableStateOf(false)
     val errorMessage = mutableStateOf(0)
 
 
@@ -51,7 +52,8 @@ class CreateMenuModel() {
             name=this.name.value,
             description =this.description.value,
             currency = this.currency.value,
-            numberOfTables = this.numberOfTables.value.toInt()
+            numberOfTables = this.numberOfTables.value.toInt(),
+            isActive = isActive.value
         )
     }
 

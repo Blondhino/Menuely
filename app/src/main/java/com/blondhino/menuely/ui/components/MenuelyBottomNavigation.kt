@@ -33,7 +33,7 @@ fun MenuelyBottomNavigation(
     val loggedAsUserScreens = listOf(
         Screen.Scan,
         Screen.SearchRestaurants,
-        Screen.ProfileUser
+        Screen.ProfileUser,
     )
 
     val loggedAsRestaurantScreens = listOf(

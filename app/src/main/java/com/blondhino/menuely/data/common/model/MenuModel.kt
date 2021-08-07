@@ -18,7 +18,8 @@ class MenuModel(
     val restaurantId : Int? = null,
     val numberOfTables:Int? = null,
     val createdAt : Long?= null,
-    val updatedAt : Long?= null
+    val updatedAt : Long?= null,
+    val isActive : Boolean? = null
 ) {}
 
 

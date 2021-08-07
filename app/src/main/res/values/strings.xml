@@ -25,6 +25,7 @@
     <string name="scan">Scan</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <string name="cart">Cart</string>
     <string name="menus">Menus</string>
     <string name="employees">Employees</string>
     <string name="updateUserProfileScr">Update profile</string>

@@ -35,7 +35,11 @@ import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.ui.theme.greenDark
 
 @Composable
-fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel, loginStatus: LoginStatus) {
+fun MenusScreen(
+    navController: NavHostController,
+    menusViewModel: MenusViewModel,
+    loginStatus: LoginStatus
+) {
     val createMenuDialogVisible = remember { mutableStateOf(false) }
     val updateDeleteDialogVisible = remember { mutableStateOf(false) }
     val deleteAlertDialogVisible = remember { mutableStateOf(false) }
@@ -43,7 +47,7 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
     val context: Context = LocalContext.current
     menusViewModel.fetchMenus()
 
-    Log.d("loginSTATUUS",loginStatus.name)
+    Log.d("loginSTATUUS", loginStatus.name)
 
     Box() {
         Column(
@@ -66,19 +70,21 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
                     item.id?.let { id ->
                         item.name?.let { title ->
                             item.description?.let { description ->
-                                MenuelyMenuTicket(
-                                    onItemClick = {
-                                        menusViewModel.selectedMenu.value = item
-                                        navController.navigate(CATEGORY_SCREEN)
-                                    },
-                                    id = id,
-                                    titleText = title,
-                                    descText = description,
-                                    onItemLongClick = {
+                                item.isActive?.let { isActive ->
+                                    MenuelyMenuTicket(
+                                        id = id,
+                                        titleText = title,
+                                        descText = description,
+                                        isActive = isActive,
+                                        onItemClick = {
+                                            menusViewModel.selectedMenu.value = item
+                                            navController.navigate(CATEGORY_SCREEN)
+                                        }
+                                    ) {
                                         updateDeleteDialogVisible.value = true
                                         menusViewModel.selectedMenu.value = item
                                     }
-                                )
+                                }
                             }
                         }
                     }
@@ -90,7 +96,7 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
 
         FloatingActionButton(
             onClick = {
-                if(loginStatus == LoginStatus.LOGGED_AS_RESTAURANT) {
+                if (loginStatus == LoginStatus.LOGGED_AS_RESTAURANT) {
                     createUpdateDialogMode.value = Mode.CREATE
                     menusViewModel.createMenuModel.clear()
                     createMenuDialogVisible.value = true
@@ -103,7 +109,7 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
                     Alignment.BottomEnd
                 )
                 .padding(horizontal = 16.dp, vertical = 80.dp)
-                .alpha(if(loginStatus==LoginStatus.LOGGED_AS_RESTAURANT)1F else 0F)
+                .alpha(if (loginStatus == LoginStatus.LOGGED_AS_RESTAURANT) 1F else 0F)
         ) {
             Icon(imageVector = Icons.Default.Add, "")
         }
@@ -126,11 +132,11 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
             },
 
             onUpdate = {
-                createMenuDialogVisible.value=false
+                createMenuDialogVisible.value = false
                 menusViewModel.updateMenu()
             },
-            mode = createUpdateDialogMode.value
-            ,menuNameValue = menusViewModel.createMenuModel.name.value,
+            mode = createUpdateDialogMode.value,
+            menuNameValue = menusViewModel.createMenuModel.name.value,
             onMenuNameValueChange = { name -> menusViewModel.createMenuModel.name.value = name },
             currencyValue = menusViewModel.createMenuModel.currency.value,
             onCurrencyValueChange = { currency ->
@@ -148,17 +154,21 @@ fun MenusScreen(navController: NavHostController, menusViewModel: MenusViewModel
 
 
     if (updateDeleteDialogVisible.value) {
-        MenuelyUpdateDeleteDialog(
+        MenuelyUpdateDeleteSetActiveDialog(
             unitName = stringResource(R.string.menu),
             onUpdateCLick = {
-                createUpdateDialogMode.value=Mode.EDIT
-                createMenuDialogVisible.value=true
-                updateDeleteDialogVisible.value=false
-               menusViewModel.prepareForUpdate()
+                createUpdateDialogMode.value = Mode.EDIT
+                createMenuDialogVisible.value = true
+                updateDeleteDialogVisible.value = false
+                menusViewModel.prepareForUpdate()
             },
             onDeleteClick = {
                 updateDeleteDialogVisible.value = false
                 deleteAlertDialogVisible.value = true
+            },
+            onSetActive = {
+                menusViewModel.setMenuActive()
+                updateDeleteDialogVisible.value = false
             },
             onDismiss = { updateDeleteDialogVisible.value = false }
         )

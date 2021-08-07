@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.CART_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.CATEGORY_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.EMPLOYEES_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.MENUS_SCREEN
@@ -17,6 +18,8 @@ import com.blondhino.menuely.data.common.constants.NavigationRoutes.SEARCH_RESTA
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_RESTAURANT_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.enums.LoginStatus
+import com.blondhino.menuely.ui.cart.CartScreen
+import com.blondhino.menuely.ui.cart.CartViewModel
 import com.blondhino.menuely.ui.employees.EmployeesScreen
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.menus.category.CategoryScreen
@@ -45,7 +48,8 @@ fun HomeHostScreenNavigationConf(
     searchViewModel: SearchViewModel,
     loginStatus: LoginStatus,
     restaurantViewModel: RestaurantViewModel,
-    menusViewModel: MenusViewModel
+    menusViewModel: MenusViewModel,
+    cartViewModel: CartViewModel,
 ) {
 
     val startDestination =
@@ -54,7 +58,7 @@ fun HomeHostScreenNavigationConf(
     NavHost(navController = navController, startDestination = startDestination) {
 
         composable(SCAN_SCREEN) {
-            ScanScreen(navController, menusViewModel = menusViewModel)
+            ScanScreen(navController, menusViewModel = menusViewModel,cartViewModel = cartViewModel,searchViewModel=searchViewModel)
         }
 
         composable(SEARCH_RESTAURANTS_SCREEN) {
@@ -94,7 +98,8 @@ fun HomeHostScreenNavigationConf(
                 ProfileRestaurantSingleScreen(
                     navController = navController,
                     searchViewModel = searchViewModel,
-                    restaurantViewModel = restaurantViewModel
+                    restaurantViewModel = restaurantViewModel,
+                    cartViewModel = cartViewModel
                 )
             }
         }
@@ -108,7 +113,8 @@ fun HomeHostScreenNavigationConf(
                 CategoryScreen(
                     navController = navController,
                     menusViewModel = menusViewModel,
-                    loginStatus = loginStatus
+                    loginStatus = loginStatus,
+                    cartViewModel = cartViewModel
                 )
             }
         }
@@ -121,6 +127,10 @@ fun HomeHostScreenNavigationConf(
                     loginStatus = loginStatus
                 )
             }
+        }
+
+        composable(CART_SCREEN){
+            CartScreen()
         }
 
     }

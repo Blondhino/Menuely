@@ -18,6 +18,7 @@ import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.LoginStatus.LOGGED_AS_USER
 import com.blondhino.menuely.data.common.enums.LoginStatus.valueOf
 import com.blondhino.menuely.ui.base.BaseComposeActivity
+import com.blondhino.menuely.ui.cart.CartViewModel
 import com.blondhino.menuely.ui.components.MenuelyBottomNavigation
 import com.blondhino.menuely.ui.components.MenuelySideMenu
 import com.blondhino.menuely.ui.menus.MenusViewModel
@@ -35,8 +36,10 @@ class HomeHostActivity : BaseComposeActivity() {
     private val searchViewModel: SearchViewModel by viewModels()
     private val restaurantViewModel: RestaurantViewModel by viewModels()
     private val menusViewModel: MenusViewModel by viewModels()
+    private val cartViewModel: CartViewModel by viewModels()
     private lateinit var scaffoldState: ScaffoldState
     private lateinit var scope: CoroutineScope
+
     @ExperimentalAnimationApi
     override fun setLayout(): @Composable () -> Unit = {
         val navController = rememberNavController()
@@ -55,8 +58,8 @@ class HomeHostActivity : BaseComposeActivity() {
                 if (
                     selectedScreen != UPDATE_USER_PROFILE_SCREEN &&
                     selectedScreen != RESTAURANT_SCREEN_SINGLE &&
-                    selectedScreen != UPDATE_RESTAURANT_PROFILE_SCREEN&&
-                    selectedScreen != CATEGORY_SCREEN&&
+                    selectedScreen != UPDATE_RESTAURANT_PROFILE_SCREEN &&
+                    selectedScreen != CATEGORY_SCREEN &&
                     selectedScreen != PRODUCTS_SCREEN
                 ) {
                     loginStatus?.let {
@@ -85,7 +88,8 @@ class HomeHostActivity : BaseComposeActivity() {
                     searchViewModel = searchViewModel,
                     loginStatus = it1,
                     restaurantViewModel = restaurantViewModel,
-                    menusViewModel = menusViewModel
+                    menusViewModel = menusViewModel,
+                    cartViewModel = cartViewModel
                 )
             }
         }
