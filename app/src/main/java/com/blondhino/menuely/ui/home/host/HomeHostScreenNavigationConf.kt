@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.CART_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.CATEGORY_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.EMPLOYEES_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.JOB_INVITATIONS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.MENUS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PRODUCTS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PROFILE_RESTAURANT_SCREEN
@@ -32,6 +33,7 @@ import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
 import com.blondhino.menuely.ui.profile_restaurant.update.UpdateRestaurantProfileScreen
 import com.blondhino.menuely.ui.profile_user.ProfileUserScreen
 import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
+import com.blondhino.menuely.ui.profile_user.jobs.JobInvitationsScreen
 import com.blondhino.menuely.ui.profile_user.update.UpdateUserProfileScreen
 import com.blondhino.menuely.ui.scan.ScanScreen
 import com.blondhino.menuely.ui.search_restaurant.SearchRestaurantsScreen
@@ -68,7 +70,7 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(PROFILE_USER_SCREEN) {
-            ProfileUserScreen(navController, profileUserViewModel, hostViewModel)
+            ProfileUserScreen(navController, profileUserViewModel, hostViewModel,employeesViewModel)
         }
 
         composable(MENUS_SCREEN) {
@@ -133,6 +135,10 @@ fun HomeHostScreenNavigationConf(
 
         composable(CART_SCREEN){
             CartScreen()
+        }
+
+        composable(JOB_INVITATIONS_SCREEN){
+            JobInvitationsScreen(navController=navController,employeesViewModel = employeesViewModel)
         }
 
     }

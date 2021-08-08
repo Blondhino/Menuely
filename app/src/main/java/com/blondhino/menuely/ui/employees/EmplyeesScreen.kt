@@ -13,14 +13,14 @@ import com.blondhino.menuely.ui.components.*
 
 @Composable
 fun EmployeesScreen(navController: NavHostController, employeesViewModel: EmployeesViewModel){
-    employeesViewModel.initialSearch()
+    employeesViewModel.initialUserSearch()
     Column(modifier = Modifier.fillMaxSize()) {
         MenuelySearchBox(
             hintText = stringResource(R.string.search_for_users),
             value = employeesViewModel.searchModel.search.value,
             onValueChanged = { value ->
                 employeesViewModel.searchModel.search.value = value
-                employeesViewModel.search()
+                employeesViewModel.searchUsers()
             })
 
         MenuelyJumpingProgressBar(isLoading = employeesViewModel.isLoading.value)

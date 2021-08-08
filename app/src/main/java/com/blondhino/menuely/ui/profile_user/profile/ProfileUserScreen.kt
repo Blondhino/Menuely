@@ -18,6 +18,7 @@ import androidx.navigation.NavHostController
 import com.blondhino.menuely.R
 import com.blondhino.menuely.ui.components.MenuelyHeader
 import com.blondhino.menuely.ui.components.MenuelyInfoCard
+import com.blondhino.menuely.ui.employees.EmployeesViewModel
 import com.blondhino.menuely.ui.home.host.HostViewModel
 import com.blondhino.menuely.util.generateAccountInfo
 import com.blondhino.menuely.util.parseDate
@@ -26,8 +27,10 @@ import com.blondhino.menuely.util.parseDate
 fun ProfileUserScreen(
     navController: NavHostController,
     viewModel: ProfileUserViewModel,
-    hostViewModel: HostViewModel
+    hostViewModel: HostViewModel,
+    employeesViewModel: EmployeesViewModel
 ) {
+   employeesViewModel.fetchingJobInvitationsDone.value=false
     viewModel.fetchUserData()
     ConstraintLayout(
         modifier = Modifier

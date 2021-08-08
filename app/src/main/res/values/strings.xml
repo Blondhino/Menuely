@@ -30,6 +30,7 @@
     <string name="employees">Employees</string>
     <string name="updateUserProfileScr">Update profile</string>
     <string name="updateRestaurantProfileScr">Update profile</string>
+    <string name="jobInvitationsScreen">Job invitations</string>
     <string name="logout">Logout</string>
     <string name="app_version">App version</string>
     <string name="edit_profile">Edit Profile</string>

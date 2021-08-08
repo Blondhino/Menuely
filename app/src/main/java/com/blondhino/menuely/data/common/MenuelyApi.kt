@@ -8,6 +8,7 @@ import com.blondhino.menuely.data.common.constants.Routes.CREATE_PRODUCT
 import com.blondhino.menuely.data.common.constants.Routes.GET_CATEGORIES
 import com.blondhino.menuely.data.common.constants.Routes.GET_PRODUCTS
 import com.blondhino.menuely.data.common.constants.Routes.INVITATION
+import com.blondhino.menuely.data.common.constants.Routes.INVITATIONS
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_USER
 import com.blondhino.menuely.data.common.constants.Routes.MENUS
@@ -160,6 +161,9 @@ interface MenuelyApi {
 
     @POST(INVITATION)
     suspend fun createJobInvitation(@Body createJobInvitationRequest: CreateJobInvitationRequest): BaseResponse<EmptyResponse>
+
+    @GET(INVITATIONS)
+    suspend fun getJobInvitations(): BaseResponse<EmptyResponse>
 
 
 }

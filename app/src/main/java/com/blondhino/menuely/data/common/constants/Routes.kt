@@ -38,7 +38,7 @@ object Routes {
     const val GET_CATEGORIES = OFFERS+"categories"
     const val GET_PRODUCTS = OFFERS+"products"
 
-    private const val INVITATIONS = "invitations/"
+    const val INVITATIONS = "invitations/"
     const val INVITATION= INVITATIONS+"create"
 
 }

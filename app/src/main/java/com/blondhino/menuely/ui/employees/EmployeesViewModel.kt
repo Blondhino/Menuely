@@ -22,38 +22,48 @@ class EmployeesViewModel @Inject constructor(private val repo: EmployeesRepo) : 
     val emptyStateVisible = mutableStateOf(false)
     val users: MutableState<List<UserModel>> = mutableStateOf(ArrayList())
     private val initialSearchDone = mutableStateOf(false)
+    val fetchingJobInvitationsDone = mutableStateOf(false)
     private var searchUsersJob: Job? = null
 
 
-    fun search(){
+    fun searchUsers() {
         searchUsersJob?.cancel()
         searchUsersJob = viewModelScope.launch {
-            isLoading.value=true
+            isLoading.value = true
             delay(500)
             val response = repo.searchUsers(searchModel.search.value)
             response.data?.let {
-                users.value=it
-                emptyStateVisible.value = it.size==0
+                users.value = it
+                emptyStateVisible.value = it.size == 0
             }
-            isLoading.value=false
+            isLoading.value = false
         }
     }
 
-    fun initialSearch() {
+    fun initialUserSearch() {
         if (!initialSearchDone.value) {
-            isLoading.value=true
+            isLoading.value = true
             viewModelScope.launch {
                 val response = repo.searchUsers("")
                 response.data?.let {
-                    users.value=it
-                    isLoading.value=false
+                    users.value = it
+                    isLoading.value = false
                 }
             }
             initialSearchDone.value = true
         }
     }
 
-    fun sendJobInvitation(employeeId: Int)= viewModelScope.launch {
+    fun getJobInvitations() {
+        if(!fetchingJobInvitationsDone.value) {
+            viewModelScope.launch {
+                val response = repo.getJobInvitations()
+            }
+            fetchingJobInvitationsDone.value=true
+        }
+    }
+
+    fun sendJobInvitation(employeeId: Int) = viewModelScope.launch {
         val response = repo.createJobInvitation(employeeId)
     }
 

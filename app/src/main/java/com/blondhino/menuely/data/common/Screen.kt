@@ -12,6 +12,7 @@ import androidx.compose.ui.res.vectorResource
 import com.blondhino.menuely.R
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.CART_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.EMPLOYEES_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.JOB_INVITATIONS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.MENUS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PROFILE_RESTAURANT_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PROFILE_USER_SCREEN
@@ -30,4 +31,5 @@ sealed class Screen(val route: String, val title: Int, val icon: Int) {
 
     object UpdateUserProfile : Screen(UPDATE_USER_PROFILE_SCREEN, R.string.updateUserProfileScr, 0)
     object UpdateRestaurantProfile : Screen(UPDATE_RESTAURANT_PROFILE_SCREEN, R.string.updateRestaurantProfileScr, 0)
+    object JobInvitations : Screen(JOB_INVITATIONS_SCREEN, R.string.jobInvitationsScreen, 0)
 }

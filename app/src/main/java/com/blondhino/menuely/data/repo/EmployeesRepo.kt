@@ -1,17 +1,11 @@
 package com.blondhino.menuely.data.repo
 
-import android.util.Log
 import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.Response
 import com.blondhino.menuely.data.common.ResponseHandler
-import com.blondhino.menuely.data.common.model.RestaurantModel
 import com.blondhino.menuely.data.common.model.UserModel
 import com.blondhino.menuely.data.common.request.CreateJobInvitationRequest
 import com.blondhino.menuely.data.common.response.EmptyResponse
-import com.blondhino.menuely.data.database.tables.RestaurantTableModel
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class EmployeesRepo(
@@ -32,6 +26,15 @@ class EmployeesRepo(
         return try{
             val request =CreateJobInvitationRequest(employeeId)
             val response = api.createJobInvitation(request)
+            responseHandler.handleSuccess(response)
+        }catch (e:Exception){
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+
+    suspend fun getJobInvitations() : Response<EmptyResponse>{
+        return try{
+            val response = api.getJobInvitations()
             responseHandler.handleSuccess(response)
         }catch (e:Exception){
             responseHandler.handleError(e.message.toString())
