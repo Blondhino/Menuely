@@ -18,7 +18,8 @@ import com.blondhino.menuely.ui.ui.theme.*
 @Composable
 fun MenuelySearchBox(
     onValueChanged: (value: String) -> Unit,
-    value: String = ""
+    value: String = "",
+    hintText:String ="Search for restaurants"
 ) {
 
     OutlinedTextField(
@@ -46,7 +47,7 @@ fun MenuelySearchBox(
         ),
         placeholder = {
             Text(
-                text = "Search for restaurants",
+                text = hintText,
                 fontFamily = FontFamily(Font(R.font.montserrat_semi_bold)),
                 fontSize = 11.sp,
                 modifier = Modifier

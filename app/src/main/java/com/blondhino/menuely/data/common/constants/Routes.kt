@@ -16,6 +16,7 @@ object Routes {
 
     private const val USERS = "users/"
     const val MY_USER_PROFILE = USERS + "me"
+    const val SEARCH_USERS="users"
 
     const val UPDATE_IMAGE_ON_PROFILE = "$MY_USER_PROFILE/image"
     const val UPDATE_USER_PROFILE = "$MY_USER_PROFILE/profile"
@@ -36,5 +37,8 @@ object Routes {
     const val CREATE_PRODUCT = OFFERS+"products/"
     const val GET_CATEGORIES = OFFERS+"categories"
     const val GET_PRODUCTS = OFFERS+"products"
+
+    private const val INVITATIONS = "invitations/"
+    const val INVITATION= INVITATIONS+"create"
 
 }

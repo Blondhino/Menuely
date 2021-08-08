@@ -58,5 +58,10 @@ object RepoModule {
     fun provideMenusRepo(menuelyApi: MenuelyApi, responseHandler: ResponseHandler) =
         MenusRepo(menuelyApi, responseHandler)
 
+    @Provides
+    @Singleton
+    fun provideEmployeesRepo(menuelyApi: MenuelyApi, responseHandler: ResponseHandler) =
+        EmployeesRepo(menuelyApi, responseHandler)
+
 
 }

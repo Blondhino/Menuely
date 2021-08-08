@@ -21,6 +21,7 @@ import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.ui.cart.CartScreen
 import com.blondhino.menuely.ui.cart.CartViewModel
 import com.blondhino.menuely.ui.employees.EmployeesScreen
+import com.blondhino.menuely.ui.employees.EmployeesViewModel
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.menus.category.CategoryScreen
 import com.blondhino.menuely.ui.menus.menu.MenusScreen
@@ -50,6 +51,7 @@ fun HomeHostScreenNavigationConf(
     restaurantViewModel: RestaurantViewModel,
     menusViewModel: MenusViewModel,
     cartViewModel: CartViewModel,
+    employeesViewModel: EmployeesViewModel
 ) {
 
     val startDestination =
@@ -78,7 +80,7 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(EMPLOYEES_SCREEN) {
-            EmployeesScreen(navController = navController)
+            EmployeesScreen(navController = navController,employeesViewModel = employeesViewModel)
         }
 
         composable(PROFILE_RESTAURANT_SCREEN) {

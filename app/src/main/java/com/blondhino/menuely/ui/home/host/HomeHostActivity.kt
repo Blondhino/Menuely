@@ -21,6 +21,7 @@ import com.blondhino.menuely.ui.base.BaseComposeActivity
 import com.blondhino.menuely.ui.cart.CartViewModel
 import com.blondhino.menuely.ui.components.MenuelyBottomNavigation
 import com.blondhino.menuely.ui.components.MenuelySideMenu
+import com.blondhino.menuely.ui.employees.EmployeesViewModel
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
 import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
@@ -37,6 +38,7 @@ class HomeHostActivity : BaseComposeActivity() {
     private val restaurantViewModel: RestaurantViewModel by viewModels()
     private val menusViewModel: MenusViewModel by viewModels()
     private val cartViewModel: CartViewModel by viewModels()
+    private val employeesViewModel:EmployeesViewModel by viewModels()
     private lateinit var scaffoldState: ScaffoldState
     private lateinit var scope: CoroutineScope
 
@@ -89,7 +91,8 @@ class HomeHostActivity : BaseComposeActivity() {
                     loginStatus = it1,
                     restaurantViewModel = restaurantViewModel,
                     menusViewModel = menusViewModel,
-                    cartViewModel = cartViewModel
+                    cartViewModel = cartViewModel,
+                    employeesViewModel = employeesViewModel
                 )
             }
         }

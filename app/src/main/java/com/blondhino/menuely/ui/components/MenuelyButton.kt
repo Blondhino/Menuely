@@ -13,15 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.blondhino.menuely.ui.ui.theme.greenDark
 import com.blondhino.menuely.ui.ui.theme.greenLight
+
 
 @Composable
 fun MenuelyButton(
     modifier: Modifier = Modifier,
     text: String ="",
+    cornerRadius : Dp = 15.dp,
+    textStyle: TextStyle =MaterialTheme.typography.h2,
     onClick: () -> Unit,
 ) {
     Button(
@@ -29,7 +34,7 @@ fun MenuelyButton(
 
         contentPadding = PaddingValues(),
         onClick = { onClick() },
-        shape = RoundedCornerShape(15.dp)
+        shape = RoundedCornerShape(cornerRadius)
     ) {
         rememberRipple(color = Color.White)
         Box(
@@ -38,7 +43,7 @@ fun MenuelyButton(
                 .then(modifier),
             contentAlignment = Alignment.Center,
         ) {
-            Text(text = text, style = MaterialTheme.typography.h2, color = Color.White)
+            Text(text = text, style = textStyle, color = Color.White)
             rememberRipple(color = Color.White)
         }
     }

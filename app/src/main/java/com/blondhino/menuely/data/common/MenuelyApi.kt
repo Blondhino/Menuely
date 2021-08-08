@@ -7,6 +7,7 @@ import com.blondhino.menuely.data.common.constants.Routes.CREATE_MENU
 import com.blondhino.menuely.data.common.constants.Routes.CREATE_PRODUCT
 import com.blondhino.menuely.data.common.constants.Routes.GET_CATEGORIES
 import com.blondhino.menuely.data.common.constants.Routes.GET_PRODUCTS
+import com.blondhino.menuely.data.common.constants.Routes.INVITATION
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.LOGIN_USER
 import com.blondhino.menuely.data.common.constants.Routes.MENUS
@@ -16,6 +17,7 @@ import com.blondhino.menuely.data.common.constants.Routes.PRODUCTS
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_USER
 import com.blondhino.menuely.data.common.constants.Routes.RESTAURANTS
+import com.blondhino.menuely.data.common.constants.Routes.SEARCH_USERS
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_IMAGE_ON_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_IMAGE_ON_RESTAURANT_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_RESTAURANT_PROFILE
@@ -23,6 +25,7 @@ import com.blondhino.menuely.data.common.constants.Routes.UPDATE_USER_PROFILE
 import com.blondhino.menuely.data.common.model.MenuModel
 import com.blondhino.menuely.data.common.model.RestaurantModel
 import com.blondhino.menuely.data.common.model.UserModel
+import com.blondhino.menuely.data.common.request.CreateJobInvitationRequest
 import com.blondhino.menuely.data.common.request.LoginRequest
 import com.blondhino.menuely.data.common.request.RegisterRestaurantrRequest
 import com.blondhino.menuely.data.common.request.RegisterUserRequest
@@ -113,6 +116,9 @@ interface MenuelyApi {
     @GET(RESTAURANTS)
     suspend fun searchRestaurants(@Query("search") search: String): BaseResponse<ArrayList<RestaurantModel>>
 
+    @GET(SEARCH_USERS)
+    suspend fun searchUsers(@Query("search") search: String): BaseResponse<ArrayList<UserModel>>
+
     @GET("$RESTAURANTS/{id}")
     suspend fun getSingleRestaurant(@Path("id") id: Int): BaseResponse<RestaurantModel>
 
@@ -126,16 +132,19 @@ interface MenuelyApi {
     suspend fun createRestaurantMenu(@Body menuModel: MenuModel): BaseResponse<EmptyResponse>
 
     @PATCH("$MENUS/{id}")
-    suspend fun updateRestaurantMenu(@Body menuModel: MenuModel, @Path("id") id: Int): BaseResponse<EmptyResponse>
+    suspend fun updateRestaurantMenu(
+        @Body menuModel: MenuModel,
+        @Path("id") id: Int
+    ): BaseResponse<EmptyResponse>
 
     @GET("$MENUS/{id}")
-    suspend fun getSingleMenu( @Path("id") id: Int): BaseResponse<MenuModel>
+    suspend fun getSingleMenu(@Path("id") id: Int): BaseResponse<MenuModel>
 
     @DELETE("$MENUS/{id}")
-    suspend fun deleteMenu(@Path("id") id: Int) : BaseResponse<EmptyResponse>
+    suspend fun deleteMenu(@Path("id") id: Int): BaseResponse<EmptyResponse>
 
     @DELETE("$CATEGORIES/{id}")
-    suspend fun deleteMenuCategory(@Path("id") id:Int) : BaseResponse<EmptyResponse>
+    suspend fun deleteMenuCategory(@Path("id") id: Int): BaseResponse<EmptyResponse>
 
     @PATCH(UPDATE_RESTAURANT_PROFILE)
     suspend fun updateRestaurantProfile(@Body restaurantModel: RestaurantModel): BaseResponse<EmptyResponse>
@@ -147,7 +156,10 @@ interface MenuelyApi {
     suspend fun getProductsForMenu(@Query("categoryId") categoryId: Int): BaseResponse<ArrayList<MenuProductsResponse>>
 
     @DELETE("$PRODUCTS/{id}")
-    suspend fun deleteMenuProduct(@Path("id") id: Int) : BaseResponse<EmptyResponse>
+    suspend fun deleteMenuProduct(@Path("id") id: Int): BaseResponse<EmptyResponse>
+
+    @POST(INVITATION)
+    suspend fun createJobInvitation(@Body createJobInvitationRequest: CreateJobInvitationRequest): BaseResponse<EmptyResponse>
 
 
 }

@@ -1,6 +1,5 @@
 package com.blondhino.menuely.ui.search_restaurant
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,7 +13,7 @@ import com.blondhino.menuely.data.common.constants.NavigationRoutes.RESTAURANT_S
 import com.blondhino.menuely.ui.components.MenuelyEmptyState
 import com.blondhino.menuely.ui.components.MenuelyJumpingProgressBar
 import com.blondhino.menuely.ui.components.MenuelySearchBox
-import com.blondhino.menuely.ui.components.MenuelySearchResultTicket
+import com.blondhino.menuely.ui.components.MenuelySearchRestaurantTicket
 
 @Composable
 fun SearchRestaurantsScreen(navController: NavHostController, searchViewModel: SearchViewModel) {
@@ -42,7 +41,7 @@ fun SearchRestaurantsScreen(navController: NavHostController, searchViewModel: S
                 item.name?.let { name ->
                     item.address?.let { address ->
                         item.id?.let { id ->
-                            MenuelySearchResultTicket(
+                            MenuelySearchRestaurantTicket(
                                 id = id,
                                 titleText = name,
                                 descText = address + " " + item.city + " " + item.postalCode + " " + item.country,

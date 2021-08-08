@@ -55,11 +55,7 @@ fun ProductsScreen(
             )
 
             MenuelyJumpingProgressBar(isLoading = menusViewModel.isLoading.value)
-
-            MenuelyAmountPicker(
-                currentValue = ammount.value,
-                onValueChanged = { it -> ammount.value = it })
-
+            
             LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
                 itemsIndexed(items = menusViewModel.products.value) { index, item ->
 
