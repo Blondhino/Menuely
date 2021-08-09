@@ -2,7 +2,6 @@ package com.blondhino.menuely.ui.profile_user.update
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +13,6 @@ import com.blondhino.menuely.ui.components.MenuelyCircularProgressBar
 import com.blondhino.menuely.ui.components.MenuelyHeader
 import com.blondhino.menuely.ui.components.MenuelyTextField
 import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
-import com.blondhino.menuely.util.GalleryImagePicker
 
 @Composable
 fun UpdateUserProfileScreen(profileUserViewModel: ProfileUserViewModel) {
@@ -28,21 +26,21 @@ fun UpdateUserProfileScreen(profileUserViewModel: ProfileUserViewModel) {
         ) {
 
             MenuelyHeader(
+                height = 220.dp,
                 headerUrl = profileUserViewModel.userProfileModel.headerImageUrl.value,
                 mainImageUrl = profileUserViewModel.userProfileModel.profileImageUrl.value,
-                height = 220.dp,
+                isInEditMode = true,
+                onCartClicked = {},
                 onMainImageSelected = { uri, bitmap, multipart ->
                     profileUserViewModel.updateProfileImage(
                         multipart
                     )
-                },
-                onCoverImageSelected = { uri, bitmap, multipart ->
-                    profileUserViewModel.updateCoverImage(
-                        multipart
-                    )
-                },
-                isInEditMode = true
-            )
+                }
+            ) { uri, bitmap, multipart ->
+                profileUserViewModel.updateCoverImage(
+                    multipart
+                )
+            }
 
             profileUserViewModel.userProfileModel.firstname.value?.let {
                 MenuelyTextField(

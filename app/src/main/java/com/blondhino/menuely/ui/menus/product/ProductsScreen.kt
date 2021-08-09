@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import com.blondhino.menuely.R
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.Mode
+import com.blondhino.menuely.ui.cart.CartViewModel
 import com.blondhino.menuely.ui.components.*
 import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.ui.theme.greenDark
@@ -33,7 +34,8 @@ import com.blondhino.menuely.ui.ui.theme.greenDark
 fun ProductsScreen(
     navController: NavController,
     menusViewModel: MenusViewModel,
-    loginStatus: LoginStatus
+    loginStatus: LoginStatus,
+    cartViewModel: CartViewModel
 ) {
     val context = LocalContext.current
     val selectedCategory = menusViewModel.selectedCategory.value
@@ -69,6 +71,9 @@ fun ProductsScreen(
                             imageUrl = item.image?.url.toString(),
                             onItemClick = { clickedProductId ->
                                 menusViewModel.selectedProduct.value = item
+                                if(cartViewModel.scannedRestaurantId.value!=0) {
+                                    cartViewModel.addProductToCart(item, 1)
+                                }
                             },
                             onItemLongClick = {
                                 if (loginStatus == LoginStatus.LOGGED_AS_RESTAURANT) {

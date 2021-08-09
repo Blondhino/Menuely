@@ -63,4 +63,6 @@
     <string name="deny">Deny</string>
     <string name="qr_error">Unknown QR code</string>
     <string name="search_for_users">Search for users</string>
+    <string name="leave">Leave</string>
+    <string name="your_cart">Your\nCart:</string>
 </resources>

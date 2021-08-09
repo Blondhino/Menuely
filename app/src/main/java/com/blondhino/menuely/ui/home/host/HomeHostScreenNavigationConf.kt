@@ -128,13 +128,14 @@ fun HomeHostScreenNavigationConf(
                 ProductsScreen(
                     navController = navController,
                     menusViewModel = menusViewModel,
-                    loginStatus = loginStatus
+                    loginStatus = loginStatus,
+                    cartViewModel = cartViewModel
                 )
             }
         }
 
         composable(CART_SCREEN){
-            CartScreen()
+            CartScreen(cartViewModel = cartViewModel)
         }
 
         composable(JOB_INVITATIONS_SCREEN){

@@ -1,14 +1,17 @@
 package com.blondhino.menuely.ui.home.host
 
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.blondhino.menuely.data.common.constants.IntentConstants.LOGGED_STATUS_INTENT_VALUE
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.CART_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.CATEGORY_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.JOB_INVITATIONS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.PRODUCTS_SCREEN
@@ -21,6 +24,7 @@ import com.blondhino.menuely.data.common.enums.LoginStatus.valueOf
 import com.blondhino.menuely.ui.base.BaseComposeActivity
 import com.blondhino.menuely.ui.cart.CartViewModel
 import com.blondhino.menuely.ui.components.MenuelyBottomNavigation
+import com.blondhino.menuely.ui.components.MenuelyCartAlertDialog
 import com.blondhino.menuely.ui.components.MenuelySideMenu
 import com.blondhino.menuely.ui.employees.EmployeesViewModel
 import com.blondhino.menuely.ui.menus.MenusViewModel
@@ -40,6 +44,8 @@ class HomeHostActivity : BaseComposeActivity() {
     private val menusViewModel: MenusViewModel by viewModels()
     private val cartViewModel: CartViewModel by viewModels()
     private val employeesViewModel: EmployeesViewModel by viewModels()
+    private val cartAlertDialogVisible = mutableStateOf(false)
+    private lateinit var selectedScreen: String
     private lateinit var scaffoldState: ScaffoldState
     private lateinit var scope: CoroutineScope
 
@@ -53,7 +59,7 @@ class HomeHostActivity : BaseComposeActivity() {
         }
         scope = rememberCoroutineScope()
         scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-        val selectedScreen = currentRoute(navController = navController)
+        selectedScreen = currentRoute(navController = navController).toString()
         Scaffold(
             scaffoldState = scaffoldState,
             drawerGesturesEnabled = !scaffoldState.drawerState.isClosed,
@@ -64,7 +70,8 @@ class HomeHostActivity : BaseComposeActivity() {
                     selectedScreen != UPDATE_RESTAURANT_PROFILE_SCREEN &&
                     selectedScreen != CATEGORY_SCREEN &&
                     selectedScreen != PRODUCTS_SCREEN &&
-                    selectedScreen != JOB_INVITATIONS_SCREEN
+                    selectedScreen != JOB_INVITATIONS_SCREEN &&
+                    selectedScreen != CART_SCREEN
                 ) {
                     loginStatus?.let {
                         MenuelyBottomNavigation(
@@ -98,6 +105,16 @@ class HomeHostActivity : BaseComposeActivity() {
                 )
             }
         }
+        if (cartAlertDialogVisible.value) {
+            MenuelyCartAlertDialog(
+                onQuitClick = {
+                    cartAlertDialogVisible.value = false
+                    cartViewModel.clearCart()
+                    super.onBackPressed()
+                }, onDismiss = {
+                    cartAlertDialogVisible.value = false
+                })
+        }
     }
 
     override fun fetchData() {
@@ -117,13 +134,20 @@ class HomeHostActivity : BaseComposeActivity() {
     }
 
     override fun onBackPressed() {
+        Log.d("GoingBackFrom", selectedScreen)
         if (scaffoldState.drawerState.isOpen) {
             scope.launch {
                 scaffoldState.drawerState.close()
             }
+        } else if (selectedScreen == RESTAURANT_SCREEN_SINGLE &&
+            cartViewModel.scannedRestaurantId.value != 0 &&
+            !cartViewModel.isCartEmpty()
+        ) {
+            cartAlertDialogVisible.value = true
         } else {
             super.onBackPressed()
         }
+
     }
 }
 

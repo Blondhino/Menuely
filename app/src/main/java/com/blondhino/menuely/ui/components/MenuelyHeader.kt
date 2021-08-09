@@ -7,13 +7,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -37,20 +34,21 @@ fun MenuelyHeader(
     headerUrl: String = "",
     mainImageUrl: String = "",
     isInEditMode: Boolean = false,
-    onMainImageSelected: (uri: Uri, bitmap: ImageBitmap, multipart: MultipartBody.Part) -> Unit  ,
+    isCartVisible: Boolean = false,
+    isCartEmpty : Boolean = true,
+    onCartClicked: () -> Unit,
+    onMainImageSelected: (uri: Uri, bitmap: ImageBitmap, multipart: MultipartBody.Part) -> Unit,
     onCoverImageSelected: (uri: Uri, bitmap: ImageBitmap, multipart: MultipartBody.Part) -> Unit
 ) {
     Log.d("MenuelyHeader", "called");
     Log.d("MenuelyHeader", "header: $headerUrl mainImage: $mainImageUrl");
     var imageOverlayActive = mutableStateOf(true)
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-        val (headerImage, headerOverlay, mainImage, mainImageOverlay, editProfile, editCover) = createRefs()
+        val (headerImage, headerOverlay, mainImage, mainImageOverlay, editProfile, editCover, cart) = createRefs()
         val loadedMainImage =
             ImageLoader(imageUrl = mainImageUrl) { imageOverlayActive.value = !it }
         val loadedHeaderImage =
             ImageLoader(imageUrl = headerUrl) {}
-
-
 
         loadedHeaderImage?.value?.asImageBitmap()?.let {
             Image(
@@ -136,11 +134,11 @@ fun MenuelyHeader(
         )
 
         GalleryImagePicker(
-            enabled = isInEditMode ,
+            enabled = isInEditMode,
             modifier = Modifier
                 .constrainAs(editCover) {
-                    top.linkTo(parent.top,16.dp)
-                    end.linkTo(parent.end,16.dp)
+                    top.linkTo(parent.top, 16.dp)
+                    end.linkTo(parent.end, 16.dp)
 
                 }
                 .alpha(if (isInEditMode) 1F else 0F),
@@ -152,6 +150,22 @@ fun MenuelyHeader(
                 )
             }
         )
+
+        MenuelyCart(
+             modifier = Modifier
+                .constrainAs(cart){
+                    top.linkTo(parent.top,8.dp)
+                    end.linkTo(parent.end,8.dp)
+                }
+                 .width(50.dp)
+                 .height(35.dp)
+                .alpha(if (isCartVisible) 1F else 0F),
+            isEmpty = isCartEmpty
+
+        ){
+            Log.d("onCartClicked","called")
+            onCartClicked()
+        }
 
 
     }

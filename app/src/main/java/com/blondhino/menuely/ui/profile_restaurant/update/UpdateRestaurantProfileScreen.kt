@@ -1,11 +1,9 @@
 package com.blondhino.menuely.ui.profile_restaurant.update
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,8 +16,6 @@ import com.blondhino.menuely.ui.components.MenuelyHeader
 import com.blondhino.menuely.ui.components.MenuelyTextBox
 import com.blondhino.menuely.ui.components.MenuelyTextField
 import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
-import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
-import com.blondhino.menuely.util.GalleryImagePicker
 
 @Composable
 fun UpdateRestaurantProfileScreen(restaurantViewModel: RestaurantViewModel) {
@@ -34,21 +30,21 @@ fun UpdateRestaurantProfileScreen(restaurantViewModel: RestaurantViewModel) {
         ) {
 
             MenuelyHeader(
+                height = 220.dp,
                 headerUrl = restaurantViewModel.myRestaurantProfile.coverImage.value,
                 mainImageUrl = restaurantViewModel.myRestaurantProfile.profileImage.value,
-                height = 220.dp,
                 isInEditMode = true,
+                onCartClicked = {},
                 onMainImageSelected = { uri, bitmap, multipart ->
                     restaurantViewModel.updateProfileImage(
                         multipart
                     )
-                },
-                onCoverImageSelected = { uri, bitmap, multipart ->
-                    restaurantViewModel.updateCoverImage(
-                        multipart
-                    )
                 }
-            )
+            ) { uri, bitmap, multipart ->
+                restaurantViewModel.updateCoverImage(
+                    multipart
+                )
+            }
 
             MenuelyTextBox(
                 modifier = Modifier

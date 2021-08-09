@@ -1,6 +1,5 @@
 package com.blondhino.menuely.ui.profile_user
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,7 +20,6 @@ import com.blondhino.menuely.ui.components.MenuelyInfoCard
 import com.blondhino.menuely.ui.employees.EmployeesViewModel
 import com.blondhino.menuely.ui.home.host.HostViewModel
 import com.blondhino.menuely.util.generateAccountInfo
-import com.blondhino.menuely.util.parseDate
 
 @Composable
 fun ProfileUserScreen(
@@ -51,12 +49,12 @@ fun ProfileUserScreen(
                 }, horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MenuelyHeader(
+                height = 220.dp,
                 headerUrl = viewModel.userProfileModel.headerImageUrl.value,
                 mainImageUrl = viewModel.userProfileModel.profileImageUrl.value,
-                height = 220.dp,
-                onMainImageSelected = { uri, bitmap, multipart -> },
-                onCoverImageSelected = {uri, bitmap, multipart ->}
-            )
+                onCartClicked = {},
+                onMainImageSelected = { uri, bitmap, multipart -> }
+            ) { uri, bitmap, multipart -> }
             Text(
                 text = viewModel.userProfileModel.firstname.value + " " + viewModel.userProfileModel.lastname.value,
                 style = MaterialTheme.typography.body2,

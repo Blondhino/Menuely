@@ -2,13 +2,11 @@ package com.blondhino.menuely.ui.profile_restaurant
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -23,7 +21,6 @@ import com.blondhino.menuely.ui.components.MenuelyHeader
 import com.blondhino.menuely.ui.home.host.HostViewModel
 import com.blondhino.menuely.ui.ui.theme.blackLight
 import com.blondhino.menuely.ui.ui.theme.greenLight
-import com.blondhino.menuely.ui.ui.theme.greyLight
 
 
 @Composable
@@ -51,12 +48,12 @@ fun ProfileRestaurantScreen(
                 }
         ) {
             MenuelyHeader(
+                height = 220.dp,
                 headerUrl = restaurantViewModel.myRestaurantProfile.coverImage.value,
                 mainImageUrl = restaurantViewModel.myRestaurantProfile.profileImage.value,
-                height = 220.dp,
-                onMainImageSelected = { uri, bitmap, multipart -> },
-                onCoverImageSelected = { uri, bitmap, multipart -> }
-            )
+                onCartClicked = {},
+                onMainImageSelected = { uri, bitmap, multipart -> }
+            ) { uri, bitmap, multipart -> }
 
             Text(
                 text = restaurantViewModel.myRestaurantProfile.name.value,

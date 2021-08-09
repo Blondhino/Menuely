@@ -1,5 +1,6 @@
 package com.blondhino.menuely.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,24 +20,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.blondhino.menuely.ui.ui.theme.blackLight
 import com.blondhino.menuely.ui.ui.theme.greenDark
 
 @Composable
 
 fun MenuelyAmountPicker(
     currentValue: Int = 0,
-    onValueChanged: (value: Int) -> Unit
+    onIncrement: () -> Unit,
+    onDecrement: () -> Unit,
+    modifier: Modifier
 ) {
+    val currentValueData = remember { mutableStateOf(currentValue) }
     Row(
-        Modifier
-            .clip(RoundedCornerShape(40.dp))
+        modifier = modifier
+            .clip(RoundedCornerShape(20.dp))
             .background(Color.White)
             .alpha(0.8F),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Card(
             modifier = Modifier
-                .size(50.dp),
+                .size(35.dp),
             shape = CircleShape,
             backgroundColor = Color.White,
             border = BorderStroke(2.dp, greenDark)
@@ -46,29 +51,30 @@ fun MenuelyAmountPicker(
                     .fillMaxSize()
                     .clickable {
                         if (currentValue != 0)
-                            onValueChanged(currentValue - 1)
+                            onDecrement()
                     },
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "-",
-                    fontSize = 40.sp,
+                    fontSize = 30.sp,
                     color = greenDark,
-                    modifier = Modifier.offset(y = (-5).dp)
+                    modifier = Modifier.offset(y = (-8).dp)
                 )
             }
         }
 
         Text(
             text = currentValue.toString(),
-            modifier = Modifier.padding(horizontal = 20.dp),
-            fontSize = 20.sp
+            modifier = Modifier.padding(horizontal = 10.dp),
+            fontSize = 20.sp,
+            color = blackLight
         )
 
         Card(
             modifier = Modifier
-                .size(50.dp),
+                .size(35.dp),
             shape = CircleShape,
             backgroundColor = Color.White,
             border = BorderStroke(2.dp, greenDark)
@@ -77,7 +83,9 @@ fun MenuelyAmountPicker(
                 modifier = Modifier
                     .fillMaxSize()
                     .clickable {
-                        onValueChanged(currentValue + 1)
+                        currentValueData.value = currentValue + 1
+                        Log.d("picker", "oldValue: $currentValue, new value = ${currentValue + 1}")
+                        onIncrement()
 
                     },
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -85,9 +93,9 @@ fun MenuelyAmountPicker(
             ) {
                 Text(
                     text = "+",
-                    fontSize = 25.sp,
+                    fontSize = 20.sp,
                     color = greenDark,
-                    modifier = Modifier.offset(y = (0).dp)
+                    modifier = Modifier.offset(y = (-2).dp)
                 )
             }
         }
@@ -95,6 +103,7 @@ fun MenuelyAmountPicker(
     }
 
 }
+
 
 
 
