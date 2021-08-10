@@ -64,4 +64,10 @@ object RepoModule {
         EmployeesRepo(menuelyApi, responseHandler)
 
 
+    @Provides
+    @Singleton
+    fun provideOrdersRepo(menuelyApi: MenuelyApi, responseHandler: ResponseHandler) =
+        OrdersRepo(menuelyApi, responseHandler)
+
+
 }

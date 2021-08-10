@@ -41,4 +41,8 @@ object Routes {
     const val INVITATIONS = "invitations/"
     const val INVITATION= INVITATIONS+"create"
 
+
+    const val ORDERS = "orders/"
+    const val ORDER = ORDERS+"create"
+
 }

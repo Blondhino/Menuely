@@ -42,6 +42,7 @@ fun ProductsScreen(
     var createUpdateProductDialogVisible = remember { mutableStateOf(false) }
     var updateDeleteProductDialogVisible = remember { mutableStateOf(false) }
     var deleteProductAlertDialogVisible = remember { mutableStateOf(false) }
+    var addProductToCartDialogVisible = remember { mutableStateOf(false) }
     var createUpdateProductDialogMode = remember { mutableStateOf(Mode.CREATE) }
     var preloadProductImageForUpdate = remember { mutableStateOf("") }
     var ammount = remember { mutableStateOf(0) }
@@ -57,7 +58,7 @@ fun ProductsScreen(
             )
 
             MenuelyJumpingProgressBar(isLoading = menusViewModel.isLoading.value)
-            
+
             LazyColumn(modifier = Modifier.padding(top = 16.dp)) {
                 itemsIndexed(items = menusViewModel.products.value) { index, item ->
 
@@ -71,8 +72,8 @@ fun ProductsScreen(
                             imageUrl = item.image?.url.toString(),
                             onItemClick = { clickedProductId ->
                                 menusViewModel.selectedProduct.value = item
-                                if(cartViewModel.scannedRestaurantId.value!=0) {
-                                    cartViewModel.addProductToCart(item, 1)
+                                if (cartViewModel.scannedRestaurantId.value != 0) {
+                                    addProductToCartDialogVisible.value = true
                                 }
                             },
                             onItemLongClick = {
@@ -186,6 +187,22 @@ fun ProductsScreen(
             onDismiss = {
                 deleteProductAlertDialogVisible.value = false
             })
+    }
+
+    if (addProductToCartDialogVisible.value) {
+        MenuelyAddProductToCartDialog(
+            productName = menusViewModel.selectedProduct.value?.name.toString(),
+            onDismiss = { addProductToCartDialogVisible.value = false },
+            productImageUrl = menusViewModel.selectedProduct.value?.image?.url.toString()
+        ) {
+            menusViewModel.selectedProduct.value?.let { cartViewModel.addProductToCart(it, 1) }
+            Toast.makeText(
+                context,
+                "${menusViewModel.selectedProduct.value?.name.toString()} added to cart",
+                Toast.LENGTH_SHORT
+            ).show()
+            addProductToCartDialogVisible.value=false
+        }
     }
 
 }

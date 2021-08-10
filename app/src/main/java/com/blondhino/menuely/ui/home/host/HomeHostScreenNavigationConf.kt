@@ -135,7 +135,7 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(CART_SCREEN){
-            CartScreen(cartViewModel = cartViewModel)
+            CartScreen(navController=navController, cartViewModel = cartViewModel)
         }
 
         composable(JOB_INVITATIONS_SCREEN){

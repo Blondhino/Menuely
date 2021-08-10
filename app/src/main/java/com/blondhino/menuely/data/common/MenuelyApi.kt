@@ -14,6 +14,8 @@ import com.blondhino.menuely.data.common.constants.Routes.LOGIN_USER
 import com.blondhino.menuely.data.common.constants.Routes.MENUS
 import com.blondhino.menuely.data.common.constants.Routes.MY_USER_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.NO_AUTH_HEADER
+import com.blondhino.menuely.data.common.constants.Routes.ORDER
+import com.blondhino.menuely.data.common.constants.Routes.ORDERS
 import com.blondhino.menuely.data.common.constants.Routes.PRODUCTS
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_RESTAURANT
 import com.blondhino.menuely.data.common.constants.Routes.REGISTER_USER
@@ -26,10 +28,7 @@ import com.blondhino.menuely.data.common.constants.Routes.UPDATE_USER_PROFILE
 import com.blondhino.menuely.data.common.model.MenuModel
 import com.blondhino.menuely.data.common.model.RestaurantModel
 import com.blondhino.menuely.data.common.model.UserModel
-import com.blondhino.menuely.data.common.request.CreateJobInvitationRequest
-import com.blondhino.menuely.data.common.request.LoginRequest
-import com.blondhino.menuely.data.common.request.RegisterRestaurantrRequest
-import com.blondhino.menuely.data.common.request.RegisterUserRequest
+import com.blondhino.menuely.data.common.request.*
 import com.blondhino.menuely.data.common.response.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -164,6 +163,9 @@ interface MenuelyApi {
 
     @GET(INVITATIONS)
     suspend fun getJobInvitations(): BaseResponse<EmptyResponse>
+
+    @POST(ORDER)
+    suspend fun submitOrder(@Body createOrderRequest: CreateOrderRequest): BaseResponse<EmptyResponse>
 
 
 }

@@ -64,5 +64,12 @@
     <string name="qr_error">Unknown QR code</string>
     <string name="search_for_users">Search for users</string>
     <string name="leave">Leave</string>
-    <string name="your_cart">Your\nCart:</string>
+    <string name="your_cart">Your Cart:</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="submit_order">Submit order</string>
+    <string name="total">Total: </string>
+    <string name="table_num">Table number: </string>
+    <string name="client">Client: </string>
+    <string name="order_submited">Order submitted</string>
+    <string name="emptyCart">Please add products to your cart before submiting</string>
 </resources>
