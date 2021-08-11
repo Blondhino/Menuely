@@ -1,17 +1,12 @@
 package com.blondhino.menuely.data.repo
 
-import android.util.Log
 import com.blondhino.menuely.data.common.MenuelyApi
 import com.blondhino.menuely.data.common.Response
 import com.blondhino.menuely.data.common.ResponseHandler
 import com.blondhino.menuely.data.common.model.CartProductModel
-import com.blondhino.menuely.data.common.model.RestaurantModel
+import com.blondhino.menuely.data.common.model.OrderModel
 import com.blondhino.menuely.data.common.request.CreateOrderRequest
 import com.blondhino.menuely.data.common.response.EmptyResponse
-import com.blondhino.menuely.data.database.tables.RestaurantTableModel
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class OrdersRepo(
@@ -36,6 +31,24 @@ class OrdersRepo(
             )
             responseHandler.handleSuccess(response)
         } catch (e: Exception) {
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+
+    suspend fun getUserOrders(): Response<ArrayList<OrderModel>> {
+        return try {
+            val response = api.getUserOrders()
+            responseHandler.handleSuccess(response)
+        } catch (e: Exception) {
+            responseHandler.handleError(e.message.toString())
+        }
+    }
+
+    suspend fun getUserOrderDetails(orderId: Int) : Response<OrderModel>{
+        return try{
+            val response = api.getUserOrderDetails(orderId)
+            responseHandler.handleSuccess(response)
+        }catch (e:Exception){
             responseHandler.handleError(e.message.toString())
         }
     }

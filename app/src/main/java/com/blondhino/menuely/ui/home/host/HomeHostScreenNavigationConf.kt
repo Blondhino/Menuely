@@ -18,6 +18,8 @@ import com.blondhino.menuely.data.common.constants.NavigationRoutes.SCAN_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.SEARCH_RESTAURANTS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_RESTAURANT_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.USER_ORDERS_LIST_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.USER_ORDER_DETAILS_SCREEN
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.ui.cart.CartScreen
 import com.blondhino.menuely.ui.cart.CartViewModel
@@ -27,6 +29,9 @@ import com.blondhino.menuely.ui.menus.MenusViewModel
 import com.blondhino.menuely.ui.menus.category.CategoryScreen
 import com.blondhino.menuely.ui.menus.menu.MenusScreen
 import com.blondhino.menuely.ui.menus.product.ProductsScreen
+import com.blondhino.menuely.ui.orders.OrdersViewModel
+import com.blondhino.menuely.ui.orders.UserOrdersListScreen
+import com.blondhino.menuely.ui.orders.userOrderDetails.UserOrderDetailScreen
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantScreen
 import com.blondhino.menuely.ui.profile_restaurant.ProfileRestaurantSingleScreen
 import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
@@ -53,7 +58,8 @@ fun HomeHostScreenNavigationConf(
     restaurantViewModel: RestaurantViewModel,
     menusViewModel: MenusViewModel,
     cartViewModel: CartViewModel,
-    employeesViewModel: EmployeesViewModel
+    employeesViewModel: EmployeesViewModel,
+    ordersViewModel: OrdersViewModel
 ) {
 
     val startDestination =
@@ -62,7 +68,12 @@ fun HomeHostScreenNavigationConf(
     NavHost(navController = navController, startDestination = startDestination) {
 
         composable(SCAN_SCREEN) {
-            ScanScreen(navController, menusViewModel = menusViewModel,cartViewModel = cartViewModel,searchViewModel=searchViewModel)
+            ScanScreen(
+                navController,
+                menusViewModel = menusViewModel,
+                cartViewModel = cartViewModel,
+                searchViewModel = searchViewModel
+            )
         }
 
         composable(SEARCH_RESTAURANTS_SCREEN) {
@@ -70,7 +81,13 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(PROFILE_USER_SCREEN) {
-            ProfileUserScreen(navController, profileUserViewModel, hostViewModel,employeesViewModel)
+            ProfileUserScreen(
+                navController,
+                profileUserViewModel,
+                hostViewModel,
+                employeesViewModel,
+                ordersViewModel
+            )
         }
 
         composable(MENUS_SCREEN) {
@@ -82,7 +99,7 @@ fun HomeHostScreenNavigationConf(
         }
 
         composable(EMPLOYEES_SCREEN) {
-            EmployeesScreen(navController = navController,employeesViewModel = employeesViewModel)
+            EmployeesScreen(navController = navController, employeesViewModel = employeesViewModel)
         }
 
         composable(PROFILE_RESTAURANT_SCREEN) {
@@ -134,12 +151,23 @@ fun HomeHostScreenNavigationConf(
             }
         }
 
-        composable(CART_SCREEN){
-            CartScreen(navController=navController, cartViewModel = cartViewModel)
+        composable(CART_SCREEN) {
+            CartScreen(navController = navController, cartViewModel = cartViewModel)
         }
 
-        composable(JOB_INVITATIONS_SCREEN){
-            JobInvitationsScreen(navController=navController,employeesViewModel = employeesViewModel)
+        composable(JOB_INVITATIONS_SCREEN) {
+            JobInvitationsScreen(
+                navController = navController,
+                employeesViewModel = employeesViewModel
+            )
+        }
+
+        composable(USER_ORDERS_LIST_SCREEN) {
+            UserOrdersListScreen(navController = navController, ordersViewModel = ordersViewModel)
+        }
+
+        composable(USER_ORDER_DETAILS_SCREEN){
+            UserOrderDetailScreen(ordersViewModel = ordersViewModel)
         }
 
     }

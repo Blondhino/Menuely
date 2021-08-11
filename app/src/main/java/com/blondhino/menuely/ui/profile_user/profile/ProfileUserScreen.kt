@@ -19,6 +19,7 @@ import com.blondhino.menuely.ui.components.MenuelyHeader
 import com.blondhino.menuely.ui.components.MenuelyInfoCard
 import com.blondhino.menuely.ui.employees.EmployeesViewModel
 import com.blondhino.menuely.ui.home.host.HostViewModel
+import com.blondhino.menuely.ui.orders.OrdersViewModel
 import com.blondhino.menuely.util.generateAccountInfo
 
 @Composable
@@ -26,9 +27,11 @@ fun ProfileUserScreen(
     navController: NavHostController,
     viewModel: ProfileUserViewModel,
     hostViewModel: HostViewModel,
-    employeesViewModel: EmployeesViewModel
+    employeesViewModel: EmployeesViewModel,
+    ordersViewModel: OrdersViewModel,
 ) {
    employeesViewModel.fetchingJobInvitationsDone.value=false
+    ordersViewModel.getUserOrdersFetched.value=false
     viewModel.fetchUserData()
     ConstraintLayout(
         modifier = Modifier

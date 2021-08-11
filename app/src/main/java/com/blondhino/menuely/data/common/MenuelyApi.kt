@@ -25,7 +25,9 @@ import com.blondhino.menuely.data.common.constants.Routes.UPDATE_IMAGE_ON_PROFIL
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_IMAGE_ON_RESTAURANT_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_RESTAURANT_PROFILE
 import com.blondhino.menuely.data.common.constants.Routes.UPDATE_USER_PROFILE
+import com.blondhino.menuely.data.common.constants.Routes.USER_ORDERS
 import com.blondhino.menuely.data.common.model.MenuModel
+import com.blondhino.menuely.data.common.model.OrderModel
 import com.blondhino.menuely.data.common.model.RestaurantModel
 import com.blondhino.menuely.data.common.model.UserModel
 import com.blondhino.menuely.data.common.request.*
@@ -166,6 +168,12 @@ interface MenuelyApi {
 
     @POST(ORDER)
     suspend fun submitOrder(@Body createOrderRequest: CreateOrderRequest): BaseResponse<EmptyResponse>
+
+    @GET(USER_ORDERS)
+    suspend fun getUserOrders(): BaseResponse<ArrayList<OrderModel>>
+
+    @GET("$ORDERS{id}/user")
+    suspend fun getUserOrderDetails(@Path("id") id: Int) : BaseResponse<OrderModel>
 
 
 }

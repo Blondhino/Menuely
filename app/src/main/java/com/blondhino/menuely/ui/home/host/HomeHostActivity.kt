@@ -18,6 +18,8 @@ import com.blondhino.menuely.data.common.constants.NavigationRoutes.PRODUCTS_SCR
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.RESTAURANT_SCREEN_SINGLE
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_RESTAURANT_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.USER_ORDERS_LIST_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.USER_ORDER_DETAILS_SCREEN
 import com.blondhino.menuely.data.common.enums.LoginStatus
 import com.blondhino.menuely.data.common.enums.LoginStatus.LOGGED_AS_USER
 import com.blondhino.menuely.data.common.enums.LoginStatus.valueOf
@@ -28,6 +30,7 @@ import com.blondhino.menuely.ui.components.MenuelyCartAlertDialog
 import com.blondhino.menuely.ui.components.MenuelySideMenu
 import com.blondhino.menuely.ui.employees.EmployeesViewModel
 import com.blondhino.menuely.ui.menus.MenusViewModel
+import com.blondhino.menuely.ui.orders.OrdersViewModel
 import com.blondhino.menuely.ui.profile_restaurant.RestaurantViewModel
 import com.blondhino.menuely.ui.profile_user.ProfileUserViewModel
 import com.blondhino.menuely.ui.search_restaurant.SearchViewModel
@@ -44,6 +47,7 @@ class HomeHostActivity : BaseComposeActivity() {
     private val menusViewModel: MenusViewModel by viewModels()
     private val cartViewModel: CartViewModel by viewModels()
     private val employeesViewModel: EmployeesViewModel by viewModels()
+    private val ordersViewModel: OrdersViewModel by viewModels()
     private val cartAlertDialogVisible = mutableStateOf(false)
     private lateinit var selectedScreen: String
     private lateinit var scaffoldState: ScaffoldState
@@ -71,7 +75,9 @@ class HomeHostActivity : BaseComposeActivity() {
                     selectedScreen != CATEGORY_SCREEN &&
                     selectedScreen != PRODUCTS_SCREEN &&
                     selectedScreen != JOB_INVITATIONS_SCREEN &&
-                    selectedScreen != CART_SCREEN
+                    selectedScreen != CART_SCREEN &&
+                    selectedScreen != USER_ORDERS_LIST_SCREEN &&
+                    selectedScreen != USER_ORDER_DETAILS_SCREEN
                 ) {
                     loginStatus?.let {
                         MenuelyBottomNavigation(
@@ -101,7 +107,8 @@ class HomeHostActivity : BaseComposeActivity() {
                     restaurantViewModel = restaurantViewModel,
                     menusViewModel = menusViewModel,
                     cartViewModel = cartViewModel,
-                    employeesViewModel = employeesViewModel
+                    employeesViewModel = employeesViewModel,
+                    ordersViewModel = ordersViewModel
                 )
             }
         }

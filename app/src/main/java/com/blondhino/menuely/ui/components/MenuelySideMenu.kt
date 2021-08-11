@@ -30,6 +30,7 @@ fun MenuelySideMenu(
     val loggedAsUserSideMenuItems = listOf(
         Screen.UpdateUserProfile,
         Screen.JobInvitations,
+        Screen.UserOrders
     )
 
     val loggedAsRestaurantSideMenuItems = listOf(

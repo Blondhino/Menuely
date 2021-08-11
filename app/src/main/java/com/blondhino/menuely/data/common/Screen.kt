@@ -20,6 +20,8 @@ import com.blondhino.menuely.data.common.constants.NavigationRoutes.SCAN_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.SEARCH_RESTAURANTS_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_RESTAURANT_PROFILE_SCREEN
 import com.blondhino.menuely.data.common.constants.NavigationRoutes.UPDATE_USER_PROFILE_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.USER_ORDERS_LIST_SCREEN
+import com.blondhino.menuely.data.common.constants.NavigationRoutes.USER_ORDER_DETAILS_SCREEN
 
 sealed class Screen(val route: String, val title: Int, val icon: Int) {
     object Scan : Screen(SCAN_SCREEN, R.string.scan, R.drawable.ic_scan)
@@ -32,4 +34,6 @@ sealed class Screen(val route: String, val title: Int, val icon: Int) {
     object UpdateUserProfile : Screen(UPDATE_USER_PROFILE_SCREEN, R.string.updateUserProfileScr, 0)
     object UpdateRestaurantProfile : Screen(UPDATE_RESTAURANT_PROFILE_SCREEN, R.string.updateRestaurantProfileScr, 0)
     object JobInvitations : Screen(JOB_INVITATIONS_SCREEN, R.string.jobInvitationsScreen, 0)
+    object UserOrders : Screen(USER_ORDERS_LIST_SCREEN, R.string.userOrderListScreen, 0)
+    object UserOrderDetails : Screen(USER_ORDER_DETAILS_SCREEN, R.string.userOrderDetailsScreen, 0)
 }

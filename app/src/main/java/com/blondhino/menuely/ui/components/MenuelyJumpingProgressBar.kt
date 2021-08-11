@@ -23,14 +23,15 @@ import com.blondhino.menuely.ui.ui.theme.greyMedium
 
 @Composable
 fun MenuelyJumpingProgressBar(
-    isLoading: Boolean = false
+    isLoading: Boolean = false,
+    modifier : Modifier = Modifier
 ) {
 
     val animatedHeight by animateDpAsState(targetValue = (if(isLoading)60.dp else 0.dp))
     val animatedAlpha by animateFloatAsState(targetValue = (if(isLoading)1F else 0F))
 
     Row(
-        modifier = Modifier
+        modifier = modifier
             .height(animatedHeight)
             .fillMaxWidth()
             .background(Color.White)
